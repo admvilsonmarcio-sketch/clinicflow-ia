@@ -3,13 +3,15 @@ import { redirect } from 'next/navigation'
 import { Sidebar } from '@/components/dashboard/sidebar'
 import { Header } from '@/components/dashboard/header'
 
+export const dynamic = 'force-dynamic'
+
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   const supabase = createServerClient()
-  
+
   const {
     data: { session },
   } = await supabase.auth.getSession()

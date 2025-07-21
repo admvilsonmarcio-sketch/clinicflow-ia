@@ -7,11 +7,11 @@ import { Badge } from '@/components/ui/badge'
 import { ProfileForm } from '@/components/settings/profile-form'
 import { ClinicForm } from '@/components/settings/clinic-form'
 import { TestNotifications } from '@/components/settings/test-notifications'
-import { 
-  Settings, 
-  User, 
-  Building2, 
-  MessageSquare, 
+import {
+  Settings,
+  User,
+  Building2,
+  MessageSquare,
   Calendar,
   Brain,
   Shield,
@@ -20,9 +20,11 @@ import {
   Database
 } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export default async function SettingsPage() {
   const supabase = createServerClient()
-  
+
   const {
     data: { session },
   } = await supabase.auth.getSession()
@@ -100,9 +102,9 @@ export default async function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ClinicForm 
-                clinic={profile?.clinicas} 
-                clinicId={profile?.clinica_id} 
+              <ClinicForm
+                clinic={profile?.clinicas}
+                clinicId={profile?.clinica_id}
               />
             </CardContent>
           </Card>
@@ -220,11 +222,11 @@ export default async function SettingsPage() {
                 </div>
                 <div>
                   <label className="text-sm font-medium">Nível de Confiança Mínimo</label>
-                  <Input 
-                    type="number" 
-                    defaultValue="0.8" 
-                    min="0" 
-                    max="1" 
+                  <Input
+                    type="number"
+                    defaultValue="0.8"
+                    min="0"
+                    max="1"
                     step="0.1"
                     placeholder="0.8"
                   />
@@ -241,7 +243,7 @@ export default async function SettingsPage() {
                 </div>
                 <div>
                   <label className="text-sm font-medium">Mensagem de Saudação</label>
-                  <textarea 
+                  <textarea
                     className="w-full p-3 border rounded-md"
                     rows={3}
                     defaultValue="Olá! Sou a assistente virtual da clínica. Como posso ajudá-lo hoje?"
@@ -299,7 +301,7 @@ export default async function SettingsPage() {
               <div className="border-t pt-4 mt-6">
                 <TestNotifications />
               </div>
-              
+
               <div className="flex justify-end mt-6">
                 <Button>Salvar Preferências</Button>
               </div>

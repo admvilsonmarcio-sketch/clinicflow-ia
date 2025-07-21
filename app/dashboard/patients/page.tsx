@@ -5,9 +5,11 @@ import { Plus, Search, Phone, Mail, Users } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default async function PatientsPage() {
   const supabase = createServerClient()
-  
+
   // Buscar pacientes
   const { data: patients, error } = await supabase
     .from('pacientes')
@@ -22,7 +24,7 @@ export default async function PatientsPage() {
           <h1 className="text-3xl font-bold text-gray-900">Pacientes</h1>
           <p className="text-gray-600">Gerencie seus pacientes e histórico médico</p>
         </div>
-        
+
         <Button asChild>
           <Link href="/dashboard/patients/new">
             <Plus className="h-4 w-4 mr-2" />
@@ -40,7 +42,7 @@ export default async function PatientsPage() {
                 {patients?.length || 0} pacientes cadastrados
               </CardDescription>
             </div>
-            
+
             <div className="flex items-center space-x-2">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -55,7 +57,7 @@ export default async function PatientsPage() {
         <CardContent>
           {patients && patients.length > 0 ? (
             <div className="space-y-4">
-              {patients.map((patient) => (
+              {patients.map((patient: any) => (
                 <div
                   key={patient.id}
                   className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
@@ -66,7 +68,7 @@ export default async function PatientsPage() {
                         {patient.nome_completo.charAt(0).toUpperCase()}
                       </span>
                     </div>
-                    
+
                     <div>
                       <h3 className="font-semibold text-gray-900">
                         {patient.nome_completo}
@@ -87,16 +89,15 @@ export default async function PatientsPage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center space-x-2">
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      patient.status === 'ativo' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-gray-100 text-gray-800'
-                    }`}>
+                    <span className={`px-2 py-1 text-xs rounded-full ${patient.status === 'ativo'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-gray-100 text-gray-800'
+                      }`}>
                       {patient.status === 'ativo' ? 'Ativo' : 'Inativo'}
                     </span>
-                    
+
                     <Button variant="outline" size="sm" asChild>
                       <Link href={`/dashboard/patients/${patient.id}`}>
                         Ver Detalhes

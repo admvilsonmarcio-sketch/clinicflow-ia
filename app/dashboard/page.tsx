@@ -2,14 +2,16 @@ import { createServerClient } from '@/lib/supabase-server'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Users, Calendar, MessageCircle, Activity } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Dashboard() {
   const supabase = createServerClient()
-  
+
   // Buscar estatísticas básicas
   const { data: patientsCount } = await supabase
     .from('pacientes')
     .select('id', { count: 'exact' })
-  
+
   const { data: appointmentsToday } = await supabase
     .from('consultas')
     .select('id', { count: 'exact' })
