@@ -9,8 +9,16 @@ import { createClient } from '@/lib/supabase'
 import { Loader2 } from 'lucide-react'
 
 interface ClinicFormProps {
-  clinic: any
-  clinicId: string
+  clinic: {
+    nome?: string
+    cnpj?: string
+    telefone?: string
+    email?: string
+    endereco?: string
+    cep?: string
+    site?: string
+  } | null
+  clinicId: string | null
 }
 
 export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {

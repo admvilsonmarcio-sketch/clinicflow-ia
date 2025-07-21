@@ -9,7 +9,13 @@ import { createClient } from '@/lib/supabase'
 import { Loader2 } from 'lucide-react'
 
 interface ProfileFormProps {
-  profile: any
+  profile: {
+    id: string
+    nome_completo?: string
+    email?: string
+    telefone?: string
+    cargo?: string
+  } | null
 }
 
 export function ProfileForm({ profile }: ProfileFormProps) {

@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+build/
+dist/
+*.config.js
+*.config.ts
+public/
+.env*
+*.log
+.git/
+.vscode/
+.idea/
+coverage/
+test-tailwind.html
