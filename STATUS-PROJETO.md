@@ -44,8 +44,10 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 - [x] **Sidebar de navegação** responsiva
 - [x] **Header** com informações do usuário
 - [x] **Página de pacientes** com listagem
-- [x] **Página de configurações** completa com abas
-- [x] **Componentes UI base** (Button, Card, Input, Tabs, Badge, etc.)
+- [x] **Página de configurações** completa com abas funcionais
+- [x] **Sistema de notificações** (toast) implementado
+- [x] **Máscaras de input** para telefone, CPF, CNPJ, CEP
+- [x] **Componentes UI base** (Button, Card, Input, Tabs, Badge, Toast, etc.)
 
 ### 🔐 Segurança
 - [x] **Autenticação segura** via Supabase
@@ -111,6 +113,10 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 ## 🐛 Problemas RESOLVIDOS
 
 ### ✅ Correções Recentes
+- [x] **Sistema de notificações** implementado com toast
+- [x] **Login melhorado** com feedback visual e mensagens
+- [x] **Configurações funcionais** - perfil e clínica salvam no banco
+- [x] **Máscaras de input** para campos brasileiros (telefone, CNPJ, CPF)
 - [x] **Página de configurações** erro 404 corrigido
 - [x] **Erro de chave secreta** no frontend (usava service_role em vez de anon)
 - [x] **Imports TypeScript** corrigidos com paths @/*

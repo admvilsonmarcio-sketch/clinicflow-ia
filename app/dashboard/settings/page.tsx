@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
+import { ProfileForm } from '@/components/settings/profile-form'
+import { ClinicForm } from '@/components/settings/clinic-form'
+import { TestNotifications } from '@/components/settings/test-notifications'
 import { 
   Settings, 
   User, 
@@ -81,45 +84,8 @@ export default async function SettingsPage() {
                 Atualize suas informações de perfil
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium">Nome Completo</label>
-                  <Input 
-                    defaultValue={profile?.nome_completo || ''} 
-                    placeholder="Seu nome completo"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Email</label>
-                  <Input 
-                    defaultValue={profile?.email || ''} 
-                    placeholder="seu@email.com"
-                    disabled
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Telefone</label>
-                  <Input 
-                    defaultValue={profile?.telefone || ''} 
-                    placeholder="(11) 99999-9999"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Cargo</label>
-                  <div className="mt-2">
-                    <Badge variant="secondary">
-                      {profile?.cargo === 'medico' ? 'Médico' : 
-                       profile?.cargo === 'assistente' ? 'Assistente' : 
-                       profile?.cargo === 'recepcionista' ? 'Recepcionista' : 
-                       profile?.cargo === 'admin' ? 'Administrador' : 'Usuário'}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-end">
-                <Button>Salvar Alterações</Button>
-              </div>
+            <CardContent>
+              <ProfileForm profile={profile} />
             </CardContent>
           </Card>
         </TabsContent>
@@ -133,61 +99,11 @@ export default async function SettingsPage() {
                 Informações do seu consultório ou clínica
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium">Nome da Clínica</label>
-                  <Input 
-                    defaultValue={profile?.clinicas?.nome || ''} 
-                    placeholder="Nome da sua clínica"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">CNPJ</label>
-                  <Input 
-                    defaultValue={profile?.clinicas?.cnpj || ''} 
-                    placeholder="00.000.000/0000-00"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Telefone</label>
-                  <Input 
-                    defaultValue={profile?.clinicas?.telefone || ''} 
-                    placeholder="(11) 3333-3333"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Email</label>
-                  <Input 
-                    defaultValue={profile?.clinicas?.email || ''} 
-                    placeholder="contato@clinica.com"
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="text-sm font-medium">Endereço</label>
-                  <Input 
-                    defaultValue={profile?.clinicas?.endereco || ''} 
-                    placeholder="Rua, número, bairro, cidade - UF"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">CEP</label>
-                  <Input 
-                    defaultValue={profile?.clinicas?.cep || ''} 
-                    placeholder="00000-000"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Site</label>
-                  <Input 
-                    defaultValue={profile?.clinicas?.site || ''} 
-                    placeholder="https://www.clinica.com"
-                  />
-                </div>
-              </div>
-              <div className="flex justify-end">
-                <Button>Salvar Alterações</Button>
-              </div>
+            <CardContent>
+              <ClinicForm 
+                clinic={profile?.clinicas} 
+                clinicId={profile?.clinica_id} 
+              />
             </CardContent>
           </Card>
         </TabsContent>
@@ -380,6 +296,10 @@ export default async function SettingsPage() {
                   <input type="checkbox" className="rounded" />
                 </div>
               </div>
+              <div className="border-t pt-4 mt-6">
+                <TestNotifications />
+              </div>
+              
               <div className="flex justify-end mt-6">
                 <Button>Salvar Preferências</Button>
               </div>

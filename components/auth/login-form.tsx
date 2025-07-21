@@ -6,19 +6,20 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useRouter } from 'next/navigation'
+import { useToast } from '@/components/ui/use-toast'
+import { Loader2, Mail, Lock } from 'lucide-react'
 
 export function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
   const router = useRouter()
   const supabase = createClient()
+  const { toast } = useToast()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError('')
 
     try {
       const { error } = await supabase.auth.signInWithPassword({
@@ -27,21 +28,53 @@ export function LoginForm() {
       })
 
       if (error) {
-        setError(error.message)
+        toast({
+          variant: "destructive",
+          title: "Erro no login",
+          description: error.message === 'Invalid login credentials' 
+            ? 'Email ou senha incorretos' 
+            : error.message,
+        })
       } else {
+        toast({
+          variant: "success",
+          title: "Login realizado com sucesso!",
+          description: "Redirecionando para o dashboard...",
+        })
         router.push('/dashboard')
         router.refresh()
       }
     } catch (err) {
-      setError('Erro inesperado. Tente novamente.')
+      toast({
+        variant: "destructive",
+        title: "Erro inesperado",
+        description: "Tente novamente em alguns instantes.",
+      })
     } finally {
       setLoading(false)
     }
   }
 
   const handleSignUp = async () => {
+    if (!email || !password) {
+      toast({
+        variant: "warning",
+        title: "Campos obrigatórios",
+        description: "Preencha email e senha para criar a conta.",
+      })
+      return
+    }
+
+    if (password.length < 6) {
+      toast({
+        variant: "warning",
+        title: "Senha muito curta",
+        description: "A senha deve ter pelo menos 6 caracteres.",
+      })
+      return
+    }
+
     setLoading(true)
-    setError('')
 
     try {
       const { error } = await supabase.auth.signUp({
@@ -55,12 +88,24 @@ export function LoginForm() {
       })
 
       if (error) {
-        setError(error.message)
+        toast({
+          variant: "destructive",
+          title: "Erro ao criar conta",
+          description: error.message,
+        })
       } else {
-        setError('Verifique seu email para confirmar a conta!')
+        toast({
+          variant: "success",
+          title: "Conta criada com sucesso!",
+          description: "Verifique seu email para confirmar a conta.",
+        })
       }
     } catch (err) {
-      setError('Erro inesperado. Tente novamente.')
+      toast({
+        variant: "destructive",
+        title: "Erro inesperado",
+        description: "Tente novamente em alguns instantes.",
+      })
     } finally {
       setLoading(false)
     }
@@ -76,30 +121,35 @@ export function LoginForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <Input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Input
-              type="password"
-              placeholder="Senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Email</label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                type="email"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="pl-10"
+                required
+              />
+            </div>
           </div>
           
-          {error && (
-            <div className="text-sm text-red-600 bg-red-50 p-3 rounded">
-              {error}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Senha</label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                type="password"
+                placeholder="Sua senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="pl-10"
+                required
+              />
             </div>
-          )}
+          </div>
 
           <div className="space-y-2">
             <Button 
@@ -107,7 +157,14 @@ export function LoginForm() {
               className="w-full" 
               disabled={loading}
             >
-              {loading ? 'Entrando...' : 'Entrar'}
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Entrando...
+                </>
+              ) : (
+                'Entrar'
+              )}
             </Button>
             
             <Button 
@@ -117,7 +174,14 @@ export function LoginForm() {
               onClick={handleSignUp}
               disabled={loading}
             >
-              Criar conta
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Criando conta...
+                </>
+              ) : (
+                'Criar conta'
+              )}
             </Button>
           </div>
         </form>
