@@ -24,13 +24,13 @@ export function ProfileForm({ profile }: ProfileFormProps) {
     nome_completo: profile?.nome_completo || '',
     telefone: profile?.telefone || '',
   })
-  
+
   const { toast } = useToast()
   const supabase = createClient()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!profile?.id) {
       toast({
         variant: "destructive",
@@ -39,7 +39,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       })
       return
     }
-    
+
     setLoading(true)
 
     try {
@@ -88,7 +88,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="text-sm font-medium">Nome Completo</label>
-          <Input 
+          <Input
             value={formData.nome_completo}
             onChange={(e) => handleChange('nome_completo', e.target.value)}
             placeholder="Seu nome completo"
@@ -97,8 +97,8 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         </div>
         <div>
           <label className="text-sm font-medium">Email</label>
-          <Input 
-            value={profile?.email || ''} 
+          <Input
+            value={profile?.email || ''}
             placeholder="seu@email.com"
             disabled
             className="bg-gray-50"
@@ -120,10 +120,10 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           <label className="text-sm font-medium">Cargo</label>
           <div className="mt-2">
             <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
-              {profile?.cargo === 'medico' ? 'Médico' : 
-               profile?.cargo === 'assistente' ? 'Assistente' : 
-               profile?.cargo === 'recepcionista' ? 'Recepcionista' : 
-               profile?.cargo === 'admin' ? 'Administrador' : 'Usuário'}
+              {profile?.cargo === 'medico' ? 'Médico' :
+                profile?.cargo === 'assistente' ? 'Assistente' :
+                  profile?.cargo === 'recepcionista' ? 'Recepcionista' :
+                    profile?.cargo === 'admin' ? 'Administrador' : 'Usuário'}
             </span>
           </div>
         </div>
