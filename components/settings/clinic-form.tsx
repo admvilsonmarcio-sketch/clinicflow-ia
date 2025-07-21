@@ -38,6 +38,16 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!clinicId) {
+      toast({
+        variant: "destructive",
+        title: "Erro",
+        description: "Clínica não encontrada. Verifique suas permissões.",
+      })
+      return
+    }
+    
     setLoading(true)
 
     try {

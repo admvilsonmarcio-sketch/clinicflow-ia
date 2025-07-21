@@ -30,6 +30,16 @@ export function ProfileForm({ profile }: ProfileFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!profile?.id) {
+      toast({
+        variant: "destructive",
+        title: "Erro",
+        description: "Perfil não encontrado. Faça login novamente.",
+      })
+      return
+    }
+    
     setLoading(true)
 
     try {
