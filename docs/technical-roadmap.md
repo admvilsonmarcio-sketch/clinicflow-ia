@@ -11,11 +11,13 @@
 ## 🔄 Fase 2: Core Features (Em Andamento)
 
 ### 2.1 Gestão de Pacientes
-- [ ] Formulário de cadastro de pacientes
-- [ ] Página de detalhes do paciente
-- [ ] Edição de informações
+- [x] Formulário de cadastro de pacientes
+- [x] Página de detalhes do paciente
+- [x] Edição de informações
+- [x] Context API para estado global
+- [x] Navegação otimizada entre páginas
 - [ ] Upload de documentos/fotos
-- [ ] Histórico médico
+- [ ] Histórico médico avançado
 
 ### 2.2 Sistema de Agendamentos
 - [ ] Calendário interativo

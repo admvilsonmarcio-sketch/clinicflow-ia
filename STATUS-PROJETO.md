@@ -1,7 +1,7 @@
 # 📊 Status do Projeto MediFlow
 
-**Última atualização:** 21/07/2025  
-**Versão atual:** 0.1.0 (MVP em desenvolvimento)
+**Última atualização:** 22/07/2025  
+**Versão atual:** 0.1.1 (MVP em desenvolvimento)
 
 ---
 
@@ -42,12 +42,41 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 - [x] **Tela de login/registro** funcional
 - [x] **Dashboard principal** com estatísticas
 - [x] **Sidebar de navegação** responsiva
-- [x] **Header** com informações do usuário
+- [x] **Header dinâmico** com informações atualizadas em tempo real
+- [x] **Context API** para estado global do usuário
 - [x] **Página de pacientes** com listagem
 - [x] **Página de configurações** completa com abas funcionais
 - [x] **Sistema de notificações** (toast) implementado
 - [x] **Máscaras de input** para telefone, CPF, CNPJ, CEP
 - [x] **Componentes UI base** (Button, Card, Input, Tabs, Badge, Toast, etc.)
+- [x] **Navegação otimizada** entre páginas de pacientes
+
+## 🔄 FASE 2: Core Features (Em Andamento)
+
+### 📋 Gestão Completa de Pacientes
+- [x] **Formulário de cadastro** completo com validações
+- [x] **Página de detalhes** com todas as informações médicas
+- [x] **Edição de informações** funcionando
+- [x] **Histórico médico** integrado no formulário
+- [x] **Máscaras brasileiras** para telefone e dados
+- [x] **Validações** de campos obrigatórios
+- [x] **Navegação** entre páginas (novo → detalhes → editar)
+- [ ] Upload de documentos/fotos
+- [ ] Busca avançada de pacientes
+
+### 📅 Sistema de Agendamentos (Próximo)
+- [ ] Calendário interativo
+- [ ] Criação de consultas
+- [ ] Integração Google Calendar
+- [ ] Notificações automáticas
+- [ ] Confirmação via WhatsApp
+
+### 💬 Atendimento Automatizado (Planejado)
+- [ ] Interface de conversas
+- [ ] Integração EvolutionAPI
+- [ ] Sistema de IA com OpenAI
+- [ ] Embeddings para contexto
+- [ ] Escalação para humanos
 
 ### 🔐 Segurança
 - [x] **Autenticação segura** via Supabase
@@ -112,7 +141,12 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 
 ## 🐛 Problemas RESOLVIDOS
 
-### ✅ Correções Recentes
+### ✅ Correções Recentes (22/07/2025)
+- [x] **Context API implementado** - Estado global para usuário e clínica
+- [x] **Formulário de clínica corrigido** - Campos alinhados com banco de dados
+- [x] **Atualização em tempo real** - Nome da clínica atualiza no header sem reload
+- [x] **Navegação de pacientes melhorada** - Edição redireciona para detalhes
+- [x] **Formulário de perfil otimizado** - Atualizações instantâneas no contexto
 - [x] **Sistema de notificações** implementado com toast
 - [x] **Login melhorado** com feedback visual e mensagens
 - [x] **Configurações funcionais** - perfil e clínica salvam no banco
@@ -178,5 +212,5 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 
 ---
 
-**🚀 Próxima atualização prevista:** 22/07/2025  
-**📋 Foco atual:** Completar CRUD de pacientes e corrigir problemas de estilização
+**🚀 Próxima atualização prevista:** 23/07/2025  
+**📋 Foco atual:** Sistema de agendamentos e integração com Google Calendar

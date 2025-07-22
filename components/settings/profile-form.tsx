@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { InputWithMask } from '@/components/ui/input-mask'
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/lib/supabase'
+import { useUser } from '@/contexts/user-context'
 import { Loader2 } from 'lucide-react'
 
 interface ProfileFormProps {
@@ -26,6 +27,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   })
 
   const { toast } = useToast()
+  const { updateProfile } = useUser()
   const supabase = createClient()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -59,6 +61,9 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           description: error.message,
         })
       } else {
+        // Atualizar o contexto com os novos dados
+        updateProfile(formData)
+
         toast({
           variant: "success",
           title: "Perfil atualizado!",

@@ -6,17 +6,17 @@ import { Input } from '@/components/ui/input'
 import { InputWithMask } from '@/components/ui/input-mask'
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/lib/supabase'
+import { useUser } from '@/contexts/user-context'
 import { Loader2 } from 'lucide-react'
 
 interface ClinicFormProps {
   clinic: {
     nome?: string
-    cnpj?: string
     telefone?: string
     email?: string
     endereco?: string
-    cep?: string
     site?: string
+    descricao?: string
   } | null
   clinicId: string | null
 }
@@ -25,20 +25,20 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     nome: clinic?.nome || '',
-    cnpj: clinic?.cnpj || '',
     telefone: clinic?.telefone || '',
     email: clinic?.email || '',
     endereco: clinic?.endereco || '',
-    cep: clinic?.cep || '',
     site: clinic?.site || '',
+    descricao: clinic?.descricao || '',
   })
-  
+
   const { toast } = useToast()
+  const { updateClinic } = useUser()
   const supabase = createClient()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!clinicId) {
       toast({
         variant: "destructive",
@@ -47,7 +47,7 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
       })
       return
     }
-    
+
     setLoading(true)
 
     try {
@@ -66,6 +66,9 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
           description: error.message,
         })
       } else {
+        // Atualizar o contexto com os novos dados
+        updateClinic(formData)
+
         toast({
           variant: "success",
           title: "Clínica atualizada!",
@@ -95,20 +98,11 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="text-sm font-medium">Nome da Clínica</label>
-          <Input 
+          <Input
             value={formData.nome}
             onChange={(e) => handleChange('nome', e.target.value)}
             placeholder="Nome da sua clínica"
             required
-          />
-        </div>
-        <div>
-          <label className="text-sm font-medium">CNPJ</label>
-          <InputWithMask
-            mask="99.999.999/9999-99"
-            value={formData.cnpj}
-            onChange={(e) => handleChange('cnpj', e.target.value)}
-            placeholder="00.000.000/0000-00"
           />
         </div>
         <div>
@@ -122,37 +116,36 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
         </div>
         <div>
           <label className="text-sm font-medium">Email</label>
-          <Input 
+          <Input
             type="email"
             value={formData.email}
             onChange={(e) => handleChange('email', e.target.value)}
             placeholder="contato@clinica.com"
           />
         </div>
-        <div className="md:col-span-2">
-          <label className="text-sm font-medium">Endereço</label>
-          <Input 
-            value={formData.endereco}
-            onChange={(e) => handleChange('endereco', e.target.value)}
-            placeholder="Rua, número, bairro, cidade - UF"
-          />
-        </div>
-        <div>
-          <label className="text-sm font-medium">CEP</label>
-          <InputWithMask
-            mask="99999-999"
-            value={formData.cep}
-            onChange={(e) => handleChange('cep', e.target.value)}
-            placeholder="00000-000"
-          />
-        </div>
         <div>
           <label className="text-sm font-medium">Site</label>
-          <Input 
+          <Input
             type="url"
             value={formData.site}
             onChange={(e) => handleChange('site', e.target.value)}
             placeholder="https://www.clinica.com"
+          />
+        </div>
+        <div className="md:col-span-2">
+          <label className="text-sm font-medium">Descrição</label>
+          <Input
+            value={formData.descricao}
+            onChange={(e) => handleChange('descricao', e.target.value)}
+            placeholder="Breve descrição da clínica"
+          />
+        </div>
+        <div className="md:col-span-2">
+          <label className="text-sm font-medium">Endereço</label>
+          <Input
+            value={formData.endereco}
+            onChange={(e) => handleChange('endereco', e.target.value)}
+            placeholder="Rua, número, bairro, cidade - UF"
           />
         </div>
       </div>
