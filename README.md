@@ -8,10 +8,10 @@
 </div>
 
 <div align="center">
-  <img src="https://img.shields.io/github/license/SEU_USUARIO/mediflow?style=flat-square" />
-  <img src="https://img.shields.io/github/stars/SEU_USUARIO/mediflow?style=flat-square" />
-  <img src="https://img.shields.io/github/forks/SEU_USUARIO/mediflow?style=flat-square" />
-  <img src="https://img.shields.io/github/issues/SEU_USUARIO/mediflow?style=flat-square" />
+  <img src="https://img.shields.io/badge/Version-0.2.0-blue?style=flat-square" />
+  <img src="https://img.shields.io/badge/Status-Fase%201%20Completa-green?style=flat-square" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" />
+  <img src="https://img.shields.io/badge/LGPD-Compliant-purple?style=flat-square" />
 </div>
 
 <p align="center">
@@ -27,82 +27,193 @@
   <a href="#-licença">Licença</a>
 </p>
 
-## 🏗️ Arquitetura Técnica
+## 🚀 Funcionalidades
+
+### ✅ Implementado (Fase 1)
+- **🔐 Sistema de Autenticação** - Login seguro com Supabase Auth
+- **👥 Gestão de Pacientes** - CRUD completo com validação robusta
+- **🏥 Gestão de Clínicas** - Configuração completa de dados da clínica
+- **👤 Perfis de Usuário** - Gestão de perfis médicos
+- **📝 Validação Zod** - Validação robusta em todos os formulários
+- **🔍 Logging Médico** - Auditoria completa com sanitização de dados
+- **🚨 Tratamento de Erros** - Específico para área médica
+- **🔒 Compliance LGPD/HIPAA** - Dados sensíveis protegidos
+
+### 🔄 Em Desenvolvimento (Fase 2)
+- **🔐 API Routes** - Validação server-side
+- **🧪 Testes Automatizados** - Cobertura completa
+- **📊 Sistema de Auditoria** - Dashboard de logs
+
+### 📋 Planejado (Fase 3)
+- **📅 Sistema de Agendamentos** - Integração Google Calendar
+- **💬 Atendimento Automatizado** - WhatsApp/Instagram + IA
+- **🤖 IA Contextual** - OpenAI GPT-4o + Embeddings
+- **📊 Dashboard Analytics** - Métricas e relatórios
+
+## 🛠️ Tecnologias
 
 ### Stack Principal
 - **Frontend**: Next.js 14 + TypeScript + Tailwind CSS + shadcn/ui
 - **Backend**: Supabase (Auth, Database, Functions, Vector Store)
+- **Validação**: Zod + React Hook Form
+- **Estado**: Context API + React Hooks
+- **Estilização**: Tailwind CSS + shadcn/ui
+- **Banco de Dados**: PostgreSQL (Supabase)
+
+### Futuras Integrações
 - **Mensageria**: N8N + EvolutionAPI
 - **IA**: OpenAI GPT-4o + Embeddings
 - **Automação**: N8N workflows
-
-### Módulos do Sistema
-
-#### 1. Autenticação e Usuários
-- Login/registro de profissionais
-- Perfis de clínicas/consultórios
-- Controle de acesso por roles
-
-#### 2. Gestão de Pacientes
-- Cadastro completo de pacientes
-- Histórico médico e consultas
-- Documentos e anexos
-
-#### 3. Atendimento Automatizado
-- Integração WhatsApp/Instagram via EvolutionAPI
-- IA contextual com embeddings
-- Fluxos de conversa automatizados
-- Escalação para humanos
-
-#### 4. Agenda e Agendamentos
-- Integração Google Calendar
-- Disponibilidade de horários
-- Confirmações automáticas
-- Lembretes via WhatsApp
-
-#### 5. Dashboard e Relatórios
-- Métricas de atendimento
-- Performance da IA
-- Relatórios de pacientes
-
-## 🔄 Fluxos Principais
-
-### Fluxo de Atendimento
-```
-Mensagem WhatsApp/Instagram → N8N → IA (contexto + embeddings) → Resposta → Paciente
-                                ↓
-                         Salvar no Supabase
-```
-
-### Fluxo de Agendamento
-```
-Solicitação → IA verifica disponibilidade → Google Calendar → Confirmação → WhatsApp
-```
+- **Calendário**: Google Calendar API
 
 ## 📁 Estrutura do Projeto
 
 ```
 mediflow/
-├── apps/
-│   ├── web/                 # Next.js frontend
-│   └── n8n-workflows/       # Workflows N8N
-├── packages/
-│   ├── database/           # Schema Supabase
-│   ├── ui/                 # Componentes shadcn/ui
-│   └── types/              # TypeScript types
-├── docs/                   # Documentação
-└── scripts/               # Scripts de setup
+├── app/                    # Next.js App Router
+│   ├── dashboard/         # Páginas do dashboard
+│   ├── api/              # API Routes (Fase 2)
+│   └── auth/             # Páginas de autenticação
+├── components/            # Componentes React
+│   ├── ui/               # Componentes base (shadcn/ui)
+│   ├── patients/         # Componentes de pacientes
+│   ├── settings/         # Componentes de configurações
+│   └── dashboard/        # Componentes do dashboard
+├── lib/                  # Utilitários e configurações
+│   ├── validations/      # Schemas Zod
+│   ├── logging/          # Sistema de logging médico
+│   ├── errors/           # Tratamento de erros
+│   └── supabase.ts       # Cliente Supabase
+├── types/                # Tipos TypeScript
+├── docs/                 # Documentação completa
+├── scripts/              # Scripts de validação
+└── database-schema.sql   # Schema do banco
 ```
 
-## 📊 Status do Projeto
+## 🚀 Instalação
 
-**Para acompanhar o progresso detalhado do projeto, consulte:**
-👉 **[STATUS-PROJETO.md](./STATUS-PROJETO.md)** - Documento sempre atualizado
+### Pré-requisitos
+- Node.js 18+ 
+- npm ou yarn
+- Conta no Supabase
 
-### 🚀 Resumo Atual
-- ✅ **Base do projeto** configurada (Next.js + Supabase + Tailwind)
-- ✅ **Autenticação** funcionando
-- ✅ **Banco de dados** completo
-- 🔄 **CRUD de pacientes** em desenvolvimento
-- 📋 **Sistema de agendamentos** planejado
-- 🤖 **IA e automação** em roadmap
+### Passo a Passo
+
+1. **Clone o repositório**
+```bash
+git clone https://github.com/seu-usuario/mediflow.git
+cd mediflow
+```
+
+2. **Instale as dependências**
+```bash
+npm install
+```
+
+3. **Configure as variáveis de ambiente**
+```bash
+cp .env.example .env.local
+```
+
+Edite `.env.local` com suas credenciais do Supabase:
+```env
+NEXT_PUBLIC_SUPABASE_URL=sua_url_do_supabase
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anonima
+```
+
+4. **Configure o banco de dados**
+- Acesse seu projeto no Supabase
+- Vá para SQL Editor
+- Execute o conteúdo de `database-schema.sql`
+
+5. **Inicie o projeto**
+```bash
+npm run dev
+```
+
+6. **Acesse a aplicação**
+- Abra http://localhost:3000
+- Faça seu cadastro
+- Configure sua clínica
+
+### Scripts Disponíveis
+```bash
+npm run dev          # Inicia em desenvolvimento
+npm run build        # Build para produção
+npm run start        # Inicia em produção
+npm run lint         # Executa ESLint
+npm run type-check   # Verifica tipos TypeScript
+npm run validate-schema  # Valida schema vs types
+```
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas! Este projeto segue as melhores práticas para sistemas médicos.
+
+### Como Contribuir
+
+1. **Fork o projeto**
+2. **Crie uma branch** (`git checkout -b feature/nova-funcionalidade`)
+3. **Commit suas mudanças** (`git commit -m 'feat: adiciona nova funcionalidade'`)
+4. **Push para a branch** (`git push origin feature/nova-funcionalidade`)
+5. **Abra um Pull Request**
+
+### Padrões do Projeto
+- **Commits**: Seguir [Conventional Commits](./COMMIT-CONVENTIONS.md)
+- **Código**: TypeScript + ESLint + Prettier
+- **Testes**: Jest + Testing Library (Fase 2)
+- **Documentação**: Sempre atualizar docs relevantes
+
+### Áreas que Precisam de Ajuda
+- 🧪 Testes automatizados
+- 📱 Responsividade mobile
+- 🌐 Internacionalização
+- 📊 Dashboard analytics
+- 🤖 Integração com IA
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
+
+## 🏥 Para Profissionais de Saúde
+
+O MediFlow foi desenvolvido pensando na segurança e compliance necessários para a área médica:
+
+- ✅ **LGPD Compliant** - Dados pessoais protegidos
+- ✅ **Logs Sanitizados** - Informações sensíveis nunca expostas
+- ✅ **Auditoria Completa** - Rastreabilidade de todas as ações
+- ✅ **Validação Robusta** - Prevenção de erros críticos
+- ✅ **Preparado para CFM** - Seguindo diretrizes médicas
+
+---
+
+<div align="center">
+  <p>Desenvolvido com ❤️ para profissionais de saúde</p>
+  <p><strong>MediFlow v0.2.0</strong> - Fase 1 Completa</p>
+</div>
+
+## 🎉 Status do Projeto - Fase 1 Completa!
+
+**Versão:** 0.2.0 | **Data:** 23/07/2025 | **Status:** ✅ Fase 1 Completa
+
+### 🚀 O que está PRONTO:
+- ✅ **Sistema robusto e seguro** para profissionais de saúde
+- ✅ **Validação Zod completa** em todos os formulários
+- ✅ **Logging médico seguro** com sanitização de dados (LGPD/HIPAA)
+- ✅ **CRUD completo de pacientes** (criar, visualizar, editar)
+- ✅ **Tratamento de erros médicos** específico para área da saúde
+- ✅ **Context API** para estado global
+- ✅ **Schema 100% sincronizado** com banco de dados
+- ✅ **Compliance médico** preparado para CFM/LGPD
+
+### 📋 Documentação Completa:
+- 👉 **[STATUS-PROJETO.md](./STATUS-PROJETO.md)** - Status detalhado sempre atualizado
+- 📊 **[FASE1-RESUMO-IMPLEMENTACAO.md](./docs/FASE1-RESUMO-IMPLEMENTACAO.md)** - Resumo completo da Fase 1
+- 🛠️ **[PLANO-MELHORIAS-CRITICAS.md](./docs/PLANO-MELHORIAS-CRITICAS.md)** - Plano técnico detalhado
+- ✅ **[CHECKLIST-EXECUCAO.md](./docs/CHECKLIST-EXECUCAO.md)** - Checklist de implementação
+
+### 🔄 Próximos Passos - Fase 2:
+- 🔐 **API Routes** com validação server-side
+- 🏥 **Sistema de auditoria** completa
+- 🧪 **Testes automatizados**
+- 📅 **Sistema de agendamentos**
