@@ -7,6 +7,9 @@ import { Input } from '@/components/ui/input'
 import { InputWithMask } from '@/components/ui/input-mask'
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/lib/supabase'
+import { pacienteSchema, z } from '@/lib/validations'
+import { medicalLogger } from '@/lib/logging/medical-logger'
+import { MedicalAction } from '@/lib/logging/types'
 import { Loader2, Save, User, Phone, MapPin, Heart, FileText } from 'lucide-react'
 
 interface PatientData {
@@ -56,23 +59,21 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
         setLoading(true)
 
         try {
-            // Validações básicas
-            if (!formData.nome_completo.trim()) {
-                toast({
-                    variant: "warning",
-                    title: "Campo obrigatório",
-                    description: "Nome completo é obrigatório.",
-                })
-                return
-            }
+            // 🔥 VALIDAÇÃO ZOD PRIMEIRO
+            const validatedData = pacienteSchema.parse(formData)
 
-            if (!formData.telefone.trim()) {
-                toast({
-                    variant: "warning",
-                    title: "Campo obrigatório",
-                    description: "Telefone é obrigatório.",
-                })
-                return
+            // 🔥 LIMPAR DADOS PARA BANCO (converter strings vazias em null)
+            const cleanedData = {
+                ...validatedData,
+                data_nascimento: validatedData.data_nascimento || null,
+                email: validatedData.email || null,
+                endereco: validatedData.endereco || null,
+                contato_emergencia: validatedData.contato_emergencia || null,
+                telefone_emergencia: validatedData.telefone_emergencia || null,
+                historico_medico: validatedData.historico_medico || null,
+                alergias: validatedData.alergias || null,
+                medicamentos: validatedData.medicamentos || null,
+                observacoes: validatedData.observacoes || null
             }
 
             // Buscar clínica do usuário atual
@@ -102,7 +103,7 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
             }
 
             const patientData = {
-                ...formData,
+                ...cleanedData,
                 clinica_id: profile.clinica_id,
                 atualizado_em: new Date().toISOString(),
             }
@@ -116,6 +117,21 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                     .eq('id', patient.id)
                     .select()
                     .single()
+
+                // 🔥 LOG DA AÇÃO DE ATUALIZAÇÃO (DADOS SANITIZADOS)
+                if (!result.error) {
+                    await medicalLogger.logPatientAction(
+                        MedicalAction.UPDATE_PATIENT,
+                        patient.id,
+                        medicalLogger.createBrowserContext(user.id, profile.clinica_id),
+                        {
+                            operation: 'UPDATE_PATIENT',
+                            hasChanges: Object.keys(getChangedFields(patient, validatedData)).length > 0,
+                            changedFieldsCount: Object.keys(getChangedFields(patient, validatedData)).length,
+                            // NÃO LOGAR DADOS REAIS - apenas metadados
+                        }
+                    )
+                }
             } else {
                 // Criar novo paciente
                 result = await supabase
@@ -126,9 +142,37 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                     })
                     .select()
                     .single()
+
+                // 🔥 LOG DA AÇÃO DE CRIAÇÃO (DADOS SANITIZADOS)
+                if (!result.error) {
+                    await medicalLogger.logPatientAction(
+                        MedicalAction.CREATE_PATIENT,
+                        result.data.id,
+                        medicalLogger.createBrowserContext(user.id, profile.clinica_id),
+                        {
+                            operation: 'CREATE_PATIENT',
+                            fieldsProvided: Object.keys(validatedData).filter(key => validatedData[key as keyof typeof validatedData]).length,
+                            // NÃO LOGAR DADOS REAIS - apenas metadados
+                        }
+                    )
+                }
             }
 
             if (result.error) {
+                // 🔥 LOG DO ERRO (SANITIZADO)
+                await medicalLogger.logPatientAction(
+                    isEditing ? MedicalAction.UPDATE_PATIENT : MedicalAction.CREATE_PATIENT,
+                    patient?.id || 'new',
+                    medicalLogger.createBrowserContext(user.id, profile.clinica_id),
+                    {
+                        operation: isEditing ? 'UPDATE_PATIENT' : 'CREATE_PATIENT',
+                        errorOccurred: true,
+                        // NÃO LOGAR DADOS REAIS - apenas que houve erro
+                    },
+                    false,
+                    'Database operation failed' // Mensagem genérica
+                )
+
                 toast({
                     variant: "destructive",
                     title: "Erro ao salvar",
@@ -150,7 +194,20 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                     router.push(`/dashboard/patients/${result.data.id}`)
                 }
             }
-        } catch (err) {
+        } catch (error) {
+            // 🔥 TRATAMENTO DE ERROS ZOD
+            if (error instanceof z.ZodError) {
+                // Mostrar primeiro erro de validação
+                const firstError = error.errors[0]
+                toast({
+                    variant: "destructive",
+                    title: "Erro de validação",
+                    description: `${firstError.path.join('.')}: ${firstError.message}`
+                })
+                return
+            }
+
+            // Outros erros
             toast({
                 variant: "destructive",
                 title: "Erro inesperado",
@@ -166,6 +223,22 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
             ...prev,
             [field]: value
         }))
+    }
+
+    // Helper para detectar campos alterados
+    const getChangedFields = (oldData: any, newData: any) => {
+        const changes: Record<string, { old: any, new: any }> = {}
+
+        Object.keys(newData).forEach(key => {
+            if (oldData[key] !== newData[key]) {
+                changes[key] = {
+                    old: oldData[key],
+                    new: newData[key]
+                }
+            }
+        })
+
+        return changes
     }
 
     return (
@@ -191,7 +264,7 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                     <div>
                         <label className="text-sm font-medium">Email</label>
                         <Input
-                            type="email"
+                            type="text"
                             value={formData.email}
                             onChange={(e) => handleChange('email', e.target.value)}
                             placeholder="email@exemplo.com"

@@ -46,10 +46,6 @@ export interface Database {
           email: string | null
           site: string | null
           logo_url: string | null
-          cnpj: string | null
-          cep: string | null
-          cidade: string | null
-          estado: string | null
           configuracoes: any
           criado_em: string
           atualizado_em: string
@@ -63,10 +59,6 @@ export interface Database {
           email?: string | null
           site?: string | null
           logo_url?: string | null
-          cnpj?: string | null
-          cep?: string | null
-          cidade?: string | null
-          estado?: string | null
           configuracoes?: any
           criado_em?: string
           atualizado_em?: string
@@ -80,10 +72,6 @@ export interface Database {
           email?: string | null
           site?: string | null
           logo_url?: string | null
-          cnpj?: string | null
-          cep?: string | null
-          cidade?: string | null
-          estado?: string | null
           configuracoes?: any
           criado_em?: string
           atualizado_em?: string

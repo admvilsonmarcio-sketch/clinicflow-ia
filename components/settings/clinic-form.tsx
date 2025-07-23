@@ -7,6 +7,10 @@ import { InputWithMask } from '@/components/ui/input-mask'
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/lib/supabase'
 import { useUser } from '@/contexts/user-context'
+import { clinicaSchema, z } from '@/lib/validations'
+import { medicalLogger } from '@/lib/logging/medical-logger'
+import { MedicalAction } from '@/lib/logging/types'
+import { handleMedicalError } from '@/lib/errors/error-handler'
 import { Loader2 } from 'lucide-react'
 
 interface ClinicFormProps {
@@ -51,10 +55,12 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
     setLoading(true)
 
     try {
+      // 🔥 NOVA VALIDAÇÃO COM ZOD
+      const validatedData = clinicaSchema.parse(formData)
       const { error } = await supabase
         .from('clinicas')
         .update({
-          ...formData,
+          ...validatedData,
           atualizado_em: new Date().toISOString(),
         })
         .eq('id', clinicId)
@@ -66,8 +72,20 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
           description: error.message,
         })
       } else {
+        // 🔥 LOG DA AÇÃO DE ATUALIZAÇÃO
+        await medicalLogger.logClinicAction(
+          MedicalAction.UPDATE_CLINIC,
+          clinicId,
+          medicalLogger.createBrowserContext(undefined, clinicId),
+          {
+            oldData: clinic,
+            newData: validatedData,
+            changes: getChangedFields(clinic || {}, validatedData)
+          }
+        )
+
         // Atualizar o contexto com os novos dados
-        updateClinic(formData)
+        updateClinic(validatedData)
 
         toast({
           variant: "success",
@@ -75,11 +93,25 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
           description: "As informações da clínica foram salvas com sucesso.",
         })
       }
-    } catch (err) {
-      toast({
-        variant: "destructive",
-        title: "Erro inesperado",
-        description: "Tente novamente em alguns instantes.",
+    } catch (error) {
+      // 🔥 TRATAMENTO DE ERROS ZOD
+      if (error instanceof z.ZodError) {
+        // Mostrar primeiro erro de validação
+        const firstError = error.errors[0]
+        toast({
+          variant: "destructive",
+          title: "Erro de validação",
+          description: `${firstError.path.join('.')}: ${firstError.message}`
+        })
+        return
+      }
+
+      // 🔥 TRATAMENTO DE ERROS MÉDICOS
+      await handleMedicalError(error, {
+        userId: undefined, // Não temos userId no contexto de clínica
+        clinicaId: clinicId,
+        action: MedicalAction.UPDATE_CLINIC,
+        resourceId: clinicId
       })
     } finally {
       setLoading(false)
@@ -91,6 +123,22 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
       ...prev,
       [field]: value
     }))
+  }
+
+  // Helper para detectar campos alterados
+  const getChangedFields = (oldData: any, newData: any) => {
+    const changes: Record<string, { old: any, new: any }> = {}
+
+    Object.keys(newData).forEach(key => {
+      if (oldData[key] !== newData[key]) {
+        changes[key] = {
+          old: oldData[key],
+          new: newData[key]
+        }
+      }
+    })
+
+    return changes
   }
 
   return (
@@ -117,7 +165,7 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
         <div>
           <label className="text-sm font-medium">Email</label>
           <Input
-            type="email"
+            type="text"
             value={formData.email}
             onChange={(e) => handleChange('email', e.target.value)}
             placeholder="contato@clinica.com"

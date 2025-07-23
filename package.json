@@ -9,7 +9,9 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
-    "db:types": "supabase gen types typescript --project-id YOUR_PROJECT_ID > types/supabase.ts"
+    "db:types": "supabase gen types typescript --project-id YOUR_PROJECT_ID > types/supabase.ts",
+    "validate-schema": "npx tsx scripts/validate-schema-types.ts",
+    "test": "echo 'Testes não implementados ainda' && exit 0"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -25,7 +27,7 @@
     "@supabase/supabase-js": "^2.38.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "date-fns": "^3.0.6",
+    "date-fns": "^3.6.0",
     "lucide-react": "^0.294.0",
     "next": "^14.2.30",
     "react": "^18",
@@ -34,18 +36,21 @@
     "react-input-mask": "^2.0.4",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4"
+    "uuid": "^11.1.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-input-mask": "^3.0.6",
+    "@types/uuid": "^10.0.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.0.4",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.3.0",
+    "tsx": "^4.20.3",
     "typescript": "^5"
   }
 }

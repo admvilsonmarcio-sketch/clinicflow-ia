@@ -7,6 +7,10 @@ import { InputWithMask } from '@/components/ui/input-mask'
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/lib/supabase'
 import { useUser } from '@/contexts/user-context'
+import { perfilUpdateSchema, z } from '@/lib/validations'
+import { medicalLogger } from '@/lib/logging/medical-logger'
+import { MedicalAction } from '@/lib/logging/types'
+import { handleMedicalError } from '@/lib/errors/error-handler'
 import { Loader2 } from 'lucide-react'
 
 interface ProfileFormProps {
@@ -27,7 +31,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   })
 
   const { toast } = useToast()
-  const { updateProfile } = useUser()
+  const { updateProfile, profile: userProfile } = useUser()
   const supabase = createClient()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,11 +49,13 @@ export function ProfileForm({ profile }: ProfileFormProps) {
     setLoading(true)
 
     try {
+      // 🔥 NOVA VALIDAÇÃO COM ZOD
+      const validatedData = perfilUpdateSchema.parse(formData)
       const { error } = await supabase
         .from('perfis')
         .update({
-          nome_completo: formData.nome_completo,
-          telefone: formData.telefone,
+          nome_completo: validatedData.nome_completo,
+          telefone: validatedData.telefone,
           atualizado_em: new Date().toISOString(),
         })
         .eq('id', profile.id)
@@ -61,8 +67,23 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           description: error.message,
         })
       } else {
+        // 🔥 LOG DA AÇÃO DE ATUALIZAÇÃO
+        await medicalLogger.logProfileAction(
+          MedicalAction.UPDATE_PROFILE,
+          profile.id,
+          medicalLogger.createBrowserContext(profile.id, userProfile?.clinica_id),
+          {
+            oldData: {
+              nome_completo: profile.nome_completo,
+              telefone: profile.telefone
+            },
+            newData: validatedData,
+            changes: getChangedFields(profile, validatedData)
+          }
+        )
+
         // Atualizar o contexto com os novos dados
-        updateProfile(formData)
+        updateProfile(validatedData)
 
         toast({
           variant: "success",
@@ -70,11 +91,25 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           description: "Suas informações foram salvas com sucesso.",
         })
       }
-    } catch (err) {
-      toast({
-        variant: "destructive",
-        title: "Erro inesperado",
-        description: "Tente novamente em alguns instantes.",
+    } catch (error) {
+      // 🔥 TRATAMENTO DE ERROS ZOD
+      if (error instanceof z.ZodError) {
+        // Mostrar primeiro erro de validação
+        const firstError = error.errors[0]
+        toast({
+          variant: "destructive",
+          title: "Erro de validação",
+          description: `${firstError.path.join('.')}: ${firstError.message}`
+        })
+        return
+      }
+
+      // 🔥 TRATAMENTO DE ERROS MÉDICOS
+      await handleMedicalError(error, {
+        userId: profile.id,
+        clinicaId: userProfile?.clinica_id,
+        action: MedicalAction.UPDATE_PROFILE,
+        resourceId: profile.id
       })
     } finally {
       setLoading(false)
@@ -86,6 +121,22 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       ...prev,
       [field]: value
     }))
+  }
+
+  // Helper para detectar campos alterados
+  const getChangedFields = (oldData: any, newData: any) => {
+    const changes: Record<string, { old: any, new: any }> = {}
+
+    Object.keys(newData).forEach(key => {
+      if (oldData[key] !== newData[key]) {
+        changes[key] = {
+          old: oldData[key],
+          new: newData[key]
+        }
+      }
+    })
+
+    return changes
   }
 
   return (
