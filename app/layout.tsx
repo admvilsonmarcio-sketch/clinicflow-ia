@@ -8,6 +8,11 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'MediFlow - CRM para Médicos e Clínicas',
   description: 'Sistema completo de CRM com atendimento automatizado via WhatsApp/Instagram e IA contextual',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({

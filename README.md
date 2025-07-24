@@ -8,7 +8,7 @@
 </div>
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Version-0.2.0-blue?style=flat-square" />
+  <img src="https://img.shields.io/badge/Version-0.2.1-blue?style=flat-square" />
   <img src="https://img.shields.io/badge/Status-Fase%201%20Completa-green?style=flat-square" />
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" />
   <img src="https://img.shields.io/badge/LGPD-Compliant-purple?style=flat-square" />
@@ -189,12 +189,12 @@ O MediFlow foi desenvolvido pensando na segurança e compliance necessários par
 
 <div align="center">
   <p>Desenvolvido com ❤️ para profissionais de saúde</p>
-  <p><strong>MediFlow v0.2.0</strong> - Fase 1 Completa</p>
+  <p><strong>MediFlow v0.2.1</strong> - Fase 1 Completa + Melhorias UX</p>
 </div>
 
 ## 🎉 Status do Projeto - Fase 1 Completa!
 
-**Versão:** 0.2.0 | **Data:** 23/07/2025 | **Status:** ✅ Fase 1 Completa
+**Versão:** 0.2.1 | **Data:** 29/12/2024 | **Status:** ✅ Fase 1 Completa + Melhorias UX
 
 ### 🚀 O que está PRONTO:
 - ✅ **Sistema robusto e seguro** para profissionais de saúde

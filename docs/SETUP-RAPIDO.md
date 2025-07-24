@@ -2,7 +2,7 @@
 
 **Documento:** Configuração Imediata para Iniciar Melhorias  
 **Tempo:** 15-30 minutos  
-**Data:** 23/07/2025  
+**Data:** 29/12/2024  
 
 ---
 

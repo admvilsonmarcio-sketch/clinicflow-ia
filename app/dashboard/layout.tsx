@@ -20,7 +20,7 @@ export default async function DashboardLayout({
   } = await supabase.auth.getSession()
 
   if (!session) {
-    redirect('/')
+    redirect('/auth/login')
   }
 
   // Buscar dados do perfil do usuário
