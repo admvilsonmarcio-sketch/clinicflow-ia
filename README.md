@@ -1,4 +1,7 @@
-# 🏥 MediFlow
+<div align="center">
+  <img src="./public/logo.svg" alt="MediFlow Logo" width="300" height="90" />
+  <h1>Sistema CRM completo para médicos e clínicas</h1>
+</div>
 
 <div align="center">
   <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js" />
@@ -15,8 +18,7 @@
 </div>
 
 <p align="center">
-  <strong>Sistema CRM completo para médicos e clínicas</strong><br>
-  Atendimento automatizado via WhatsApp/Instagram • IA contextual • Agendamentos integrados
+  <strong>Atendimento automatizado via WhatsApp/Instagram • IA contextual • Agendamentos integrados</strong>
 </p>
 
 <p align="center">

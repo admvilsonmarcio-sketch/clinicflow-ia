@@ -63,6 +63,17 @@ export default async function RegisterPage() {
             <p className="text-xs text-gray-500">
               © 2024 MediFlow. Todos os direitos reservados.
             </p>
+            <p className="text-xs text-gray-400 mt-2">
+              Desenvolvimento por{' '}
+              <a 
+                href="https://www.linkedin.com/in/marshallpaiva/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-green-600 hover:text-green-500 transition-colors font-medium"
+              >
+                Marshall Paiva
+              </a>
+            </p>
           </div>
         </div>
       </div>

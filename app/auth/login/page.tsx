@@ -37,7 +37,7 @@ export default async function LoginPage() {
               className="mx-auto h-16 w-auto mb-6"
             />
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
-              Bem-vindo de volta
+              Bem-vindo
             </h2>
             <p className="text-gray-600">
               Faça login para acessar sua conta
@@ -62,6 +62,17 @@ export default async function LoginPage() {
           <div className="text-center pt-8">
             <p className="text-xs text-gray-500">
               © 2024 MediFlow. Todos os direitos reservados.
+            </p>
+            <p className="text-xs text-gray-400 mt-2">
+              Desenvolvimento por{' '}
+              <a 
+                href="https://www.linkedin.com/in/marshallpaiva/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-green-600 hover:text-green-500 transition-colors font-medium"
+              >
+                Marshall Paiva
+              </a>
             </p>
           </div>
         </div>
