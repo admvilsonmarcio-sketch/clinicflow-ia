@@ -171,8 +171,8 @@ export default function Home() {
                  </div>
                </div>
                <p className="text-blue-100 mb-3 sm:mb-4 text-sm sm:text-base leading-relaxed">
-                 "Em 3 meses, minha receita aumentou 280%. O atendimento automatizado trouxe 150 novos pacientes. 
-                 Nunca imaginei que seria tão fácil!"
+                 Em 3 meses, minha receita aumentou 280%. O atendimento automatizado trouxe 150 novos pacientes. 
+                 Nunca imaginei que seria tão fácil!
                </p>
                <div className="text-yellow-300 text-xs sm:text-sm">⭐⭐⭐⭐⭐ 5/5 estrelas</div>
              </div>
@@ -189,8 +189,8 @@ export default function Home() {
                  </div>
                </div>
                <p className="text-blue-100 mb-3 sm:mb-4 text-sm sm:text-base leading-relaxed">
-                 "Economizo 5 horas por dia com a automação. Agora posso focar no que realmente importa: 
-                 cuidar dos meus pacientes."
+                 Economizo 5 horas por dia com a automação. Agora posso focar no que realmente importa: 
+                 cuidar dos meus pacientes.
                </p>
                <div className="text-yellow-300 text-xs sm:text-sm">⭐⭐⭐⭐⭐ 5/5 estrelas</div>
              </div>
