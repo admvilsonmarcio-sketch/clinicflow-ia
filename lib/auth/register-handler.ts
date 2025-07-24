@@ -16,9 +16,11 @@ interface RegisterResult {
 }
 
 export async function handleUserRegistration(data: RegisterData): Promise<RegisterResult> {
-  // Usar cliente administrativo para signup (requer permissões elevadas)
-  const adminSupabase = createAdminClient()
+  // Lazy loading dos clientes Supabase para evitar erro durante build
   const clientSupabase = createClient()
+  
+  // Só criar cliente admin se necessário (não usado no fluxo atual)
+  // const adminSupabase = createAdminClient()
 
   try {
     // 1. Criar conta no Supabase Auth usando cliente normal (melhor prática)
