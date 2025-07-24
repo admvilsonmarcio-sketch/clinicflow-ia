@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://mediflow-tau.vercel.app/sitemap.xml
+
+# Disallow sensitive areas
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /auth/
+
+# Allow public pages
+Allow: /
+Allow: /favicon.svg
+Allow: /logo.svg
+Allow: /og-image.svg
+
+# Crawl delay
+Crawl-delay: 1
