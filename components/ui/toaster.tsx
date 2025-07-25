@@ -17,13 +17,13 @@ export function Toaster() {
   const getToastIcon = (variant: string) => {
     switch (variant) {
       case 'success':
-        return <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+        return <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 flex-shrink-0 mt-0.5" />
       case 'destructive':
-        return <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+        return <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600 flex-shrink-0 mt-0.5" />
       case 'warning':
-        return <AlertTriangle className="h-5 w-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+        return <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600 flex-shrink-0 mt-0.5" />
       default:
-        return <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+        return <Info className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0 mt-0.5" />
     }
   }
 

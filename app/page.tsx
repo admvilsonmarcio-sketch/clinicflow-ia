@@ -242,7 +242,7 @@ export default function Home() {
             <div className="text-xs sm:text-sm text-center">
               © 2024 MediFlow. Desenvolvido por{' '}
               <a 
-                href="https://www.linkedin.com/in/marshall-paiva" 
+                href="https://www.linkedin.com/in/marshallpaiva/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-yellow-300 hover:text-yellow-200 transition-colors duration-200 font-medium"

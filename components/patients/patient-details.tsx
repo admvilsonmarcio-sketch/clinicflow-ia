@@ -46,9 +46,9 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
     }
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
             {/* Coluna Principal */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-4 lg:space-y-6">
                 {/* Informações Básicas */}
                 <Card>
                     <CardHeader>
@@ -57,42 +57,42 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                             Informações Básicas
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <CardContent className="space-y-3 lg:space-y-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-sm text-gray-500">
-                                    <Phone className="h-4 w-4" />
+                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
+                                    <Phone className="h-3 w-3 sm:h-4 sm:w-4" />
                                     Telefone
                                 </div>
-                                <p className="font-medium">{patient.telefone}</p>
+                                <p className="font-medium text-sm sm:text-base break-all">{patient.telefone}</p>
                             </div>
 
                             {patient.email && (
                                 <div className="space-y-2">
-                                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                                        <Mail className="h-4 w-4" />
+                                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
+                                        <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
                                         Email
                                     </div>
-                                    <p className="font-medium">{patient.email}</p>
+                                    <p className="font-medium text-sm sm:text-base break-all">{patient.email}</p>
                                 </div>
                             )}
 
                             {patient.data_nascimento && (
                                 <div className="space-y-2">
-                                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                                        <Calendar className="h-4 w-4" />
+                                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
+                                        <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                                         Data de Nascimento
                                     </div>
-                                    <p className="font-medium">{formatDate(patient.data_nascimento)}</p>
+                                    <p className="font-medium text-sm sm:text-base">{formatDate(patient.data_nascimento)}</p>
                                 </div>
                             )}
 
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-sm text-gray-500">
-                                    <User className="h-4 w-4" />
+                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
+                                    <User className="h-3 w-3 sm:h-4 sm:w-4" />
                                     Gênero
                                 </div>
-                                <p className="font-medium">
+                                <p className="font-medium text-sm sm:text-base">
                                     {patient.genero === 'masculino' ? 'Masculino' :
                                         patient.genero === 'feminino' ? 'Feminino' : 'Outro'}
                                 </p>
@@ -100,12 +100,12 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                         </div>
 
                         {patient.endereco && (
-                            <div className="space-y-2 pt-4 border-t">
-                                <div className="flex items-center gap-2 text-sm text-gray-500">
-                                    <MapPin className="h-4 w-4" />
+                            <div className="space-y-2 pt-3 lg:pt-4 border-t">
+                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
+                                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
                                     Endereço
                                 </div>
-                                <p className="font-medium">{patient.endereco}</p>
+                                <p className="font-medium text-sm sm:text-base break-words">{patient.endereco}</p>
                             </div>
                         )}
                     </CardContent>
@@ -120,19 +120,19 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                                 Contato de Emergência
                             </CardTitle>
                         </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <CardContent className="space-y-3 lg:space-y-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
                                 {patient.contato_emergencia && (
                                     <div className="space-y-2">
-                                        <div className="text-sm text-gray-500">Nome</div>
-                                        <p className="font-medium">{patient.contato_emergencia}</p>
+                                        <div className="text-xs sm:text-sm text-gray-500">Nome</div>
+                                        <p className="font-medium text-sm sm:text-base break-words">{patient.contato_emergencia}</p>
                                     </div>
                                 )}
 
                                 {patient.telefone_emergencia && (
                                     <div className="space-y-2">
-                                        <div className="text-sm text-gray-500">Telefone</div>
-                                        <p className="font-medium">{patient.telefone_emergencia}</p>
+                                        <div className="text-xs sm:text-sm text-gray-500">Telefone</div>
+                                        <p className="font-medium text-sm sm:text-base break-all">{patient.telefone_emergencia}</p>
                                     </div>
                                 )}
                             </div>
@@ -148,39 +148,39 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                             Informações Médicas
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-6">
+                    <CardContent className="space-y-4 lg:space-y-6">
                         {patient.alergias && (
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-sm text-gray-500">
-                                    <AlertTriangle className="h-4 w-4 text-red-500" />
+                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
+                                    <AlertTriangle className="h-3 w-3 sm:h-4 sm:w-4 text-red-500" />
                                     Alergias
                                 </div>
-                                <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-                                    <p className="text-red-800">{patient.alergias}</p>
+                                <div className="p-2 sm:p-3 bg-red-50 border border-red-200 rounded-md">
+                                    <p className="text-red-800 text-sm sm:text-base break-words">{patient.alergias}</p>
                                 </div>
                             </div>
                         )}
 
                         {patient.medicamentos && (
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-sm text-gray-500">
-                                    <Pill className="h-4 w-4" />
+                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
+                                    <Pill className="h-3 w-3 sm:h-4 sm:w-4" />
                                     Medicamentos em Uso
                                 </div>
-                                <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
-                                    <p className="text-blue-800">{patient.medicamentos}</p>
+                                <div className="p-2 sm:p-3 bg-blue-50 border border-blue-200 rounded-md">
+                                    <p className="text-blue-800 text-sm sm:text-base break-words">{patient.medicamentos}</p>
                                 </div>
                             </div>
                         )}
 
                         {patient.historico_medico && (
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-sm text-gray-500">
-                                    <FileText className="h-4 w-4" />
+                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
+                                    <FileText className="h-3 w-3 sm:h-4 sm:w-4" />
                                     Histórico Médico
                                 </div>
-                                <div className="p-3 bg-gray-50 border border-gray-200 rounded-md">
-                                    <p className="text-gray-800 whitespace-pre-wrap">{patient.historico_medico}</p>
+                                <div className="p-2 sm:p-3 bg-gray-50 border border-gray-200 rounded-md">
+                                    <p className="text-gray-800 text-sm sm:text-base whitespace-pre-wrap break-words">{patient.historico_medico}</p>
                                 </div>
                             </div>
                         )}
@@ -197,8 +197,8 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-                                <p className="text-yellow-800 whitespace-pre-wrap">{patient.observacoes}</p>
+                            <div className="p-2 sm:p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+                                <p className="text-yellow-800 text-sm sm:text-base whitespace-pre-wrap break-words">{patient.observacoes}</p>
                             </div>
                         </CardContent>
                     </Card>
@@ -206,28 +206,28 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div className="space-y-4 lg:space-y-6">
                 {/* Status e Informações Rápidas */}
                 <Card>
                     <CardHeader>
                         <CardTitle>Status do Paciente</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-3 lg:space-y-4">
                         <div className="flex items-center justify-between">
-                            <span className="text-sm text-gray-500">Status</span>
+                            <span className="text-xs sm:text-sm text-gray-500">Status</span>
                             <Badge variant={patient.status === 'ativo' ? 'default' : 'secondary'}>
                                 {patient.status === 'ativo' ? 'Ativo' : 'Inativo'}
                             </Badge>
                         </div>
 
                         <div className="flex items-center justify-between">
-                            <span className="text-sm text-gray-500">Cadastrado em</span>
-                            <span className="text-sm font-medium">{formatDate(patient.criado_em)}</span>
+                            <span className="text-xs sm:text-sm text-gray-500">Cadastrado em</span>
+                            <span className="text-xs sm:text-sm font-medium">{formatDate(patient.criado_em)}</span>
                         </div>
 
                         <div className="flex items-center justify-between">
-                            <span className="text-sm text-gray-500">Última atualização</span>
-                            <span className="text-sm font-medium">{formatDateTime(patient.atualizado_em)}</span>
+                            <span className="text-xs sm:text-sm text-gray-500">Última atualização</span>
+                            <span className="text-xs sm:text-sm font-medium">{formatDateTime(patient.atualizado_em)}</span>
                         </div>
                     </CardContent>
                 </Card>
@@ -238,8 +238,8 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                         <CardTitle>Ações Rápidas</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-2">
-                        <div className="text-center text-sm text-gray-500 py-8">
-                            <Clock className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                        <div className="text-center text-xs sm:text-sm text-gray-500 py-6 lg:py-8">
+                            <Clock className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 text-gray-400" />
                             Histórico de consultas e conversas em breve
                         </div>
                     </CardContent>

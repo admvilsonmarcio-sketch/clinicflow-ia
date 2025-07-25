@@ -18,6 +18,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
     const { user, profile, refreshProfile } = useUser()
     const [needsSetup, setNeedsSetup] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
     useEffect(() => {
         checkSetup()
@@ -56,13 +57,29 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
         return <ClinicSetup onComplete={handleSetupComplete} />
     }
 
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen)
+    }
+
+    const closeSidebar = () => {
+        setIsSidebarOpen(false)
+    }
+
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="flex">
-                <Sidebar />
-                <div className="flex-1">
-                    <Header user={user} profile={profile} />
-                    <main className="p-6">
+                <Sidebar 
+                    isOpen={isSidebarOpen} 
+                    onClose={closeSidebar}
+                />
+                <div className="flex-1 min-w-0">
+                    <Header 
+                        user={user} 
+                        profile={profile}
+                        isSidebarOpen={isSidebarOpen}
+                        onToggleSidebar={toggleSidebar}
+                    />
+                    <main className="p-4 sm:p-6">
                         {children}
                     </main>
                 </div>

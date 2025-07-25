@@ -43,37 +43,37 @@ export default async function SettingsPage() {
     .eq('clinica_id', profile?.clinica_id)
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Configurações</h1>
-        <p className="text-gray-600">Gerencie suas preferências e integrações do sistema</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Configurações</h1>
+        <p className="text-sm md:text-base text-gray-600">Gerencie suas preferências e integrações do sistema</p>
       </div>
 
-      <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="profile" className="flex items-center gap-2">
-            <User className="h-4 w-4" />
-            Perfil
+      <Tabs defaultValue="profile" className="space-y-4 md:space-y-6">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1">
+          <TabsTrigger value="profile" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+            <User className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">Perfil</span>
           </TabsTrigger>
-          <TabsTrigger value="clinic" className="flex items-center gap-2">
-            <Building2 className="h-4 w-4" />
-            Clínica
+          <TabsTrigger value="clinic" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+            <Building2 className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">Clínica</span>
           </TabsTrigger>
-          <TabsTrigger value="integrations" className="flex items-center gap-2">
-            <MessageSquare className="h-4 w-4" />
-            Integrações
+          <TabsTrigger value="integrations" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+            <MessageSquare className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">Integrações</span>
           </TabsTrigger>
-          <TabsTrigger value="ai" className="flex items-center gap-2">
-            <Brain className="h-4 w-4" />
-            IA
+          <TabsTrigger value="ai" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+            <Brain className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">IA</span>
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex items-center gap-2">
-            <Bell className="h-4 w-4" />
-            Notificações
+          <TabsTrigger value="notifications" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+            <Bell className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">Notificações</span>
           </TabsTrigger>
-          <TabsTrigger value="security" className="flex items-center gap-2">
-            <Shield className="h-4 w-4" />
-            Segurança
+          <TabsTrigger value="security" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
+            <Shield className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden sm:inline">Segurança</span>
           </TabsTrigger>
         </TabsList>
 
@@ -112,7 +112,7 @@ export default async function SettingsPage() {
 
         {/* Aba Integrações */}
         <TabsContent value="integrations">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6">
             {/* WhatsApp */}
             <Card>
               <CardHeader>
@@ -236,7 +236,7 @@ export default async function SettingsPage() {
                 </div>
                 <div>
                   <label className="text-sm font-medium">Horário de Funcionamento da IA</label>
-                  <div className="grid grid-cols-2 gap-2 mt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
                     <Input type="time" defaultValue="08:00" />
                     <Input type="time" defaultValue="18:00" />
                   </div>
@@ -268,34 +268,34 @@ export default async function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">Novas mensagens</h4>
-                    <p className="text-sm text-gray-500">Receber notificação de novas mensagens de pacientes</p>
+              <div className="space-y-4 sm:space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                  <div className="flex-1">
+                    <h4 className="font-medium text-sm sm:text-base">Novas mensagens</h4>
+                    <p className="text-xs sm:text-sm text-gray-500">Receber notificação de novas mensagens de pacientes</p>
                   </div>
-                  <input type="checkbox" defaultChecked className="rounded" />
+                  <input type="checkbox" defaultChecked className="rounded self-start sm:self-center" />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">Consultas agendadas</h4>
-                    <p className="text-sm text-gray-500">Lembrete de consultas próximas</p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                  <div className="flex-1">
+                    <h4 className="font-medium text-sm sm:text-base">Consultas agendadas</h4>
+                    <p className="text-xs sm:text-sm text-gray-500">Lembrete de consultas próximas</p>
                   </div>
-                  <input type="checkbox" defaultChecked className="rounded" />
+                  <input type="checkbox" defaultChecked className="rounded self-start sm:self-center" />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">IA escalou conversa</h4>
-                    <p className="text-sm text-gray-500">Quando a IA não conseguir responder e escalar para humano</p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                  <div className="flex-1">
+                    <h4 className="font-medium text-sm sm:text-base">IA escalou conversa</h4>
+                    <p className="text-xs sm:text-sm text-gray-500">Quando a IA não conseguir responder e escalar para humano</p>
                   </div>
-                  <input type="checkbox" defaultChecked className="rounded" />
+                  <input type="checkbox" defaultChecked className="rounded self-start sm:self-center" />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">Relatórios semanais</h4>
-                    <p className="text-sm text-gray-500">Resumo semanal de atividades</p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                  <div className="flex-1">
+                    <h4 className="font-medium text-sm sm:text-base">Relatórios semanais</h4>
+                    <p className="text-xs sm:text-sm text-gray-500">Resumo semanal de atividades</p>
                   </div>
-                  <input type="checkbox" className="rounded" />
+                  <input type="checkbox" className="rounded self-start sm:self-center" />
                 </div>
               </div>
               <div className="border-t pt-4 mt-6">
@@ -319,21 +319,21 @@ export default async function SettingsPage() {
                   Mantenha sua conta segura com uma senha forte
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4">
                 <div>
                   <label className="text-sm font-medium">Senha Atual</label>
-                  <Input type="password" placeholder="Digite sua senha atual" />
+                  <Input type="password" placeholder="Digite sua senha atual" className="mt-1" />
                 </div>
                 <div>
                   <label className="text-sm font-medium">Nova Senha</label>
-                  <Input type="password" placeholder="Digite a nova senha" />
+                  <Input type="password" placeholder="Digite a nova senha" className="mt-1" />
                 </div>
                 <div>
                   <label className="text-sm font-medium">Confirmar Nova Senha</label>
-                  <Input type="password" placeholder="Confirme a nova senha" />
+                  <Input type="password" placeholder="Confirme a nova senha" className="mt-1" />
                 </div>
-                <div className="flex justify-end">
-                  <Button>Alterar Senha</Button>
+                <div className="flex justify-end pt-2">
+                  <Button className="w-full sm:w-auto">Alterar Senha</Button>
                 </div>
               </CardContent>
             </Card>
@@ -346,13 +346,13 @@ export default async function SettingsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-3 border rounded">
-                    <div>
-                      <h4 className="font-medium">Sessão Atual</h4>
-                      <p className="text-sm text-gray-500">Windows • Chrome • Agora</p>
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 p-3 border rounded">
+                    <div className="flex-1">
+                      <h4 className="font-medium text-sm sm:text-base">Sessão Atual</h4>
+                      <p className="text-xs sm:text-sm text-gray-500">Windows • Chrome • Agora</p>
                     </div>
-                    <Badge variant="secondary">Ativo</Badge>
+                    <Badge variant="secondary" className="self-start sm:self-center">Ativo</Badge>
                   </div>
                 </div>
               </CardContent>

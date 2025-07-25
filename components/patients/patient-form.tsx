@@ -242,61 +242,65 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
             {/* Informações Básicas */}
-            <div className="space-y-4">
-                <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-                    <User className="h-5 w-5" />
+            <div className="space-y-3 md:space-y-4">
+                <div className="flex items-center gap-2 text-base md:text-lg font-semibold text-gray-900">
+                    <User className="h-4 w-4 md:h-5 md:w-5" />
                     Informações Básicas
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <div className="md:col-span-2">
-                        <label className="text-sm font-medium">Nome Completo *</label>
+                        <label className="text-xs md:text-sm font-medium">Nome Completo *</label>
                         <Input
                             value={formData.nome_completo}
                             onChange={(e) => handleChange('nome_completo', e.target.value)}
                             placeholder="Nome completo do paciente"
                             required
+                            className="text-sm md:text-base"
                         />
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium">Email</label>
+                        <label className="text-xs md:text-sm font-medium">Email</label>
                         <Input
                             type="text"
                             value={formData.email}
                             onChange={(e) => handleChange('email', e.target.value)}
                             placeholder="email@exemplo.com"
+                            className="text-sm md:text-base"
                         />
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium">Telefone *</label>
+                        <label className="text-xs md:text-sm font-medium">Telefone *</label>
                         <InputWithMask
                             mask="(99) 99999-9999"
                             value={formData.telefone}
                             onChange={(e) => handleChange('telefone', e.target.value)}
                             placeholder="(11) 99999-9999"
                             required
+                            className="text-sm md:text-base"
                         />
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium">Data de Nascimento</label>
+                        <label className="text-xs md:text-sm font-medium">Data de Nascimento</label>
                         <Input
                             type="date"
                             value={formData.data_nascimento}
                             onChange={(e) => handleChange('data_nascimento', e.target.value)}
+                            className="text-sm md:text-base"
                         />
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium">Gênero</label>
+                        <label className="text-xs md:text-sm font-medium">Gênero</label>
                         <select
                             value={formData.genero}
                             onChange={(e) => handleChange('genero', e.target.value)}
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm md:text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         >
                             <option value="masculino">Masculino</option>
                             <option value="feminino">Feminino</option>
@@ -307,129 +311,135 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
             </div>
 
             {/* Endereço */}
-            <div className="space-y-4">
-                <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-                    <MapPin className="h-5 w-5" />
+            <div className="space-y-3 md:space-y-4">
+                <div className="flex items-center gap-2 text-base md:text-lg font-semibold text-gray-900">
+                    <MapPin className="h-4 w-4 md:h-5 md:w-5" />
                     Endereço
                 </div>
 
                 <div>
-                    <label className="text-sm font-medium">Endereço Completo</label>
+                    <label className="text-xs md:text-sm font-medium">Endereço Completo</label>
                     <Input
                         value={formData.endereco}
                         onChange={(e) => handleChange('endereco', e.target.value)}
                         placeholder="Rua, número, bairro, cidade - UF, CEP"
+                        className="text-sm md:text-base"
                     />
                 </div>
             </div>
 
             {/* Contato de Emergência */}
-            <div className="space-y-4">
-                <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-                    <Phone className="h-5 w-5" />
+            <div className="space-y-3 md:space-y-4">
+                <div className="flex items-center gap-2 text-base md:text-lg font-semibold text-gray-900">
+                    <Phone className="h-4 w-4 md:h-5 md:w-5" />
                     Contato de Emergência
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <div>
-                        <label className="text-sm font-medium">Nome do Contato</label>
+                        <label className="text-xs md:text-sm font-medium">Nome do Contato</label>
                         <Input
                             value={formData.contato_emergencia}
                             onChange={(e) => handleChange('contato_emergencia', e.target.value)}
                             placeholder="Nome do responsável"
+                            className="text-sm md:text-base"
                         />
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium">Telefone de Emergência</label>
+                        <label className="text-xs md:text-sm font-medium">Telefone de Emergência</label>
                         <InputWithMask
                             mask="(99) 99999-9999"
                             value={formData.telefone_emergencia}
                             onChange={(e) => handleChange('telefone_emergencia', e.target.value)}
                             placeholder="(11) 99999-9999"
+                            className="text-sm md:text-base"
                         />
                     </div>
                 </div>
             </div>
 
             {/* Informações Médicas */}
-            <div className="space-y-4">
-                <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-                    <Heart className="h-5 w-5" />
+            <div className="space-y-3 md:space-y-4">
+                <div className="flex items-center gap-2 text-base md:text-lg font-semibold text-gray-900">
+                    <Heart className="h-4 w-4 md:h-5 md:w-5" />
                     Informações Médicas
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3 md:space-y-4">
                     <div>
-                        <label className="text-sm font-medium">Histórico Médico</label>
+                        <label className="text-xs md:text-sm font-medium">Histórico Médico</label>
                         <textarea
                             value={formData.historico_medico}
                             onChange={(e) => handleChange('historico_medico', e.target.value)}
                             placeholder="Histórico médico relevante, cirurgias anteriores, etc."
-                            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                            className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm md:text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                             rows={3}
                         />
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium">Alergias</label>
+                        <label className="text-xs md:text-sm font-medium">Alergias</label>
                         <Input
                             value={formData.alergias}
                             onChange={(e) => handleChange('alergias', e.target.value)}
                             placeholder="Alergias conhecidas (medicamentos, alimentos, etc.)"
+                            className="text-sm md:text-base"
                         />
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium">Medicamentos em Uso</label>
+                        <label className="text-xs md:text-sm font-medium">Medicamentos em Uso</label>
                         <Input
                             value={formData.medicamentos}
                             onChange={(e) => handleChange('medicamentos', e.target.value)}
                             placeholder="Medicamentos que o paciente está tomando"
+                            className="text-sm md:text-base"
                         />
                     </div>
                 </div>
             </div>
 
             {/* Observações */}
-            <div className="space-y-4">
-                <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-                    <FileText className="h-5 w-5" />
+            <div className="space-y-3 md:space-y-4">
+                <div className="flex items-center gap-2 text-base md:text-lg font-semibold text-gray-900">
+                    <FileText className="h-4 w-4 md:h-5 md:w-5" />
                     Observações Gerais
                 </div>
 
                 <div>
-                    <label className="text-sm font-medium">Observações</label>
+                    <label className="text-xs md:text-sm font-medium">Observações</label>
                     <textarea
                         value={formData.observacoes}
                         onChange={(e) => handleChange('observacoes', e.target.value)}
                         placeholder="Observações gerais sobre o paciente..."
-                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm md:text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         rows={3}
                     />
                 </div>
             </div>
 
             {/* Botões de Ação */}
-            <div className="flex justify-end gap-4 pt-6 border-t">
+            <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-4 md:pt-6 border-t">
                 <Button
                     type="button"
                     variant="outline"
                     onClick={() => router.back()}
                     disabled={loading}
+                    className="w-full sm:w-auto text-sm md:text-base"
                 >
                     Cancelar
                 </Button>
 
-                <Button type="submit" disabled={loading}>
+                <Button type="submit" disabled={loading} className="w-full sm:w-auto text-sm md:text-base">
                     {loading ? (
                         <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            <Loader2 className="mr-2 h-3 w-3 md:h-4 md:w-4 animate-spin" />
                             {isEditing ? 'Atualizando...' : 'Cadastrando...'}
                         </>
                     ) : (
                         <>
-                            <Save className="mr-2 h-4 w-4" />
+                            <Save className="mr-2 h-3 w-3 md:h-4 md:w-4" />
                             {isEditing ? 'Atualizar Paciente' : 'Cadastrar Paciente'}
                         </>
                     )}
