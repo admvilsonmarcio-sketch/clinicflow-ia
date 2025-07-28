@@ -1,6 +1,6 @@
 {
   "name": "mediflow",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,6 +11,7 @@
     "type-check": "tsc --noEmit",
     "db:types": "supabase gen types typescript --project-id YOUR_PROJECT_ID > types/supabase.ts",
     "validate-schema": "npx tsx scripts/validate-schema-types.ts",
+    "init-storage": "npx tsx scripts/init-storage.ts",
     "test": "echo 'Testes não implementados ainda' && exit 0"
   },
   "dependencies": {
@@ -18,6 +19,7 @@
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.1.12",
@@ -33,7 +35,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
-    "react-input-mask": "^2.0.4",
+    "react-imask": "^7.6.1",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.1.0",
@@ -43,9 +45,9 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@types/react-input-mask": "^3.0.6",
     "@types/uuid": "^10.0.0",
     "autoprefixer": "^10.4.21",
+    "dotenv": "^17.2.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.0.4",
     "postcss": "^8.5.6",
