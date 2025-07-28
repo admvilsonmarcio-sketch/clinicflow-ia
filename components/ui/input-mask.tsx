@@ -5,9 +5,10 @@ import { IMaskInput } from "react-imask"
 import { cn } from "@/lib/utils"
 
 export interface InputMaskProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value'> {
   mask: string
   maskChar?: string | null
+  value?: string
 }
 
 const InputWithMask = React.forwardRef<HTMLInputElement, InputMaskProps>(
