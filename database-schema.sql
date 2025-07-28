@@ -90,7 +90,33 @@ CREATE TABLE consultas (
 );
 
 -- =============================================
--- MENSAGENS E CONVERSAS
+-- DOCUMENTOS DE PACIENTES
+-- =============================================
+
+CREATE TABLE documentos_pacientes (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    paciente_id UUID REFERENCES pacientes(id) ON DELETE CASCADE NOT NULL,
+    clinica_id UUID REFERENCES clinicas(id) NOT NULL,
+    nome_arquivo TEXT NOT NULL,
+    tipo_arquivo TEXT NOT NULL, -- 'pdf', 'jpg', 'png', 'doc', etc.
+    tamanho_arquivo INTEGER NOT NULL, -- em bytes
+    url_arquivo TEXT NOT NULL, -- URL do Supabase Storage
+    categoria TEXT CHECK (categoria IN ('exame', 'receita', 'atestado', 'documento_pessoal', 'outro')) DEFAULT 'outro',
+    descricao TEXT,
+    data_documento DATE,
+    criado_por UUID REFERENCES auth.users(id),
+    criado_em TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    atualizado_em TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Índices para documentos
+CREATE INDEX idx_documentos_paciente_id ON documentos_pacientes(paciente_id);
+CREATE INDEX idx_documentos_clinica_id ON documentos_pacientes(clinica_id);
+CREATE INDEX idx_documentos_categoria ON documentos_pacientes(categoria);
+CREATE INDEX idx_documentos_criado_em ON documentos_pacientes(criado_em);
+
+-- =============================================
+-- CONVERSAS E MENSAGENS
 -- =============================================
 
 CREATE TABLE conversas (
@@ -218,6 +244,7 @@ USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
 ALTER TABLE perfis ENABLE ROW LEVEL SECURITY;
 ALTER TABLE clinicas ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pacientes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE documentos_pacientes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE consultas ENABLE ROW LEVEL SECURITY;
 ALTER TABLE conversas ENABLE ROW LEVEL SECURITY;
 ALTER TABLE mensagens ENABLE ROW LEVEL SECURITY;
@@ -238,6 +265,13 @@ CREATE POLICY "Usuários podem acessar dados da clínica" ON clinicas
     );
 
 CREATE POLICY "Usuários podem acessar pacientes da clínica" ON pacientes
+    FOR ALL USING (
+        clinica_id IN (
+            SELECT clinica_id FROM perfis WHERE id = auth.uid()
+        )
+    );
+
+CREATE POLICY "Usuários podem acessar documentos da clínica" ON documentos_pacientes
     FOR ALL USING (
         clinica_id IN (
             SELECT clinica_id FROM perfis WHERE id = auth.uid()
@@ -295,6 +329,9 @@ CREATE TRIGGER trigger_clinicas_atualizado_em BEFORE UPDATE ON clinicas
     FOR EACH ROW EXECUTE FUNCTION atualizar_timestamp_atualizacao();
 
 CREATE TRIGGER trigger_pacientes_atualizado_em BEFORE UPDATE ON pacientes
+    FOR EACH ROW EXECUTE FUNCTION atualizar_timestamp_atualizacao();
+
+CREATE TRIGGER trigger_documentos_pacientes_atualizado_em BEFORE UPDATE ON documentos_pacientes
     FOR EACH ROW EXECUTE FUNCTION atualizar_timestamp_atualizacao();
 
 CREATE TRIGGER trigger_consultas_atualizado_em BEFORE UPDATE ON consultas

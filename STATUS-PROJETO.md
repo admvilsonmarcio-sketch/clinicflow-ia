@@ -1,7 +1,7 @@
 # 📊 Status do Projeto MediFlow
 
-**Última atualização:** 29/12/2024  
-**Versão atual:** 0.2.1 (MVP - Fase 1 Completa + Melhorias UX)
+**Última atualização:** 02/01/2025  
+**Versão atual:** 0.3.0 (MVP - Fase 1 + Sistema de Documentos)
 
 ---
 
@@ -56,6 +56,8 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 - [x] **Navegação otimizada** entre páginas de pacientes
 - [x] **Setup inicial** para configuração de clínica
 - [x] **Formulários responsivos** com validação em tempo real
+- [x] **Sistema de documentos** completo com upload e gerenciamento
+- [x] **Supabase Storage** configurado para arquivos de pacientes
 
 ## 🔄 FASE 2: Core Features (Concluída)
 
@@ -70,7 +72,9 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 - [x] **CRUD completo** implementado e funcional
 - [x] **Context API** para estado global
 - [x] **Páginas dinâmicas** com parâmetros [id]
-- [ ] Upload de documentos/fotos
+- [x] **Upload de documentos/fotos** com categorização
+- [x] **Visualização e download** de documentos
+- [x] **Exclusão segura** de documentos
 - [ ] Busca avançada de pacientes
 
 ### 📅 Sistema de Agendamentos (Próximo)
@@ -107,7 +111,8 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 - [ ] **Gestão de horários** disponíveis
 
 ### 📋 Melhorias de Pacientes
-- [ ] **Upload de documentos** e fotos
+- [x] **Upload de documentos** e fotos com categorização
+- [x] **Gerenciamento de documentos** (visualizar, baixar, excluir)
 - [ ] **Histórico médico** avançado com timeline
 - [ ] **Busca avançada** de pacientes
 - [ ] **Filtros** por status, data, etc.
@@ -175,6 +180,17 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 - [x] **Tailwind CSS** configurado corretamente
 - [x] **Next.js 14** atualizado para versão segura
 
+### ✅ SISTEMA DE DOCUMENTOS IMPLEMENTADO (02/01/2025)
+- [x] **📁 Supabase Storage** configurado com bucket 'documentos-pacientes'
+- [x] **🔐 Row Level Security** implementado para isolamento por clínica
+- [x] **📤 Upload de documentos** com validação de tipo e tamanho
+- [x] **📂 Categorização** de documentos (exames, receitas, laudos, etc.)
+- [x] **👁️ Visualização** de documentos em nova aba
+- [x] **💾 Download** de arquivos com nome original
+- [x] **🗑️ Exclusão segura** com confirmação
+- [x] **🐛 Correção de navegação** - botões não submetem formulário
+- [x] **✅ UX otimizada** - permanece na tela de edição durante trabalho com documentos
+
 ---
 
 ## ⚠️ Problemas CONHECIDOS
@@ -190,13 +206,14 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 ## 📈 Métricas do Projeto
 
 ### 📊 Estatísticas Atuais
-- **Arquivos criados:** 35+
-- **Linhas de código:** ~3.500+
-- **Componentes UI:** 12+ componentes funcionais
+- **Arquivos criados:** 40+
+- **Linhas de código:** ~4.200+
+- **Componentes UI:** 14+ componentes funcionais
 - **Páginas funcionais:** 8 páginas completas
-- **Tabelas no banco:** 10 tabelas principais
+- **Tabelas no banco:** 11 tabelas principais
 - **Context API:** 1 contexto global implementado
-- **Tempo de desenvolvimento:** ~12 horas
+- **Sistema de Storage:** Supabase Storage configurado
+- **Tempo de desenvolvimento:** ~16 horas
 
 ### 🎯 Metas da Próxima Sprint
 - **CRUD completo** de pacientes (3-4 dias)

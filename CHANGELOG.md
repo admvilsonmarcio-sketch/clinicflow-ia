@@ -11,6 +11,46 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - Sistema de agendamentos com calendário interativo
 - Integração com WhatsApp Business API
 - Dashboard de analytics avançado
+- Busca avançada de pacientes
+- Histórico médico com timeline
+
+---
+
+## [0.3.0] - 2025-01-02
+
+### ✨ Adicionado
+- **📁 Sistema completo de documentos** para pacientes
+- **🔐 Supabase Storage** configurado com bucket 'documentos-pacientes'
+- **📤 Upload de documentos** com validação de tipo e tamanho (máx 10MB)
+- **📂 Categorização de documentos** (Exame, Receita, Laudo, Atestado, Outros)
+- **👁️ Visualização de documentos** em nova aba do navegador
+- **💾 Download de arquivos** mantendo nome original
+- **🗑️ Exclusão segura** de documentos com confirmação
+- **📋 Tabela documentos_pacientes** no banco de dados
+- **🔒 Row Level Security (RLS)** para isolamento por clínica
+- **📝 Campo de descrição opcional** para documentos
+- **📅 Data do documento** configurável
+
+### 🎨 Melhorado
+- **UX otimizada** - usuário permanece na tela de edição durante trabalho com documentos
+- **Navegação inteligente** - redirecionamento apenas após salvar paciente
+- **Interface de upload** com drag & drop e preview
+- **Lista de documentos** com informações detalhadas (categoria, tamanho, data)
+- **Ícones contextuais** para diferentes tipos de documentos
+
+### 🔧 Corrigido
+- **Bug de navegação** - botões de documentos não submetem mais o formulário
+- **Atributo type="button"** adicionado em todos os botões de ação
+- **Submit inesperado** do formulário ao interagir com documentos
+- **Mensagens de sucesso** incorretas durante operações com documentos
+
+### 🛠️ Técnico
+- **Componente DocumentUpload** para upload de arquivos
+- **Componente DocumentList** para listagem e gerenciamento
+- **Integração com Supabase Storage** para armazenamento seguro
+- **Políticas RLS** implementadas para segurança
+- **Validação de tipos** de arquivo (PDF, imagens, documentos)
+- **Tratamento de erros** robusto em operações de arquivo
 
 ---
 

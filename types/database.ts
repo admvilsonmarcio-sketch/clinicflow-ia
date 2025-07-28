@@ -274,6 +274,53 @@ export interface Database {
           criado_em?: string
         }
       }
+      documentos_pacientes: {
+        Row: {
+          id: string
+          paciente_id: string
+          clinica_id: string
+          nome_arquivo: string
+          tipo_arquivo: string
+          tamanho_arquivo: number
+          url_arquivo: string
+          categoria: 'exame' | 'receita' | 'atestado' | 'laudo' | 'outros'
+          descricao: string | null
+          data_documento: string | null
+          criado_por: string
+          criado_em: string
+          atualizado_em: string
+        }
+        Insert: {
+          id?: string
+          paciente_id: string
+          clinica_id: string
+          nome_arquivo: string
+          tipo_arquivo: string
+          tamanho_arquivo: number
+          url_arquivo: string
+          categoria?: 'exame' | 'receita' | 'atestado' | 'laudo' | 'outros'
+          descricao?: string | null
+          data_documento?: string | null
+          criado_por: string
+          criado_em?: string
+          atualizado_em?: string
+        }
+        Update: {
+          id?: string
+          paciente_id?: string
+          clinica_id?: string
+          nome_arquivo?: string
+          tipo_arquivo?: string
+          tamanho_arquivo?: number
+          url_arquivo?: string
+          categoria?: 'exame' | 'receita' | 'atestado' | 'laudo' | 'outros'
+          descricao?: string | null
+          data_documento?: string | null
+          criado_por?: string
+          criado_em?: string
+          atualizado_em?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

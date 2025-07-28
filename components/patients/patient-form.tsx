@@ -10,7 +10,9 @@ import { createClient } from '@/lib/supabase'
 import { pacienteSchema, z } from '@/lib/validations'
 import { medicalLogger } from '@/lib/logging/medical-logger'
 import { MedicalAction } from '@/lib/logging/types'
-import { Loader2, Save, User, Phone, MapPin, Heart, FileText } from 'lucide-react'
+import { Loader2, Save, User, Phone, MapPin, Heart, FileText, Upload } from 'lucide-react'
+import { DocumentUpload } from './document-upload'
+import { DocumentList } from './document-list'
 
 interface PatientData {
     id?: string
@@ -35,6 +37,7 @@ interface PatientFormProps {
 
 export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
     const [loading, setLoading] = useState(false)
+    const [documentRefresh, setDocumentRefresh] = useState(0)
     const [formData, setFormData] = useState({
         nome_completo: patient?.nome_completo || '',
         email: patient?.email || '',
@@ -418,6 +421,25 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                     />
                 </div>
             </div>
+
+            {/* Documentos - Apenas para pacientes existentes */}
+            {isEditing && patient?.id && (
+                <div className="space-y-4 md:space-y-6">
+                    <div className="border-t pt-4 md:pt-6">
+                        <DocumentUpload 
+                            pacienteId={patient.id}
+                            onDocumentUploaded={() => setDocumentRefresh(prev => prev + 1)}
+                        />
+                    </div>
+                    
+                    <div>
+                        <DocumentList 
+                            pacienteId={patient.id}
+                            refreshTrigger={documentRefresh}
+                        />
+                    </div>
+                </div>
+            )}
 
             {/* Botões de Ação */}
             <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-4 md:pt-6 border-t">
