@@ -35,44 +35,96 @@
   - [x] Tabelas com scroll horizontal
   - [x] Cards e grids responsivos
 
-## 🔄 Fase 4: Segurança Médica (Próxima)
+## ✅ Fase 3.5: Busca Avançada e Histórico (Concluída - 03/01/2025)
+- [x] **Busca avançada** com filtros múltiplos (nome, CPF, telefone, convênio)
+- [x] **Histórico médico** com timeline e paginação
+- [x] **Navegação otimizada** com duplo clique nos cards
+- [x] **Componente PatientHistory** com consultas e procedimentos
+- [x] **Queries otimizadas** no Supabase com ordenação e filtros
+- [x] **UX melhorada** com loading states e feedback visual
 
-### 4.1 API Routes com Validação Server-Side
+## 🔄 Fase 4: Melhorias no Cadastro de Pacientes (Próxima - Prioridade Alta)
+
+### 4.1 Campos Obrigatórios e Validações
+- [ ] **Campo CPF obrigatório** com validação e máscara
+- [ ] **Validação de CPF** com algoritmo de dígitos verificadores
+- [ ] **RG com órgão emissor** e UF
+- [ ] **Data de nascimento** com validação de idade
+- [ ] **Telefone celular obrigatório** com máscara (11) 99999-9999
+- [ ] **Email com validação** de formato e domínio
+- [ ] **Convênio médico** com número da carteirinha
+
+### 4.2 Estrutura de Endereço Completa
+- [ ] **Integração ViaCEP API** para preenchimento automático
+- [ ] **Campos separados de endereço:**
+  - [ ] CEP (obrigatório) com máscara 99999-999
+  - [ ] Logradouro (preenchido automaticamente)
+  - [ ] Número (obrigatório)
+  - [ ] Complemento (opcional)
+  - [ ] Bairro (preenchido automaticamente)
+  - [ ] Cidade (preenchida automaticamente)
+  - [ ] Estado/UF (preenchido automaticamente)
+- [ ] **Validação de CEP** com feedback de erro
+- [ ] **Fallback manual** caso API não encontre o CEP
+
+### 4.3 Melhorias de UX/UI no Formulário
+- [ ] **Formulário multi-step (wizard)** dividido em etapas:
+  - [ ] Etapa 1: Dados Pessoais (nome, CPF, RG, nascimento)
+  - [ ] Etapa 2: Contato (telefone, email, endereço)
+  - [ ] Etapa 3: Informações Médicas (convênio, observações)
+  - [ ] Etapa 4: Revisão e Confirmação
+- [ ] **Barra de progresso** visual entre etapas
+- [ ] **Validação em tempo real** com feedback imediato
+- [ ] **Salvamento automático** de rascunho
+- [ ] **Navegação entre etapas** com botões Anterior/Próximo
+- [ ] **Responsividade aprimorada** para mobile
+
+### 4.4 Funcionalidades Avançadas
+- [ ] **Busca de paciente por CPF** antes do cadastro (evitar duplicatas)
+- [ ] **Foto do paciente** com upload opcional
+- [ ] **QR Code** para identificação rápida
+- [ ] **Histórico de alterações** no cadastro
+- [ ] **Campos personalizáveis** por clínica
+- [ ] **Importação em lote** via CSV/Excel
+
+## 🔄 Fase 5: Segurança Médica
+
+### 5.1 API Routes com Validação Server-Side
 - [ ] Criar API routes para todas as entidades
 - [ ] Implementar validação server-side com Zod
 - [ ] Adicionar rate limiting para operações médicas
 - [ ] Implementar controle de permissões granular
 - [ ] Criar middleware de autenticação médica
 
-### 4.2 Sistema de Agendamentos
+### 5.2 Sistema de Agendamentos
 - [ ] Calendário interativo
 - [ ] Criação de consultas
 - [ ] Integração Google Calendar
 - [ ] Notificações automáticas
 - [ ] Confirmação via WhatsApp
 
-### 4.3 Atendimento Automatizado
+### 5.3 Atendimento Automatizado
 - [ ] Interface de conversas
 - [ ] Integração EvolutionAPI
 - [ ] Sistema de IA com OpenAI
 - [ ] Embeddings para contexto
 - [ ] Escalação para humanos
 
-## 🔮 Fase 5: Integrações Avançadas
+## 🔮 Fase 6: Integrações Avançadas
 
-### 5.1 N8N Workflows
+### 6.1 N8N Workflows
 - [ ] Webhook para mensagens
 - [ ] Fluxo de agendamento automático
 - [ ] Lembretes de consulta
 - [ ] Follow-up pós-consulta
 
-### 5.2 IA Avançada
+### 6.2 IA Avançada
 - [ ] Base de conhecimento
 - [ ] Treinamento com dados da clínica
 - [ ] Respostas personalizadas
 - [ ] Análise de sentimento
 
-### 5.3 Relatórios e Analytics
+### 6.3 Relatórios e Analytics
 - [ ] Dashboard de métricas
 - [ ] Relatórios de atendimento
 - [ ] Performance da IA
@@ -80,14 +132,25 @@
 
 ## 📋 Próximos Passos Imediatos
 
-### 1. Melhorar CRUD de Pacientes
+### 1. Melhorar Cadastro de Pacientes (PRIORIDADE MÁXIMA)
 ```typescript
-// Componentes necessários:
-- [x] PatientForm (novo/editar) - ✅ Concluído
-- [x] PatientDetails (visualização) - ✅ Concluído
-- [x] DocumentUpload/DocumentList - ✅ Concluído
-- [x] PatientSearch (busca avançada) ✅
-- [x] PatientHistory (histórico médico) ✅
+// Componentes a implementar:
+- [ ] PatientFormWizard (formulário multi-step)
+- [ ] AddressForm (com integração ViaCEP)
+- [ ] CPFInput (com validação e máscara)
+- [ ] PhoneInput (com máscara brasileira)
+- [ ] ProgressBar (indicador de etapas)
+- [ ] DuplicateChecker (verificação de CPF existente)
+```
+
+### 2. Integração ViaCEP
+```typescript
+// Estrutura da API:
+- [ ] /lib/integrations/viacep.ts
+- [ ] Hook useAddress(cep)
+- [ ] Componente AddressAutocomplete
+- [ ] Validação de CEP brasileiro
+- [ ] Fallback para preenchimento manual
 ```
 
 ### 2. Sistema de Agendamentos

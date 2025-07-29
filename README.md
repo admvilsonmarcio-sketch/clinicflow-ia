@@ -44,7 +44,7 @@ O **MediFlow** é uma plataforma completa de gestão médica que combina automa�
 
 ## 🚀 Funcionalidades
 
-### ✅ **Implementado** (Fases 1-3)
+### ✅ **Implementado** (v0.4.0)
 
 <table>
 <tr>
@@ -83,20 +83,24 @@ O **MediFlow** é uma plataforma completa de gestão médica que combina automa�
 </tr>
 </table>
 
-### 🔄 **Em Desenvolvimento** (Fase 4)
+### 🔄 **Em Desenvolvimento** (v0.5.0) - Melhorias no Cadastro
 
-- **🔐 API Routes** - Validação server-side robusta
-- **📅 Sistema de Agendamentos** - Calendário interativo completo
-- **🤖 Atendimento Automatizado** - IA via WhatsApp/Instagram
-- **🧪 Testes Automatizados** - Cobertura completa de testes
-- **🔍 Sistema de Auditoria** - Dashboard de rastreabilidade
+- **Campos obrigatórios** com validação de CPF, RG e telefone
+- **Integração ViaCEP** para preenchimento automático de endereço
+- **Formulário wizard** dividido em etapas lógicas
+- **Validações em tempo real** com feedback imediato
+- **Máscaras brasileiras** para CPF, telefone e CEP
+- **Verificação de duplicatas** por CPF
+- **Upload de foto** do paciente
+- **Salvamento automático** de rascunho
 
-### 📋 **Planejado** (Fase 5)
+### 📋 **Roadmap**
 
-- **🔗 Google Calendar** - Sincronização automática
-- **🤖 N8N Workflows** - Automação avançada
-- **🧠 IA Avançada** - Base de conhecimento personalizada
-- **📊 Analytics** - Relatórios e métricas detalhadas
+- **v0.6.0** - Sistema de Agendamentos com calendário interativo
+- **v0.7.0** - Integração WhatsApp via EvolutionAPI
+- **v0.8.0** - IA Médica com assistente inteligente OpenAI
+- **v0.9.0** - Relatórios avançados e dashboard de métricas
+- **v1.0.0** - Telemedicina e consultas online integradas
 
 ## 🚀 Instalação
 

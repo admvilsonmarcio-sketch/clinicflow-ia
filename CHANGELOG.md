@@ -7,7 +7,19 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Não Lançado]
 
-### Planejado
+### Planejado para v0.5.0 - Melhorias no Cadastro de Pacientes
+- **Campos obrigatórios:** CPF, RG, telefone celular, email
+- **Validações avançadas:** CPF brasileiro, email, telefone
+- **Estrutura de endereço completa** com integração ViaCEP API
+- **Formulário multi-step (wizard)** dividido em 4 etapas
+- **Preenchimento automático** de endereço via CEP
+- **Verificação de duplicatas** por CPF
+- **Upload de foto** do paciente (opcional)
+- **Máscaras brasileiras** para CPF, telefone e CEP
+- **Salvamento automático** de rascunho
+- **Responsividade aprimorada** para mobile
+
+### Planejado para versões futuras
 - Sistema de agendamentos com calendário interativo
 - Integração com WhatsApp Business API
 - Dashboard de analytics avançado

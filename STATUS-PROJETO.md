@@ -136,6 +136,65 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 
 ---
 
+## 🎯 Próximos Objetivos (Sprint 4)
+
+### Prioridade Máxima - Melhorias no Cadastro de Pacientes
+- [ ] **Campos Obrigatórios e Validações**
+  - Campo CPF obrigatório com validação
+  - RG com órgão emissor e UF
+  - Telefone celular com máscara brasileira
+  - Email com validação de formato
+  - Convênio médico com carteirinha
+
+- [ ] **Estrutura de Endereço Completa**
+  - Integração com ViaCEP API
+  - Campos separados (CEP, logradouro, número, bairro, cidade, UF)
+  - Preenchimento automático via CEP
+  - Validação de CEP brasileiro
+  - Fallback para preenchimento manual
+
+- [ ] **Formulário Multi-Step (Wizard)**
+  - Etapa 1: Dados Pessoais (nome, CPF, RG, nascimento)
+  - Etapa 2: Contato (telefone, email, endereço)
+  - Etapa 3: Informações Médicas (convênio, observações)
+  - Etapa 4: Revisão e Confirmação
+  - Barra de progresso visual
+  - Validação em tempo real
+  - Salvamento automático de rascunho
+
+### Prioridade Alta
+- [ ] **Funcionalidades Avançadas do Cadastro**
+  - Busca por CPF antes do cadastro (evitar duplicatas)
+  - Foto do paciente com upload opcional
+  - QR Code para identificação rápida
+  - Histórico de alterações no cadastro
+  - Importação em lote via CSV/Excel
+
+- [ ] **Sistema de Agendamentos**
+  - Calendário interativo
+  - Criação e edição de consultas
+  - Notificações automáticas
+  - Integração com Google Calendar
+
+### Prioridade Média
+- [ ] **Melhorias de Performance**
+  - Otimização de queries
+  - Cache de dados frequentes
+  - Lazy loading de componentes
+  - Compressão de imagens
+
+- [ ] **Relatórios Médicos**
+  - Dashboard de métricas
+  - Relatórios de atendimento
+  - Exportação em PDF
+  - Gráficos de performance
+
+- [ ] **Integração WhatsApp**
+  - Configuração EvolutionAPI
+  - Webhooks para mensagens
+  - Respostas automáticas
+  - Escalação para atendentes
+
 ## 🚀 PLANEJADO (Futuras Versões)
 
 ### 🤖 IA e Automação Avançada
@@ -232,6 +291,22 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 - **Funcionalidades avançadas:** Busca, filtros, histórico médico
 - **Tempo de desenvolvimento:** ~20 horas
 
+## 🔍 Análise de Melhorias Necessárias
+
+### Problemas Identificados no Cadastro Atual
+1. **Campos obrigatórios ausentes:** CPF, telefone celular, endereço completo
+2. **Validações insuficientes:** Sem validação de CPF, email básica
+3. **UX problemática:** Formulário muito longo em uma única página
+4. **Endereço inadequado:** Campo único sem estrutura de CEP/logradouro
+5. **Falta de integração:** Sem API de CEP para preenchimento automático
+
+### Soluções Baseadas em Pesquisa UX
+1. **Formulário wizard:** Dividir em etapas lógicas
+2. **Validação em tempo real:** Feedback imediato ao usuário
+3. **Preenchimento automático:** Integração com ViaCEP
+4. **Campos obrigatórios claros:** Indicação visual e validação
+5. **Responsividade:** Otimização para dispositivos móveis
+
 ### 🎯 Metas da Próxima Sprint
 - **Sistema de agendamentos** com calendário interativo (5-7 dias)
 - **Integração Google Calendar** para sincronização (3-4 dias)
@@ -266,3 +341,32 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 
 **🚀 Próxima atualização prevista:** 10/01/2025  
 **📋 Foco atual:** Fase 3 - Sistema de Agendamentos e Integração Google Calendar
+
+## 📋 Checklist de Implementação - Cadastro de Pacientes
+
+### Fase 1: Estrutura Base (1-2 dias)
+- [ ] Criar componente `PatientFormWizard`
+- [ ] Implementar `ProgressBar` para etapas
+- [ ] Configurar validação Zod para novos campos
+- [ ] Criar hook `useFormWizard` para navegação
+
+### Fase 2: Integração ViaCEP (1 dia)
+- [ ] Implementar `/lib/integrations/viacep.ts`
+- [ ] Criar hook `useAddress(cep)`
+- [ ] Desenvolver componente `AddressForm`
+- [ ] Adicionar validação de CEP brasileiro
+
+### Fase 3: Validações e Máscaras (1 dia)
+- [ ] Implementar validação de CPF
+- [ ] Criar componente `CPFInput` com máscara
+- [ ] Desenvolver `PhoneInput` com máscara brasileira
+- [ ] Adicionar validação de email avançada
+
+### Fase 4: UX e Funcionalidades (1-2 dias)
+- [ ] Implementar salvamento automático
+- [ ] Criar verificação de duplicatas por CPF
+- [ ] Adicionar upload de foto opcional
+- [ ] Implementar navegação entre etapas
+- [ ] Testes de responsividade mobile
+
+**Estimativa total:** 5-6 dias de desenvolvimento
