@@ -7,6 +7,13 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Não Lançado]
 
+### 🐛 Bugs Identificados - Prioridade Alta
+- **Layout inconsistente:** Telas de cadastrar/editar paciente devem seguir o mesmo padrão do formulário de configuração
+- **Botões não funcionais:** Botões "Salvar" e "Editar" não estão respondendo adequadamente
+- **Navegação travada:** Menus na edição devem permitir navegação livre entre as etapas
+- **Informações médicas:** Reorganizar layout da página de detalhes para melhor apresentação
+- **UX de navegação:** Usuário deve poder navegar pelos menus na ordem que desejar
+
 ### Planejado para v0.5.0 - Melhorias no Cadastro de Pacientes
 - **Campos obrigatórios:** CPF, RG, telefone celular, email
 - **Validações avançadas:** CPF brasileiro, email, telefone
@@ -25,6 +32,23 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - Dashboard de analytics avançado
 - Exportação de dados em PDF
 - Integração Google Calendar
+
+---
+
+## [0.4.1] - 2025-01-03
+
+### 🔧 Corrigido
+- **Campos de emergência:** Corrigidos nomes dos campos `contato_emergencia_*` para `*_emergencia` no formulário wizard
+- **Schema do banco:** Alinhamento com migração v2 para campos de contato de emergência
+- **Botão "Salvar Rascunho":** Removida condição que impedia funcionamento no modo de edição
+- **Upload de documentos:** Implementado refresh automático da lista após upload
+- **Limpeza do projeto:** Removidos arquivos não utilizados (pasta supabase/, schemas duplicados, documentação obsoleta)
+
+### 🗑️ Removido
+- Pasta `supabase/` com migrações automáticas não utilizadas
+- Arquivos de schema duplicados (`database-schema.sql`, `database-schema-v2.sql`)
+- Documentação obsoleta sobre migrações (`APLICAR-MIGRACAO.md`, `STATUS-PROJETO.md`, `MIGRATION-GUIDE.md`)
+- Scripts de migração não utilizados (`docs/database-setup.sql`, `docs/migration-v2.sql`)
 
 ---
 
