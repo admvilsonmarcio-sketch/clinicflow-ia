@@ -11,8 +11,41 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - Sistema de agendamentos com calendário interativo
 - Integração com WhatsApp Business API
 - Dashboard de analytics avançado
-- Busca avançada de pacientes
-- Histórico médico com timeline
+- Exportação de dados em PDF
+- Integração Google Calendar
+
+---
+
+## [0.4.0] - 2025-01-03
+
+### ✨ Adicionado
+- **🔍 Busca avançada de pacientes** com filtros múltiplos
+- **📊 Filtros por nome, status, gênero e idade** com contadores em tempo real
+- **📋 Histórico médico completo** com timeline e paginação
+- **🖱️ Navegação por duplo clique** nos cards de pacientes
+- **⚡ Debounce na busca** para otimização de performance
+- **📈 Componente PatientHistory** reutilizável
+- **🔄 Integração Supabase** com ordenação e paginação automática
+
+### 🎨 Melhorado
+- **Interface de busca** mais intuitiva e responsiva
+- **Cards de pacientes** com melhor feedback visual
+- **Performance da listagem** com filtros otimizados
+- **UX de navegação** com duplo clique para acesso rápido
+- **Organização do código** com componentes modulares
+
+### 🔧 Corrigido
+- **Import do DocumentList** corrigido para named export
+- **Erro de TypeScript** na importação de componentes
+- **Navegação entre páginas** otimizada
+- **Filtros de busca** funcionando corretamente
+
+### 🛠️ Técnico
+- **Hook useDebounce** para otimização de busca
+- **Componente AdvancedFilters** para filtros múltiplos
+- **Componente PatientHistory** com paginação
+- **Queries Supabase** otimizadas com índices
+- **TypeScript** melhorado com tipos mais específicos
 
 ---
 

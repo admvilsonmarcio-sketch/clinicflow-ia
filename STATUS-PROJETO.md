@@ -1,7 +1,7 @@
 # 📊 Status do Projeto MediFlow
 
-**Última atualização:** 02/01/2025  
-**Versão atual:** 0.3.0 (MVP - Fase 1 + Sistema de Documentos)
+**Última atualização:** 03/01/2025  
+**Versão atual:** 0.4.0 (MVP - Fase 1 + Sistema de Documentos + Busca Avançada)
 
 ---
 
@@ -58,6 +58,9 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 - [x] **Formulários responsivos** com validação em tempo real
 - [x] **Sistema de documentos** completo com upload e gerenciamento
 - [x] **Supabase Storage** configurado para arquivos de pacientes
+- [x] **Busca avançada** de pacientes com filtros múltiplos
+- [x] **Histórico médico** com timeline e paginação
+- [x] **Navegação por duplo clique** nos cards de pacientes
 
 ## 🔄 FASE 2: Core Features (Concluída)
 
@@ -75,7 +78,9 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 - [x] **Upload de documentos/fotos** com categorização
 - [x] **Visualização e download** de documentos
 - [x] **Exclusão segura** de documentos
-- [ ] Busca avançada de pacientes
+- [x] **Busca avançada** de pacientes com filtros por nome, status, gênero e idade
+- [x] **Histórico médico** integrado na página de detalhes
+- [x] **Navegação otimizada** com duplo clique nos cards
 
 ### 📅 Sistema de Agendamentos (Próximo)
 - [ ] **Calendário interativo** com visualização mensal/semanal
@@ -113,9 +118,10 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 ### 📋 Melhorias de Pacientes
 - [x] **Upload de documentos** e fotos com categorização
 - [x] **Gerenciamento de documentos** (visualizar, baixar, excluir)
-- [ ] **Histórico médico** avançado com timeline
-- [ ] **Busca avançada** de pacientes
-- [ ] **Filtros** por status, data, etc.
+- [x] **Histórico médico** avançado com timeline e paginação
+- [x] **Busca avançada** de pacientes com múltiplos filtros
+- [x] **Filtros** por status, gênero, idade e nome
+- [x] **Navegação por duplo clique** nos cards de pacientes
 - [ ] **Exportação** de dados em PDF
 
 
@@ -191,6 +197,16 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 - [x] **🐛 Correção de navegação** - botões não submetem formulário
 - [x] **✅ UX otimizada** - permanece na tela de edição durante trabalho com documentos
 
+### ✅ BUSCA AVANÇADA E HISTÓRICO MÉDICO (03/01/2025)
+- [x] **🔍 Busca avançada** com filtros múltiplos (nome, status, gênero, idade)
+- [x] **📋 Histórico médico** com timeline e paginação
+- [x] **🖱️ Navegação por duplo clique** nos cards de pacientes
+- [x] **⚡ Performance otimizada** com debounce na busca
+- [x] **🎯 Filtros inteligentes** com contadores de resultados
+- [x] **📊 Componente PatientHistory** reutilizável
+- [x] **🔄 Integração Supabase** com ordenação e paginação
+- [x] **🐛 Correção de imports** - DocumentList como named export
+
 ---
 
 ## ⚠️ Problemas CONHECIDOS
@@ -206,19 +222,21 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 ## 📈 Métricas do Projeto
 
 ### 📊 Estatísticas Atuais
-- **Arquivos criados:** 40+
-- **Linhas de código:** ~4.200+
-- **Componentes UI:** 14+ componentes funcionais
+- **Arquivos criados:** 45+
+- **Linhas de código:** ~5.000+
+- **Componentes UI:** 16+ componentes funcionais
 - **Páginas funcionais:** 8 páginas completas
 - **Tabelas no banco:** 11 tabelas principais
 - **Context API:** 1 contexto global implementado
 - **Sistema de Storage:** Supabase Storage configurado
-- **Tempo de desenvolvimento:** ~16 horas
+- **Funcionalidades avançadas:** Busca, filtros, histórico médico
+- **Tempo de desenvolvimento:** ~20 horas
 
 ### 🎯 Metas da Próxima Sprint
-- **CRUD completo** de pacientes (3-4 dias)
-- **Sistema básico** de agendamentos (5-7 dias)
-- **Primeira integração** WhatsApp (7-10 dias)
+- **Sistema de agendamentos** com calendário interativo (5-7 dias)
+- **Integração Google Calendar** para sincronização (3-4 dias)
+- **Primeira integração** WhatsApp com EvolutionAPI (7-10 dias)
+- **Exportação de dados** em PDF (2-3 dias)
 
 ---
 
@@ -246,5 +264,5 @@ O **MediFlow** é um sistema CRM completo para médicos, clínicas e esteticista
 
 ---
 
-**🚀 Próxima atualização prevista:** 24/07/2025  
-**📋 Foco atual:** Fase 2 - API Routes com validação server-side e segurança médica
+**🚀 Próxima atualização prevista:** 10/01/2025  
+**📋 Foco atual:** Fase 3 - Sistema de Agendamentos e Integração Google Calendar

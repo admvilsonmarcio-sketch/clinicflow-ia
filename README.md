@@ -13,7 +13,7 @@
   </div>
   
   <div style="margin-top: 10px;">
-    <img src="https://img.shields.io/badge/Versão-0.3.0-blue?style=flat-square" alt="Versão" />
+    <img src="https://img.shields.io/badge/Versão-0.4.0-blue?style=flat-square" alt="Versão" />
     <img src="https://img.shields.io/badge/Status-Fases%201--3%20Completas-success?style=flat-square" alt="Status" />
     <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License" />
     <img src="https://img.shields.io/badge/LGPD-Compliant-purple?style=flat-square" alt="LGPD" />
@@ -58,8 +58,9 @@ O **MediFlow** é uma plataforma completa de gestão médica que combina automa�
 
 **👥 Gestão de Pacientes**
 - CRUD completo com validação
-- Busca avançada e filtros
-- Histórico médico completo
+- Busca avançada com filtros múltiplos
+- Histórico médico com timeline
+- Navegação por duplo clique
 - Documentos anexados
 
 </td>
@@ -68,6 +69,7 @@ O **MediFlow** é uma plataforma completa de gestão médica que combina automa�
 **📄 Sistema de Documentos**
 - Upload seguro de arquivos
 - Categorização automática
+- Download e visualização
 - Controle de acesso por RLS
 - Suporte a múltiplos formatos
 
