@@ -261,7 +261,8 @@ export default function PatientsPage() {
                             {filteredPatients.map((patient: any) => (
                                 <div
                                     key={patient.id}
-                                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors space-y-3 sm:space-y-0"
+                                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors space-y-3 sm:space-y-0 cursor-pointer"
+                                    onDoubleClick={() => window.location.href = `/dashboard/patients/${patient.id}`}
                                 >
                                     <div className="flex items-center space-x-4">
                                         <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">

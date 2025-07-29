@@ -12,9 +12,12 @@ import {
     Pill,
     FileText,
     AlertTriangle,
-    Clock
+    Clock,
+    Download,
+    Eye
 } from 'lucide-react'
 import PatientHistory from './patient-history'
+import DocumentList from './document-list'
 
 interface PatientDetailsProps {
     patient: {
@@ -230,6 +233,27 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                             <span className="text-xs sm:text-sm text-gray-500">Última atualização</span>
                             <span className="text-xs sm:text-sm font-medium">{formatDateTime(patient.atualizado_em)}</span>
                         </div>
+                    </CardContent>
+                </Card>
+
+                {/* Documentos do Paciente */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <FileText className="h-5 w-5" />
+                            Documentos
+                        </CardTitle>
+                        <CardDescription>
+                            Documentos e arquivos do paciente
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <DocumentList 
+                            patientId={patient.id} 
+                            showUpload={false}
+                            showDownload={true}
+                            compact={true}
+                        />
                     </CardContent>
                 </Card>
 

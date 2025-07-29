@@ -11,11 +11,23 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
 interface DocumentListProps {
-  pacienteId: string
+  pacienteId?: string
+  patientId?: string
   refreshTrigger?: number
+  showUpload?: boolean
+  showDownload?: boolean
+  compact?: boolean
 }
 
-export function DocumentList({ pacienteId, refreshTrigger }: DocumentListProps) {
+export function DocumentList({ 
+  pacienteId, 
+  patientId, 
+  refreshTrigger, 
+  showUpload = true, 
+  showDownload = true, 
+  compact = false 
+}: DocumentListProps) {
+  const finalPatientId = patientId || pacienteId
   const [documentos, setDocumentos] = useState<DocumentoPaciente[]>([])
   const [loading, setLoading] = useState(true)
   const [deletingId, setDeletingId] = useState<string | null>(null)
@@ -30,7 +42,7 @@ export function DocumentList({ pacienteId, refreshTrigger }: DocumentListProps) 
         .select(`
           *
         `)
-        .eq('paciente_id', pacienteId)
+        .eq('paciente_id', finalPatientId)
         .order('criado_em', { ascending: false })
 
       if (error) {
@@ -51,8 +63,10 @@ export function DocumentList({ pacienteId, refreshTrigger }: DocumentListProps) 
   }
 
   useEffect(() => {
-    carregarDocumentos()
-  }, [pacienteId, refreshTrigger])
+    if (finalPatientId) {
+      carregarDocumentos()
+    }
+  }, [finalPatientId, refreshTrigger])
 
   const handleDownload = async (documento: DocumentoPaciente) => {
     try {
@@ -161,36 +175,39 @@ export function DocumentList({ pacienteId, refreshTrigger }: DocumentListProps) 
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-        <FileText className="h-5 w-5" />
-        Documentos ({documentos.length})
-      </div>
+      {!compact && (
+        <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
+          <FileText className="h-5 w-5" />
+          Documentos ({documentos.length})
+        </div>
+      )}
 
-      <div className="space-y-3">
+      <div className={compact ? "space-y-2" : "space-y-3"}>
         {documentos.map((documento) => (
-          <div key={documento.id} className="border rounded-lg p-4 bg-white hover:bg-gray-50 transition-colors">
+          <div key={documento.id} className={`border rounded-lg ${compact ? 'p-3' : 'p-4'} bg-white hover:bg-gray-50 transition-colors`}>
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-3 flex-1">
                 {getFileIcon(documento.tipo_arquivo)}
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-medium text-gray-900 truncate">
+                  <h4 className={`font-medium text-gray-900 truncate ${compact ? 'text-sm' : ''}`}>
                     {documento.nome_arquivo}
                   </h4>
-                  <div className="flex flex-wrap items-center gap-4 mt-1 text-sm text-gray-500">
+                  <div className={`flex flex-wrap items-center gap-4 mt-1 ${compact ? 'text-xs' : 'text-sm'} text-gray-500`}>
                     <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
                       {getCategoriaLabel(documento.categoria)}
                     </span>
                     <span>{formatFileSize(documento.tamanho_arquivo)}</span>
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      {format(new Date(documento.criado_em), 'dd/MM/yyyy HH:mm', { locale: ptBR })}
-                    </div>
-                    {/* Nome do criador temporariamente removido devido a problema de relação */}
+                    {!compact && (
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        {format(new Date(documento.criado_em), 'dd/MM/yyyy HH:mm', { locale: ptBR })}
+                      </div>
+                    )}
                   </div>
-                  {documento.descricao && (
+                  {!compact && documento.descricao && (
                     <p className="text-sm text-gray-600 mt-2">{documento.descricao}</p>
                   )}
-                  {documento.data_documento && (
+                  {!compact && documento.data_documento && (
                     <p className="text-sm text-gray-500 mt-1">
                       Data do documento: {format(new Date(documento.data_documento), 'dd/MM/yyyy', { locale: ptBR })}
                     </p>
@@ -199,30 +216,34 @@ export function DocumentList({ pacienteId, refreshTrigger }: DocumentListProps) 
               </div>
 
               <div className="flex items-center gap-2 ml-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleDownload(documento)}
-                  title="Visualizar/Baixar"
-                >
-                  <Eye className="h-4 w-4" />
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleDelete(documento)}
-                  disabled={deletingId === documento.id}
-                  title="Excluir"
-                  className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                >
-                  {deletingId === documento.id ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <Trash2 className="h-4 w-4" />
-                  )}
-                </Button>
+                {showDownload && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size={compact ? "sm" : "sm"}
+                    onClick={() => handleDownload(documento)}
+                    title="Visualizar/Baixar"
+                  >
+                    {compact ? <Download className="h-3 w-3" /> : <Eye className="h-4 w-4" />}
+                  </Button>
+                )}
+                {showUpload && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size={compact ? "sm" : "sm"}
+                    onClick={() => handleDelete(documento)}
+                    disabled={deletingId === documento.id}
+                    title="Excluir"
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  >
+                    {deletingId === documento.id ? (
+                      <Loader2 className={`${compact ? "h-3 w-3" : "h-4 w-4"} animate-spin`} />
+                    ) : (
+                      <Trash2 className={compact ? "h-3 w-3" : "h-4 w-4"} />
+                    )}
+                  </Button>
+                )}
               </div>
             </div>
           </div>
