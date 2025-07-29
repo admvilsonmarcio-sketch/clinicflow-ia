@@ -86,8 +86,8 @@
 - [x] PatientForm (novo/editar) - ✅ Concluído
 - [x] PatientDetails (visualização) - ✅ Concluído
 - [x] DocumentUpload/DocumentList - ✅ Concluído
-- [ ] PatientSearch (busca avançada)
-- [ ] PatientHistory (histórico médico)
+- [x] PatientSearch (busca avançada) ✅
+- [x] PatientHistory (histórico médico) ✅
 ```
 
 ### 2. Sistema de Agendamentos

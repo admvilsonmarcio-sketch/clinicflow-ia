@@ -14,6 +14,7 @@ import {
     AlertTriangle,
     Clock
 } from 'lucide-react'
+import PatientHistory from './patient-history'
 
 interface PatientDetailsProps {
     patient: {
@@ -232,18 +233,8 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                     </CardContent>
                 </Card>
 
-                {/* Ações Rápidas */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Ações Rápidas</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                        <div className="text-center text-xs sm:text-sm text-gray-500 py-6 lg:py-8">
-                            <Clock className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 text-gray-400" />
-                            Histórico de consultas e conversas em breve
-                        </div>
-                    </CardContent>
-                </Card>
+                {/* Histórico Médico */}
+                <PatientHistory patientId={patient.id} />
             </div>
         </div>
     )
