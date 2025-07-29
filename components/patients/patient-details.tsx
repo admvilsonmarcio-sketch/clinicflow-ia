@@ -17,7 +17,7 @@ import {
     Eye
 } from 'lucide-react'
 import PatientHistory from './patient-history'
-import DocumentList from './document-list'
+import { DocumentList } from './document-list'
 
 interface PatientDetailsProps {
     patient: {
