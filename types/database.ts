@@ -1,4 +1,4 @@
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       perfis: {
@@ -82,17 +82,38 @@ export interface Database {
           id: string
           clinica_id: string
           nome_completo: string
-          email: string | null
+          email: string
           telefone: string
-          data_nascimento: string | null
-          genero: 'masculino' | 'feminino' | 'outro' | null
-          endereco: string | null
-          contato_emergencia: string | null
+          data_nascimento: string
+          genero: 'masculino' | 'feminino' | 'outro'
+          cpf: string
+          rg: string | null
+          orgao_emissor: string | null
+          uf_rg: string | null
+          estado_civil: string | null
+          profissao: string | null
+          telefone_celular: string
+          telefone_fixo: string | null
+          cep: string
+          logradouro: string
+          numero: string
+          complemento: string | null
+          bairro: string
+          cidade: string
+          uf: string
+          nome_emergencia: string | null
+          parentesco_emergencia: string | null
           telefone_emergencia: string | null
-          historico_medico: string | null
-          alergias: string | null
-          medicamentos: string | null
-          observacoes: string | null
+          observacoes_emergencia: string | null
+          tipo_sanguineo: string | null
+          alergias_conhecidas: string[] | null
+          medicamentos_uso: string[] | null
+          historico_medico_detalhado: string | null
+          observacoes_gerais: string | null
+          foto_url: string | null
+          qr_code: string | null
+          data_ultima_consulta: string | null
+          status_ativo: boolean
           whatsapp_id: string | null
           instagram_id: string | null
           ultimo_contato: string | null
@@ -104,17 +125,38 @@ export interface Database {
           id?: string
           clinica_id: string
           nome_completo: string
-          email?: string | null
+          email: string
           telefone: string
-          data_nascimento?: string | null
-          genero?: 'masculino' | 'feminino' | 'outro' | null
-          endereco?: string | null
-          contato_emergencia?: string | null
+          data_nascimento: string
+          genero: 'masculino' | 'feminino' | 'outro'
+          cpf: string
+          rg?: string | null
+          orgao_emissor?: string | null
+          uf_rg?: string | null
+          estado_civil?: string | null
+          profissao?: string | null
+          telefone_celular: string
+          telefone_fixo?: string | null
+          cep: string
+          logradouro: string
+          numero: string
+          complemento?: string | null
+          bairro: string
+          cidade: string
+          uf: string
+          nome_emergencia?: string | null
+          parentesco_emergencia?: string | null
           telefone_emergencia?: string | null
-          historico_medico?: string | null
-          alergias?: string | null
-          medicamentos?: string | null
-          observacoes?: string | null
+          observacoes_emergencia?: string | null
+          tipo_sanguineo?: string | null
+          alergias_conhecidas?: string[] | null
+          medicamentos_uso?: string[] | null
+          historico_medico_detalhado?: string | null
+          observacoes_gerais?: string | null
+          foto_url?: string | null
+          qr_code?: string | null
+          data_ultima_consulta?: string | null
+          status_ativo?: boolean
           whatsapp_id?: string | null
           instagram_id?: string | null
           ultimo_contato?: string | null
@@ -126,17 +168,38 @@ export interface Database {
           id?: string
           clinica_id?: string
           nome_completo?: string
-          email?: string | null
+          email?: string
           telefone?: string
-          data_nascimento?: string | null
-          genero?: 'masculino' | 'feminino' | 'outro' | null
-          endereco?: string | null
-          contato_emergencia?: string | null
+          data_nascimento?: string
+          genero?: 'masculino' | 'feminino' | 'outro'
+          cpf?: string
+          rg?: string | null
+          orgao_emissor?: string | null
+          uf_rg?: string | null
+          estado_civil?: string | null
+          profissao?: string | null
+          telefone_celular?: string
+          telefone_fixo?: string | null
+          cep?: string
+          logradouro?: string
+          numero?: string
+          complemento?: string | null
+          bairro?: string
+          cidade?: string
+          uf?: string
+          nome_emergencia?: string | null
+          parentesco_emergencia?: string | null
           telefone_emergencia?: string | null
-          historico_medico?: string | null
-          alergias?: string | null
-          medicamentos?: string | null
-          observacoes?: string | null
+          observacoes_emergencia?: string | null
+          tipo_sanguineo?: string | null
+          alergias_conhecidas?: string[] | null
+          medicamentos_uso?: string[] | null
+          historico_medico_detalhado?: string | null
+          observacoes_gerais?: string | null
+          foto_url?: string | null
+          qr_code?: string | null
+          data_ultima_consulta?: string | null
+          status_ativo?: boolean
           whatsapp_id?: string | null
           instagram_id?: string | null
           ultimo_contato?: string | null
@@ -319,6 +382,35 @@ export interface Database {
           criado_por?: string
           criado_em?: string
           atualizado_em?: string
+        }
+      }
+      pacientes_historico: {
+        Row: {
+          id: string
+          paciente_id: string
+          operacao: 'INSERT' | 'UPDATE' | 'DELETE'
+          dados_anteriores: any | null
+          dados_novos: any | null
+          usuario_id: string | null
+          timestamp: string
+        }
+        Insert: {
+          id?: string
+          paciente_id: string
+          operacao: 'INSERT' | 'UPDATE' | 'DELETE'
+          dados_anteriores?: any | null
+          dados_novos?: any | null
+          usuario_id?: string | null
+          timestamp?: string
+        }
+        Update: {
+          id?: string
+          paciente_id?: string
+          operacao?: 'INSERT' | 'UPDATE' | 'DELETE'
+          dados_anteriores?: any | null
+          dados_novos?: any | null
+          usuario_id?: string | null
+          timestamp?: string
         }
       }
     }

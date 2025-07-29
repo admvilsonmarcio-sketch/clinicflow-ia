@@ -43,15 +43,30 @@
 - [x] **Queries otimizadas** no Supabase com ordenação e filtros
 - [x] **UX melhorada** com loading states e feedback visual
 
-## 🔄 Fase 4: Melhorias no Cadastro de Pacientes (Próxima - Prioridade Alta)
+## ✅ Fase 4: Melhorias no Cadastro de Pacientes (Concluída - 05/01/2025)
 
 ### 4.1 Campos Obrigatórios e Validações
-- [ ] **Campo CPF obrigatório** com validação e máscara
-- [ ] **Validação de CPF** com algoritmo de dígitos verificadores
-- [ ] **RG com órgão emissor** e UF
-- [ ] **Data de nascimento** com validação de idade
-- [ ] **Telefone celular obrigatório** com máscara (11) 99999-9999
-- [ ] **Email com validação** de formato e domínio
+- [x] **Campo CPF obrigatório** com validação e máscara
+- [x] **Validação de CPF** com algoritmo de dígitos verificadores
+- [x] **Formulário multi-etapas** com 5 seções (Dados Pessoais, Contato, Endereço, Emergência, Médico)
+- [x] **Integração ViaCEP** para preenchimento automático de endereço
+- [x] **Validações brasileiras** (CPF, CEP, telefone) com regex específicos
+- [x] **Sistema de auditoria** com tabela pacientes_historico
+- [x] **Geração automática de QR Code** para cada paciente
+- [x] **Auto-save de rascunhos** no localStorage
+- [x] **Navegação livre** entre etapas validadas
+- [x] **Campos estruturados** para endereço, emergência e informações médicas
+- [x] **Hooks customizados** para formatação (CPF, CEP, telefone)
+- [x] **Tipagens TypeScript** atualizadas para novo schema
+- [x] **Migration scripts** para atualização do banco de dados
+- [x] **Documentação técnica** completa com guias de migração
+- [x] **RG com órgão emissor** e UF
+- [x] **Data de nascimento** com validação de idade
+- [x] **Estado civil e profissão** como campos opcionais
+- [x] **Telefone celular obrigatório** e fixo opcional
+- [x] **Email obrigatório** com validação em tempo real
+- [x] **Telefone celular obrigatório** com máscara (11) 99999-9999
+- [x] **Email com validação** de formato e domínio
 - [ ] **Convênio médico** com número da carteirinha
 
 ### 4.2 Estrutura de Endereço Completa

@@ -1,6 +1,5 @@
 import { createServerClient } from '@/lib/supabase-server'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { PatientForm } from '@/components/patients/patient-form'
+import { PatientFormWizard } from '@/components/patients/patient-form-wizard'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -47,17 +46,10 @@ export default async function EditPatientPage({ params }: EditPatientPageProps) 
                 </div>
             </div>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Informações do Paciente</CardTitle>
-                    <CardDescription>
-                        Atualize os dados do paciente. Campos marcados com * são obrigatórios.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <PatientForm patient={patient} isEditing={true} />
-                </CardContent>
-            </Card>
+            <PatientFormWizard 
+                initialData={patient} 
+                mode="edit" 
+            />
         </div>
     )
 }

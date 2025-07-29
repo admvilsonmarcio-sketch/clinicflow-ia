@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input'
 import { InputWithMask } from '@/components/ui/input-mask'
 import { useToast } from '@/components/ui/use-toast'
 import { createClient } from '@/lib/supabase'
-import { pacienteSchema, z } from '@/lib/validations'
+import { pacienteSchema } from '@/lib/validations/paciente'
+import { z } from 'zod'
 import { medicalLogger } from '@/lib/logging/medical-logger'
 import { MedicalAction } from '@/lib/logging/types'
 import { Loader2, Save, User, Phone, MapPin, Heart, FileText, Upload } from 'lucide-react'
@@ -18,16 +19,24 @@ interface PatientData {
     id?: string
     nome_completo: string
     email?: string
-    telefone: string
+    telefone_celular: string
+    telefone_fixo?: string
     data_nascimento?: string
     genero?: 'masculino' | 'feminino' | 'outro'
-    endereco?: string
-    contato_emergencia?: string
-    telefone_emergencia?: string
+    cep?: string
+    logradouro?: string
+    numero?: string
+    complemento?: string
+    bairro?: string
+    cidade?: string
+    uf?: string
+    contato_emergencia_nome?: string
+    contato_emergencia_telefone?: string
+    contato_emergencia_parentesco?: string
     historico_medico?: string
     alergias?: string
-    medicamentos?: string
-    observacoes?: string
+    medicamentos_uso_continuo?: string
+    observacoes_medicas?: string
 }
 
 interface PatientFormProps {
@@ -41,16 +50,24 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
     const [formData, setFormData] = useState({
         nome_completo: patient?.nome_completo || '',
         email: patient?.email || '',
-        telefone: patient?.telefone || '',
+        telefone_celular: patient?.telefone_celular || '',
+        telefone_fixo: patient?.telefone_fixo || '',
         data_nascimento: patient?.data_nascimento || '',
         genero: (patient?.genero || 'masculino') as 'masculino' | 'feminino' | 'outro',
-        endereco: patient?.endereco || '',
-        contato_emergencia: patient?.contato_emergencia || '',
-        telefone_emergencia: patient?.telefone_emergencia || '',
+        cep: patient?.cep || '',
+        logradouro: patient?.logradouro || '',
+        numero: patient?.numero || '',
+        complemento: patient?.complemento || '',
+        bairro: patient?.bairro || '',
+        cidade: patient?.cidade || '',
+        uf: patient?.uf || '',
+        contato_emergencia_nome: patient?.contato_emergencia_nome || '',
+        contato_emergencia_telefone: patient?.contato_emergencia_telefone || '',
+        contato_emergencia_parentesco: patient?.contato_emergencia_parentesco || '',
         historico_medico: patient?.historico_medico || '',
         alergias: patient?.alergias || '',
-        medicamentos: patient?.medicamentos || '',
-        observacoes: patient?.observacoes || '',
+        medicamentos_uso_continuo: patient?.medicamentos_uso_continuo || '',
+        observacoes_medicas: patient?.observacoes_medicas || '',
     })
 
     const { toast } = useToast()
@@ -70,13 +87,20 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                 ...validatedData,
                 data_nascimento: validatedData.data_nascimento || null,
                 email: validatedData.email || null,
-                endereco: validatedData.endereco || null,
-                contato_emergencia: validatedData.contato_emergencia || null,
-                telefone_emergencia: validatedData.telefone_emergencia || null,
-                historico_medico: validatedData.historico_medico || null,
-                alergias: validatedData.alergias || null,
-                medicamentos: validatedData.medicamentos || null,
-                observacoes: validatedData.observacoes || null
+                cep: validatedData.cep || null,
+                logradouro: validatedData.logradouro || null,
+                numero: validatedData.numero || null,
+                complemento: validatedData.complemento || null,
+                bairro: validatedData.bairro || null,
+                cidade: validatedData.cidade || null,
+                uf: validatedData.uf || null,
+                contato_emergencia_nome: validatedData.contato_emergencia_nome || null,
+                contato_emergencia_parentesco: validatedData.contato_emergencia_parentesco || null,
+                contato_emergencia_telefone: validatedData.contato_emergencia_telefone || null,
+                historico_medico_detalhado: validatedData.historico_medico_detalhado || null,
+                alergias_conhecidas: validatedData.alergias_conhecidas || null,
+                medicamentos_uso: validatedData.medicamentos_uso || null,
+                observacoes_gerais: validatedData.observacoes_gerais || null,
             }
 
             // Buscar clínica do usuário atual
@@ -280,8 +304,8 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                         <label className="text-xs md:text-sm font-medium">Telefone *</label>
                         <InputWithMask
                             mask="(99) 99999-9999"
-                            value={formData.telefone}
-                            onChange={(e) => handleChange('telefone', e.target.value)}
+                            value={formData.telefone_celular}
+                            onChange={(e) => handleChange('telefone_celular', e.target.value)}
                             placeholder="(11) 99999-9999"
                             required
                             className="text-sm md:text-base"
@@ -320,14 +344,61 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                     Endereço
                 </div>
 
-                <div>
-                    <label className="text-xs md:text-sm font-medium">Endereço Completo</label>
-                    <Input
-                        value={formData.endereco}
-                        onChange={(e) => handleChange('endereco', e.target.value)}
-                        placeholder="Rua, número, bairro, cidade - UF, CEP"
-                        className="text-sm md:text-base"
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                    <div>
+                        <label className="text-xs md:text-sm font-medium">CEP</label>
+                        <Input
+                            value={formData.cep}
+                            onChange={(e) => handleChange('cep', e.target.value)}
+                            placeholder="00000-000"
+                            className="text-sm md:text-base"
+                        />
+                    </div>
+                    <div>
+                        <label className="text-xs md:text-sm font-medium">Logradouro</label>
+                        <Input
+                            value={formData.logradouro}
+                            onChange={(e) => handleChange('logradouro', e.target.value)}
+                            placeholder="Rua, Avenida, etc."
+                            className="text-sm md:text-base"
+                        />
+                    </div>
+                    <div>
+                        <label className="text-xs md:text-sm font-medium">Número</label>
+                        <Input
+                            value={formData.numero}
+                            onChange={(e) => handleChange('numero', e.target.value)}
+                            placeholder="123"
+                            className="text-sm md:text-base"
+                        />
+                    </div>
+                    <div>
+                        <label className="text-xs md:text-sm font-medium">Complemento</label>
+                        <Input
+                            value={formData.complemento}
+                            onChange={(e) => handleChange('complemento', e.target.value)}
+                            placeholder="Apto, Bloco, etc."
+                            className="text-sm md:text-base"
+                        />
+                    </div>
+                    <div>
+                        <label className="text-xs md:text-sm font-medium">Bairro</label>
+                        <Input
+                            value={formData.bairro}
+                            onChange={(e) => handleChange('bairro', e.target.value)}
+                            placeholder="Nome do bairro"
+                            className="text-sm md:text-base"
+                        />
+                    </div>
+                    <div>
+                        <label className="text-xs md:text-sm font-medium">Cidade</label>
+                        <Input
+                            value={formData.cidade}
+                            onChange={(e) => handleChange('cidade', e.target.value)}
+                            placeholder="Nome da cidade"
+                            className="text-sm md:text-base"
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -342,8 +413,8 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                     <div>
                         <label className="text-xs md:text-sm font-medium">Nome do Contato</label>
                         <Input
-                            value={formData.contato_emergencia}
-                            onChange={(e) => handleChange('contato_emergencia', e.target.value)}
+                            value={formData.contato_emergencia_nome}
+                            onChange={(e) => handleChange('contato_emergencia_nome', e.target.value)}
                             placeholder="Nome do responsável"
                             className="text-sm md:text-base"
                         />
@@ -353,8 +424,8 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                         <label className="text-xs md:text-sm font-medium">Telefone de Emergência</label>
                         <InputWithMask
                             mask="(99) 99999-9999"
-                            value={formData.telefone_emergencia}
-                            onChange={(e) => handleChange('telefone_emergencia', e.target.value)}
+                            value={formData.contato_emergencia_telefone}
+                            onChange={(e) => handleChange('contato_emergencia_telefone', e.target.value)}
                             placeholder="(11) 99999-9999"
                             className="text-sm md:text-base"
                         />
@@ -394,8 +465,8 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                     <div>
                         <label className="text-xs md:text-sm font-medium">Medicamentos em Uso</label>
                         <Input
-                            value={formData.medicamentos}
-                            onChange={(e) => handleChange('medicamentos', e.target.value)}
+                            value={formData.medicamentos_uso_continuo}
+                            onChange={(e) => handleChange('medicamentos_uso_continuo', e.target.value)}
                             placeholder="Medicamentos que o paciente está tomando"
                             className="text-sm md:text-base"
                         />
@@ -413,8 +484,8 @@ export function PatientForm({ patient, isEditing = false }: PatientFormProps) {
                 <div>
                     <label className="text-xs md:text-sm font-medium">Observações</label>
                     <textarea
-                        value={formData.observacoes}
-                        onChange={(e) => handleChange('observacoes', e.target.value)}
+                        value={formData.observacoes_medicas}
+                        onChange={(e) => handleChange('observacoes_medicas', e.target.value)}
                         placeholder="Observações gerais sobre o paciente..."
                         className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm md:text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         rows={3}

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { PatientForm } from '@/components/patients/patient-form'
+import { PatientFormWizard } from '@/components/patients/patient-form-wizard'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -30,7 +30,7 @@ export default function NewPatientPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <PatientForm />
+                    <PatientFormWizard mode="create" />
                 </CardContent>
             </Card>
         </div>
