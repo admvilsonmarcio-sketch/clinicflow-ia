@@ -14,6 +14,31 @@ import { useToast } from '@/components/ui/use-toast'
 import { pacienteSchema, PacienteFormData, PacienteFormSteps } from '@/lib/validations/paciente'
 import { createClient } from '@/lib/supabase'
 
+// Função para validar e limpar dados antes de enviar para o Supabase
+const sanitizeDataForSupabase = (data: any) => {
+  // Lista de campos válidos na tabela pacientes
+  const validFields = [
+    'id', 'clinica_id', 'nome_completo', 'email', 'telefone', 'data_nascimento',
+    'genero', 'cpf', 'rg', 'orgao_emissor', 'uf_rg', 'estado_civil', 'profissao',
+    'telefone_celular', 'telefone_fixo', 'cep', 'logradouro', 'numero', 'complemento',
+    'bairro', 'cidade', 'uf', 'nome_emergencia', 'parentesco_emergencia',
+    'telefone_emergencia', 'observacoes_emergencia', 'tipo_sanguineo',
+    'alergias_conhecidas', 'medicamentos_uso', 'historico_medico_detalhado',
+    'observacoes_gerais', 'foto_url', 'qr_code', 'data_ultima_consulta',
+    'status_ativo', 'convenio_medico', 'data_rascunho', 'whatsapp_id', 'instagram_id', 'ultimo_contato', 'status'
+  ]
+  
+  // Filtrar apenas campos válidos
+  const sanitizedData: any = {}
+  for (const field of validFields) {
+    if (data.hasOwnProperty(field)) {
+      sanitizedData[field] = data[field]
+    }
+  }
+  
+  return sanitizedData
+}
+
 // Componentes das etapas
 import { DadosPessoaisStep } from './form-steps/dados-pessoais-step'
 import { ContatoStep } from './form-steps/contato-step'
@@ -95,7 +120,7 @@ export function PatientFormWizard({
   const methods = useForm<PacienteFormData>({
     resolver: zodResolver(pacienteSchema),
     defaultValues: initialData || {},
-    mode: 'onChange'
+    mode: 'onSubmit'
   })
 
   const { handleSubmit, watch, formState: { errors, isValid } } = methods
@@ -127,7 +152,8 @@ export function PatientFormWizard({
     const step = STEPS[currentStepIndex]
     if (!step.required) return true
 
-    switch (step.id) {
+    const stepId = step.id as StepId
+    switch (stepId) {
       case 'dadosPessoais':
         return !errors.nome_completo && !errors.cpf && !errors.data_nascimento && !errors.genero &&
                watchedValues.nome_completo && watchedValues.cpf && watchedValues.data_nascimento && watchedValues.genero
@@ -137,6 +163,12 @@ export function PatientFormWizard({
       case 'endereco':
         return !errors.cep && !errors.logradouro && !errors.numero && !errors.bairro && !errors.cidade && !errors.uf &&
                watchedValues.cep && watchedValues.logradouro && watchedValues.numero && watchedValues.bairro && watchedValues.cidade && watchedValues.uf
+      case 'emergencia':
+        return true // Contato de emergência é opcional
+      case 'medico':
+        return true // Informações médicas são opcionais
+      case 'documentos':
+        return true // Documentos são opcionais
       default:
         return true
     }
@@ -154,6 +186,8 @@ export function PatientFormWizard({
           variant: "destructive"
         })
       }
+    } else {
+      console.log('Already at last step')
     }
   }
 
@@ -216,7 +250,7 @@ export function PatientFormWizard({
         whatsapp_id: watchedValues.whatsapp_id || null,
         instagram_id: watchedValues.instagram_id || null,
         status: 'rascunho',
-        lastSaved: new Date().toISOString()
+        data_rascunho: new Date().toISOString()
       }
       
       // Salvar no localStorage como backup
@@ -274,10 +308,7 @@ export function PatientFormWizard({
       if (drafts && drafts.length > 0) {
         const draft = drafts[0]
         methods.reset(draft)
-        toast({
-          title: "Rascunho encontrado",
-          description: "Encontramos um rascunho salvo anteriormente."
-        })
+        // Removida a segunda mensagem de toast para evitar duplicação
       }
     } catch (error) {
       console.error('Erro ao carregar rascunho:', error)
@@ -289,85 +320,139 @@ export function PatientFormWizard({
   }
 
   const onSubmit = async (data: PacienteFormData) => {
-    console.log('onSubmit called with data:', data)
-    setIsSubmitting(true)
-    
     try {
-      // Verificar duplicata por CPF
-      const { data: existingPatient } = await supabase
-        .from('pacientes')
-        .select('id, nome_completo')
-        .eq('cpf', data.cpf)
-        .single()
+      setIsSubmitting(true)
+      
+      // Verificar se CPF já existe (apenas para novos pacientes)
+      if (mode === 'create') {
+        const { data: existingPatient } = await supabase
+          .from('pacientes')
+          .select('id')
+          .eq('cpf', data.cpf.replace(/\D/g, ''))
+          .single()
 
-      if (existingPatient && mode === 'create') {
-        toast({
-          title: "CPF já cadastrado",
-          description: `Já existe um paciente cadastrado com este CPF: ${existingPatient.nome_completo}`,
-          variant: "destructive"
-        })
-        return
+        if (existingPatient) {
+          toast({
+            title: "CPF já cadastrado",
+            description: "Já existe um paciente com este CPF.",
+            variant: "destructive"
+          })
+          return
+        }
       }
 
       // Preparar dados para inserção/atualização
-      const patientData = {
+      const pacienteData = {
         ...data,
-        // Converter campos vazios para null
-        rg: data.rg || null,
-        orgao_emissor_rg: data.orgao_emissor_rg || null,
-        uf_rg: data.uf_rg || null,
-        estado_civil: data.estado_civil || null,
-        profissao: data.profissao || null,
-        telefone_fixo: data.telefone_fixo || null,
-        complemento: data.complemento || null,
-        nome_emergencia: data.contato_emergencia_nome || null,
-        parentesco_emergencia: data.contato_emergencia_parentesco || null,
-        telefone_emergencia: data.contato_emergencia_telefone || null,
-        convenio_medico: data.convenio_medico || null,
-        numero_carteirinha: data.numero_carteirinha || null,
-        historico_medico_detalhado: data.historico_medico_detalhado || null,
-        alergias_conhecidas: data.alergias_conhecidas || null,
-        medicamentos_uso: data.medicamentos_uso || null,
-        observacoes_gerais: data.observacoes_gerais || null,
-        tipo_sanguineo: data.tipo_sanguineo || null,
-        whatsapp_id: data.whatsapp_id || null,
-        instagram_id: data.instagram_id || null
+        cpf: data.cpf.replace(/\D/g, ''),
+        telefone_celular: data.telefone_celular?.replace(/\D/g, ''),
+        telefone_fixo: data.telefone_fixo?.replace(/\D/g, ''),
+        cep: data.cep?.replace(/\D/g, ''),
+        contato_emergencia_telefone: data.contato_emergencia_telefone?.replace(/\D/g, ''),
+        updated_at: new Date().toISOString()
       }
 
-      let result
-      if (mode === 'create') {
-        const { data: newPatient, error } = await supabase
-          .from('pacientes')
-          .insert([patientData])
-          .select()
-          .single()
+      // Sanitizar dados antes de enviar
+        const sanitizedData = sanitizeDataForSupabase(pacienteData)
 
-        if (error) throw error
-        result = newPatient
-        clearDraft() // Limpar rascunho após sucesso
+        let result
+        if (mode === 'create') {
+          // Verificar se já existe um paciente com o mesmo CPF ou email
+          const { data: existingPatient, error: checkError } = await supabase
+            .from('pacientes')
+            .select('id, cpf, email')
+            .or(`cpf.eq.${sanitizedData.cpf},email.eq.${sanitizedData.email}`)
+            .limit(1)
+          
+          if (checkError) {
+            console.error('Erro ao verificar paciente existente:', checkError)
+            toast({
+              title: "Erro de validação",
+              description: "Não foi possível verificar se o paciente já existe.",
+              variant: "destructive",
+            })
+            return
+          }
+          
+          if (existingPatient && existingPatient.length > 0) {
+            const existing = existingPatient[0]
+            let duplicateField = ''
+            if (existing.cpf === sanitizedData.cpf) duplicateField = 'CPF'
+            if (existing.email === sanitizedData.email) duplicateField = 'E-mail'
+            
+            toast({
+              title: "Paciente já cadastrado",
+              description: `Já existe um paciente com este ${duplicateField}.`,
+              variant: "destructive",
+            })
+            return
+          }
+          
+          result = await supabase
+            .from('pacientes')
+            .insert([sanitizedData])
+            .select()
+            .single()
       } else {
-        const { data: updatedPatient, error } = await supabase
+        // Verificar se já existe outro paciente com o mesmo CPF ou email
+        const { data: existingPatient, error: checkError } = await supabase
           .from('pacientes')
-          .update(patientData)
-          .eq('id', initialData?.id)
+          .select('id, cpf, email')
+          .or(`cpf.eq.${sanitizedData.cpf},email.eq.${sanitizedData.email}`)
+          .neq('id', initialData!.id)
+          .limit(1)
+        
+        if (checkError) {
+          console.error('Erro ao verificar paciente existente:', checkError)
+          toast({
+            title: "Erro de validação",
+            description: "Não foi possível verificar se já existe outro paciente com estes dados.",
+            variant: "destructive",
+          })
+          return
+        }
+        
+        if (existingPatient && existingPatient.length > 0) {
+          const existing = existingPatient[0]
+          let duplicateField = ''
+          if (existing.cpf === sanitizedData.cpf) duplicateField = 'CPF'
+          if (existing.email === sanitizedData.email) duplicateField = 'E-mail'
+          
+          toast({
+            title: "Dados já em uso",
+            description: `Já existe outro paciente com este ${duplicateField}.`,
+            variant: "destructive",
+          })
+          return
+        }
+        
+        result = await supabase
+          .from('pacientes')
+          .update(sanitizedData)
+          .eq('id', initialData!.id)
           .select()
           .single()
+      }
 
-        if (error) throw error
-        result = updatedPatient
+      if (result.error) {
+        throw result.error
       }
 
       toast({
         title: mode === 'create' ? "Paciente cadastrado" : "Paciente atualizado",
-        description: `${data.nome_completo} foi ${mode === 'create' ? 'cadastrado' : 'atualizado'} com sucesso.`
+        description: mode === 'create' 
+          ? "Paciente cadastrado com sucesso!" 
+          : "Dados do paciente atualizados com sucesso!"
       })
 
-      onSuccess?.(result)
+      if (onSuccess) {
+        onSuccess(result.data)
+      }
     } catch (error: any) {
       console.error('Erro ao salvar paciente:', error)
       toast({
         title: "Erro ao salvar",
-        description: error.message || "Ocorreu um erro inesperado.",
+        description: error.message || "Ocorreu um erro inesperado. Tente novamente.",
         variant: "destructive"
       })
     } finally {
@@ -548,7 +633,11 @@ export function PatientFormWizard({
                   <Button
                     type="button"
                     size="lg"
-                    onClick={nextStep}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      nextStep()
+                    }}
                     disabled={!isCurrentStepValid()}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-8"
                   >

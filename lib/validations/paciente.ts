@@ -83,8 +83,8 @@ export const pacienteSchema = z.object({
   convenio_medico: z.string().optional().or(z.literal('')),
   numero_carteirinha: z.string().optional().or(z.literal('')),
   historico_medico_detalhado: z.string().optional().or(z.literal('')),
-  alergias_conhecidas: z.array(z.string()).optional(),
-  medicamentos_uso: z.array(z.string()).optional(),
+  alergias_conhecidas: z.string().optional(),
+  medicamentos_uso: z.string().optional(),
   observacoes_gerais: z.string().optional().or(z.literal('')),
   tipo_sanguineo: z.string().optional().or(z.literal('')),
   
@@ -179,5 +179,9 @@ export interface PacienteFormSteps {
     alergias?: string
     medicamentos_uso_continuo?: string
     observacoes_medicas?: string
+  }
+  documentos: {
+    // Etapa para upload de documentos - não possui campos específicos
+    // pois é gerenciada pelos componentes DocumentUpload e DocumentList
   }
 }
