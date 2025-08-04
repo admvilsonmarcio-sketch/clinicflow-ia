@@ -139,15 +139,10 @@ export function MedicoStep() {
             </FormLabel>
             <FormControl>
               <Textarea
-                placeholder="Liste medicamentos, alimentos ou substâncias que causam alergia (separados por vírgula)"
+                placeholder="Liste medicamentos, alimentos ou substâncias que causam alergia"
                 className="min-h-[80px]"
                 {...field}
-                value={Array.isArray(field.value) ? field.value.join(', ') : ''}
-                onChange={(e) => {
-                  const value = e.target.value
-                  const array = value ? value.split(',').map(item => item.trim()).filter(Boolean) : []
-                  field.onChange(array)
-                }}
+                value={field.value || ''}
               />
             </FormControl>
             <FormMessage />
@@ -167,15 +162,10 @@ export function MedicoStep() {
             </FormLabel>
             <FormControl>
               <Textarea
-                placeholder="Liste medicamentos que usa regularmente, com dosagem e frequência (separados por vírgula)"
+                placeholder="Liste medicamentos que usa regularmente, com dosagem e frequência"
                 className="min-h-[80px]"
                 {...field}
-                value={Array.isArray(field.value) ? field.value.join(', ') : ''}
-                onChange={(e) => {
-                  const value = e.target.value
-                  const array = value ? value.split(',').map(item => item.trim()).filter(Boolean) : []
-                  field.onChange(array)
-                }}
+                value={field.value || ''}
               />
             </FormControl>
             <FormMessage />

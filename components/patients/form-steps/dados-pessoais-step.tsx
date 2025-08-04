@@ -195,46 +195,16 @@ export function DadosPessoaisStep() {
               Data de Nascimento
               <span className="text-red-500">*</span>
             </FormLabel>
-            <div className="flex gap-2">
+            <FormControl>
               <Input
                 type="date"
                 value={field.value || ''}
                 onChange={(e) => field.onChange(e.target.value)}
                 min="1900-01-01"
                 max={new Date().toISOString().split('T')[0]}
-                className="flex-1"
+                className="w-full"
               />
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-10 p-0"
-                    type="button"
-                  >
-                    <CalendarIcon className="h-4 w-4" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value ? new Date(field.value) : undefined}
-                    onSelect={(date: Date | undefined) => {
-                      if (date) {
-                        field.onChange(date.toISOString().split('T')[0]);
-                      }
-                    }}
-                    disabled={(date: Date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
-                    locale={ptBR}
-                    initialFocus
-                    captionLayout="dropdown"
-                    startMonth={new Date(1900, 0)}
-                    endMonth={new Date()}
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
+            </FormControl>
             {watchedDataNascimento && (
               <p className="text-sm text-muted-foreground">
                 Idade: {calcularIdade(watchedDataNascimento)} anos

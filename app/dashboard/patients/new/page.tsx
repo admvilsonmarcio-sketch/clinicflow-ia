@@ -1,4 +1,3 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { PatientFormWizard } from '@/components/patients/patient-form-wizard'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -22,17 +21,7 @@ export default function NewPatientPage() {
                 </div>
             </div>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Informações do Paciente</CardTitle>
-                    <CardDescription>
-                        Preencha os dados do paciente. Campos marcados com * são obrigatórios.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <PatientFormWizard mode="create" />
-                </CardContent>
-            </Card>
+            <PatientFormWizard mode="create" />
         </div>
     )
 }
