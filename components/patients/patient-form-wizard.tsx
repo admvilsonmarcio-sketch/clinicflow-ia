@@ -408,7 +408,23 @@ export function PatientFormWizard({
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
+      <div className="max-w-6xl mx-auto px-6 space-y-8">
+        {/* Header */}
+        <div className="text-center space-y-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4">
+            <User className="h-8 w-8 text-white" />
+          </div>
+          <h1 className="text-4xl font-bold text-gray-900">
+            {mode === 'create' ? 'Cadastrar Novo Paciente' : 'Editar Paciente'}
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            {mode === 'create' 
+              ? 'Preencha as informações do paciente seguindo os passos abaixo para um cadastro completo e organizado'
+              : 'Atualize as informações do paciente de forma rápida e eficiente'
+            }
+          </p>
+        </div>
 
 
       {/* Progress - apenas no modo de criação */}
@@ -423,31 +439,34 @@ export function PatientFormWizard({
       )}
 
       {/* Steps Navigation */}
-      <div className="flex flex-wrap gap-2 justify-center">
-        {STEPS.map((step, index) => {
-          const Icon = step.icon
-          const isCompleted = completedSteps.has(step.id)
-          const isCurrent = currentStep === step.id
-          const isAccessible = index <= currentStepIndex || isCompleted
-          
-          return (
-            <Button
-              key={step.id}
-              variant={isCurrent ? "default" : isCompleted ? "secondary" : "outline"}
-              size="sm"
-              className={`flex items-center gap-2 ${!isAccessible ? 'opacity-50 cursor-not-allowed' : ''}`}
-              onClick={() => isAccessible && goToStep(step.id)}
-              disabled={!isAccessible}
-            >
-              <Icon className="h-4 w-4" />
-              <span className="hidden sm:inline">{step.title}</span>
+      <div className="bg-white rounded-xl border-0 p-6 shadow-lg">
+        <div className="flex flex-wrap gap-2 justify-center">
+          {STEPS.map((step, index) => {
+            const Icon = step.icon
+            const isCompleted = completedSteps.has(step.id)
+            const isCurrent = currentStep === step.id
+            // No modo de edição, todos os passos são acessíveis
+            const isAccessible = mode === 'edit' ? true : (index <= currentStepIndex || isCompleted)
+            
+            return (
+              <Button
+                key={step.id}
+                variant={isCurrent ? "default" : isCompleted ? "secondary" : "outline"}
+                size="sm"
+                className={`flex items-center gap-2 transition-all duration-200 hover:scale-105 ${!isAccessible ? 'opacity-50 cursor-not-allowed' : ''} ${isCurrent ? 'ring-2 ring-blue-500 ring-offset-2' : ''}`}
+                onClick={() => isAccessible && goToStep(step.id)}
+                disabled={!isAccessible}
+              >
+                <Icon className="h-4 w-4" />
+                <span className="hidden sm:inline">{step.title}</span>
 
-              {isCompleted && (
-                <CheckCircle2 className="h-4 w-4 text-green-500" />
-              )}
-            </Button>
-          )
-        })}
+                {isCompleted && (
+                  <CheckCircle2 className="h-4 w-4 text-green-500" />
+                )}
+              </Button>
+            )
+          })}
+        </div>
       </div>
 
       {/* Auto-save indicator */}
@@ -463,78 +482,95 @@ export function PatientFormWizard({
       {/* Form */}
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                {React.createElement(STEPS[currentStepIndex].icon, { className: "h-5 w-5" })}
+          <Card className="border-0 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-t-lg">
+              <CardTitle className="flex items-center gap-3 text-xl">
+                {React.createElement(STEPS[currentStepIndex].icon, { className: "h-6 w-6 text-blue-600" })}
                 {STEPS[currentStepIndex].title}
-
+                {STEPS[currentStepIndex].required && (
+                  <Badge variant="secondary" className="text-xs">
+                    Obrigatório
+                  </Badge>
+                )}
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-base">
                 {STEPS[currentStepIndex].description}
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-8">
               {renderStepContent()}
             </CardContent>
           </Card>
 
           {/* Navigation */}
-          <div className="flex justify-between">
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={prevStep}
-                disabled={currentStepIndex === 0}
-              >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Anterior
-              </Button>
-              
-              {onCancel && (
+          <div className="bg-white rounded-xl border-0 shadow-lg p-6">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-3">
                 <Button
                   type="button"
-                  variant="ghost"
-                  onClick={onCancel}
+                  variant="outline"
+                  size="lg"
+                  onClick={prevStep}
+                  disabled={currentStepIndex === 0}
+                  className="border-gray-300 hover:border-blue-400"
                 >
-                  Cancelar
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Anterior
                 </Button>
-              )}
-            </div>
+                
+                {onCancel && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="lg"
+                    onClick={onCancel}
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    Cancelar
+                  </Button>
+                )}
+              </div>
 
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={saveDraft}
-                disabled={isDraftSaving}
-              >
-                <Save className="h-4 w-4 mr-2" />
-                {isDraftSaving ? 'Salvando...' : 'Salvar Rascunho'}
-              </Button>
-              
-              {currentStepIndex < STEPS.length - 1 ? (
+              <div className="flex gap-3">
                 <Button
                   type="button"
-                  onClick={nextStep}
-                  disabled={!isCurrentStepValid()}
+                  variant="outline"
+                  size="lg"
+                  onClick={saveDraft}
+                  disabled={isDraftSaving}
+                  className="border-gray-300 hover:border-green-400 text-green-700 hover:text-green-800"
                 >
-                  Próximo
-                  <ArrowRight className="h-4 w-4 ml-2" />
+                  <Save className="h-4 w-4 mr-2" />
+                  {isDraftSaving ? 'Salvando...' : 'Salvar Rascunho'}
                 </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Salvando...' : (mode === 'create' ? 'Cadastrar Paciente' : 'Atualizar Paciente')}
-                </Button>
-              )}
+                
+                {currentStepIndex < STEPS.length - 1 ? (
+                  <Button
+                    type="button"
+                    size="lg"
+                    onClick={nextStep}
+                    disabled={!isCurrentStepValid()}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-8"
+                  >
+                    Próximo
+                    <ArrowRight className="h-4 w-4 ml-2" />
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    size="lg"
+                    disabled={isSubmitting}
+                    className="bg-green-600 hover:bg-green-700 text-white px-8"
+                  >
+                    {isSubmitting ? 'Salvando...' : (mode === 'create' ? 'Cadastrar Paciente' : 'Atualizar Paciente')}
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </form>
       </FormProvider>
+      </div>
     </div>
   )
 }
