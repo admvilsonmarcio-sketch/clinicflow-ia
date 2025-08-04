@@ -1,6 +1,125 @@
-export type Database = {
+export interface Database {
   public: {
     Tables: {
+      base_conhecimento: {
+        Row: {
+          id: string
+          clinica_id: string
+          titulo: string
+          conteudo: string
+          categoria: string | null
+          tags: string[] | null
+          embedding: any | null
+          ativo: boolean | null
+          criado_por: string | null
+          criado_em: string
+          atualizado_em: string
+        }
+        Insert: {
+          id?: string
+          clinica_id: string
+          titulo: string
+          conteudo: string
+          categoria?: string | null
+          tags?: string[] | null
+          embedding?: any | null
+          ativo?: boolean | null
+          criado_por?: string | null
+          criado_em?: string
+          atualizado_em?: string
+        }
+        Update: {
+          id?: string
+          clinica_id?: string
+          titulo?: string
+          conteudo?: string
+          categoria?: string | null
+          tags?: string[] | null
+          embedding?: any | null
+          ativo?: boolean | null
+          criado_por?: string | null
+          criado_em?: string
+          atualizado_em?: string
+        }
+      }
+      contextos_ia: {
+        Row: {
+          id: string
+          conversa_id: string
+          contexto: any
+          criado_em: string
+        }
+        Insert: {
+          id?: string
+          conversa_id: string
+          contexto: any
+          criado_em?: string
+        }
+        Update: {
+          id?: string
+          conversa_id?: string
+          contexto?: any
+          criado_em?: string
+        }
+      }
+      integracoes: {
+        Row: {
+          id: string
+          clinica_id: string
+          tipo: 'whatsapp' | 'instagram' | 'telegram' | 'email'
+          configuracao: any
+          ativo: boolean
+          criado_em: string
+          atualizado_em: string
+        }
+        Insert: {
+          id?: string
+          clinica_id: string
+          tipo: 'whatsapp' | 'instagram' | 'telegram' | 'email'
+          configuracao: any
+          ativo?: boolean
+          criado_em?: string
+          atualizado_em?: string
+        }
+        Update: {
+          id?: string
+          clinica_id?: string
+          tipo?: 'whatsapp' | 'instagram' | 'telegram' | 'email'
+          configuracao?: any
+          ativo?: boolean
+          criado_em?: string
+          atualizado_em?: string
+        }
+      }
+      logs_atividade: {
+        Row: {
+          id: string
+          usuario_id: string
+          acao: string
+          detalhes: any | null
+          ip_address: string | null
+          user_agent: string | null
+          criado_em: string
+        }
+        Insert: {
+          id?: string
+          usuario_id: string
+          acao: string
+          detalhes?: any | null
+          ip_address?: string | null
+          user_agent?: string | null
+          criado_em?: string
+        }
+        Update: {
+          id?: string
+          usuario_id?: string
+          acao?: string
+          detalhes?: any | null
+          ip_address?: string | null
+          user_agent?: string | null
+          criado_em?: string
+        }
+      }
       perfis: {
         Row: {
           id: string
@@ -105,6 +224,8 @@ export type Database = {
           parentesco_emergencia: string | null
           telefone_emergencia: string | null
           observacoes_emergencia: string | null
+          numero_carteirinha: string | null
+          orgao_emissor_rg: string | null
           tipo_sanguineo: string | null
           alergias_conhecidas: string[] | null
           medicamentos_uso: string[] | null
@@ -113,7 +234,9 @@ export type Database = {
           foto_url: string | null
           qr_code: string | null
           data_ultima_consulta: string | null
-          status_ativo: boolean
+          status_ativo: boolean | null
+      convenio_medico: string | null
+      data_rascunho: string | null
           whatsapp_id: string | null
           instagram_id: string | null
           ultimo_contato: string | null
@@ -148,6 +271,8 @@ export type Database = {
           parentesco_emergencia?: string | null
           telefone_emergencia?: string | null
           observacoes_emergencia?: string | null
+          numero_carteirinha?: string | null
+          orgao_emissor_rg?: string | null
           tipo_sanguineo?: string | null
           alergias_conhecidas?: string[] | null
           medicamentos_uso?: string[] | null
@@ -156,7 +281,9 @@ export type Database = {
           foto_url?: string | null
           qr_code?: string | null
           data_ultima_consulta?: string | null
-          status_ativo?: boolean
+          status_ativo?: boolean | null
+          convenio_medico?: string | null
+          data_rascunho?: string | null
           whatsapp_id?: string | null
           instagram_id?: string | null
           ultimo_contato?: string | null
@@ -199,7 +326,9 @@ export type Database = {
           foto_url?: string | null
           qr_code?: string | null
           data_ultima_consulta?: string | null
-          status_ativo?: boolean
+          status_ativo?: boolean | null
+          convenio_medico?: string | null
+          data_rascunho?: string | null
           whatsapp_id?: string | null
           instagram_id?: string | null
           ultimo_contato?: string | null
@@ -218,7 +347,7 @@ export type Database = {
           descricao: string | null
           data_consulta: string
           duracao_minutos: number
-          status: 'agendada' | 'confirmada' | 'concluida' | 'cancelada' | 'faltou'
+          status: 'agendada' | 'confirmada' | 'realizada' | 'cancelada' | 'faltou'
           google_calendar_event_id: string | null
           lembrete_enviado: boolean
           observacoes: string | null
@@ -234,7 +363,7 @@ export type Database = {
           descricao?: string | null
           data_consulta: string
           duracao_minutos?: number
-          status?: 'agendada' | 'confirmada' | 'concluida' | 'cancelada' | 'faltou'
+          status?: 'agendada' | 'confirmada' | 'realizada' | 'cancelada' | 'faltou'
           google_calendar_event_id?: string | null
           lembrete_enviado?: boolean
           observacoes?: string | null
@@ -250,7 +379,7 @@ export type Database = {
           descricao?: string | null
           data_consulta?: string
           duracao_minutos?: number
-          status?: 'agendada' | 'confirmada' | 'concluida' | 'cancelada' | 'faltou'
+          status?: 'agendada' | 'confirmada' | 'realizada' | 'cancelada' | 'faltou'
           google_calendar_event_id?: string | null
           lembrete_enviado?: boolean
           observacoes?: string | null
@@ -346,7 +475,7 @@ export type Database = {
           tipo_arquivo: string
           tamanho_arquivo: number
           url_arquivo: string
-          categoria: 'exame' | 'receita' | 'atestado' | 'laudo' | 'outros'
+          categoria: 'exame' | 'receita' | 'atestado' | 'documento_pessoal' | 'outro'
           descricao: string | null
           data_documento: string | null
           criado_por: string
@@ -361,7 +490,7 @@ export type Database = {
           tipo_arquivo: string
           tamanho_arquivo: number
           url_arquivo: string
-          categoria?: 'exame' | 'receita' | 'atestado' | 'laudo' | 'outros'
+          categoria?: 'exame' | 'receita' | 'atestado' | 'documento_pessoal' | 'outro'
           descricao?: string | null
           data_documento?: string | null
           criado_por: string
@@ -376,7 +505,7 @@ export type Database = {
           tipo_arquivo?: string
           tamanho_arquivo?: number
           url_arquivo?: string
-          categoria?: 'exame' | 'receita' | 'atestado' | 'laudo' | 'outros'
+          categoria?: 'exame' | 'receita' | 'atestado' | 'documento_pessoal' | 'outro'
           descricao?: string | null
           data_documento?: string | null
           criado_por?: string
@@ -388,29 +517,32 @@ export type Database = {
         Row: {
           id: string
           paciente_id: string
-          operacao: 'INSERT' | 'UPDATE' | 'DELETE'
-          dados_anteriores: any | null
-          dados_novos: any | null
-          usuario_id: string | null
-          timestamp: string
+          campo_alterado: string
+          valor_anterior: string | null
+          valor_novo: string | null
+          usuario_id: string
+          data_alteracao: string
+          motivo: string | null
         }
         Insert: {
           id?: string
           paciente_id: string
-          operacao: 'INSERT' | 'UPDATE' | 'DELETE'
-          dados_anteriores?: any | null
-          dados_novos?: any | null
-          usuario_id?: string | null
-          timestamp?: string
+          campo_alterado: string
+          valor_anterior?: string | null
+          valor_novo?: string | null
+          usuario_id: string
+          data_alteracao?: string
+          motivo?: string | null
         }
         Update: {
           id?: string
           paciente_id?: string
-          operacao?: 'INSERT' | 'UPDATE' | 'DELETE'
-          dados_anteriores?: any | null
-          dados_novos?: any | null
-          usuario_id?: string | null
-          timestamp?: string
+          campo_alterado?: string
+          valor_anterior?: string | null
+          valor_novo?: string | null
+          usuario_id?: string
+          data_alteracao?: string
+          motivo?: string | null
         }
       }
     }
