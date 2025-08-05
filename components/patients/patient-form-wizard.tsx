@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
@@ -18,21 +19,51 @@ import { createClient } from '@/lib/supabase'
 const sanitizeDataForSupabase = (data: any) => {
   // Lista de campos válidos na tabela pacientes
   const validFields = [
-    'id', 'clinica_id', 'nome_completo', 'email', 'telefone', 'data_nascimento',
+    'id', 'clinica_id', 'nome_completo', 'email', 'data_nascimento',
     'genero', 'cpf', 'rg', 'orgao_emissor', 'uf_rg', 'estado_civil', 'profissao',
     'telefone_celular', 'telefone_fixo', 'cep', 'logradouro', 'numero', 'complemento',
     'bairro', 'cidade', 'uf', 'nome_emergencia', 'parentesco_emergencia',
     'telefone_emergencia', 'observacoes_emergencia', 'tipo_sanguineo',
     'alergias_conhecidas', 'medicamentos_uso', 'historico_medico_detalhado',
     'observacoes_gerais', 'foto_url', 'qr_code', 'data_ultima_consulta',
-    'status_ativo', 'convenio_medico', 'data_rascunho', 'whatsapp_id', 'instagram_id', 'ultimo_contato', 'status'
+    'status_ativo', 'convenio_medico', 'numero_carteirinha', 'data_rascunho', 'whatsapp_id', 'instagram_id', 'ultimo_contato', 'status', 'atualizado_em'
   ]
+  
+  // Campos que devem permanecer como arrays no banco
+  const arrayFields = ['alergias_conhecidas', 'medicamentos_uso']
   
   // Filtrar apenas campos válidos
   const sanitizedData: any = {}
   for (const field of validFields) {
     if (data.hasOwnProperty(field)) {
-      sanitizedData[field] = data[field]
+      let value = data[field]
+      
+      // Para campos que devem ser arrays no banco
+      if (arrayFields.includes(field)) {
+        if (typeof value === 'string' && value.trim() !== '') {
+          // Converter string para array
+          value = value.split(',').map(item => item.trim()).filter(item => item !== '')
+        } else if (!Array.isArray(value)) {
+          // Se não for array nem string válida, definir como array vazio
+          value = []
+        }
+        // Se for array vazio, definir como null para o banco
+        if (Array.isArray(value) && value.length === 0) {
+          value = null
+        }
+      } else {
+        // Para outros campos, converter arrays para strings se necessário
+        if (Array.isArray(value)) {
+          value = value.join(', ')
+        }
+        
+        // Converter null/undefined para string vazia em campos opcionais
+        if (value === null || value === undefined) {
+          value = ''
+        }
+      }
+      
+      sanitizedData[field] = value
     }
   }
   
@@ -102,6 +133,45 @@ const STEPS = [
 
 type StepId = typeof STEPS[number]['id']
 
+// Função para mapear dados do banco para o formato do formulário
+const mapDatabaseToForm = (data: any) => {
+  if (!data) return {}
+  
+  // Função para formatar CPF
+  const formatCPF = (cpf: string) => {
+    if (!cpf) return ''
+    const numbers = cpf.replace(/\D/g, '')
+    return numbers.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+  }
+  
+  // Função para formatar CEP
+  const formatCEP = (cep: string) => {
+    if (!cep) return ''
+    const numbers = cep.replace(/\D/g, '')
+    return numbers.replace(/(\d{5})(\d{3})/, '$1-$2')
+  }
+  
+  return {
+    ...data,
+    // Formatar CPF e CEP
+    cpf: formatCPF(data.cpf),
+    cep: formatCEP(data.cep),
+    // Mapear campos de emergência do banco para o formulário
+    contato_emergencia_nome: data.nome_emergencia || '',
+    contato_emergencia_parentesco: data.parentesco_emergencia || '',
+    contato_emergencia_telefone: data.telefone_emergencia || '',
+    // Converter campos null para string vazia
+    telefone_fixo: data.telefone_fixo || '',
+    instagram_id: data.instagram_id || '',
+    whatsapp_id: data.whatsapp_id || '',
+    observacoes_gerais: data.observacoes_gerais || '',
+    observacoes_emergencia: data.observacoes_emergencia || '',
+    // Converter arrays para string se necessário
+    alergias_conhecidas: Array.isArray(data.alergias_conhecidas) ? data.alergias_conhecidas.join(', ') : (data.alergias_conhecidas || ''),
+    medicamentos_uso: Array.isArray(data.medicamentos_uso) ? data.medicamentos_uso.join(', ') : (data.medicamentos_uso || '')
+  }
+}
+
 export function PatientFormWizard({ 
   initialData, 
   onSuccess, 
@@ -111,38 +181,32 @@ export function PatientFormWizard({
   const [currentStep, setCurrentStep] = useState<StepId>('dadosPessoais')
   const [completedSteps, setCompletedSteps] = useState<Set<StepId>>(new Set())
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isDraftSaving, setIsDraftSaving] = useState(false)
   const [documentRefresh, setDocumentRefresh] = useState(0)
   const { toast } = useToast()
+  const router = useRouter()
   const supabase = createClient()
 
   // Configurar formulário com React Hook Form
   const methods = useForm<PacienteFormData>({
     resolver: zodResolver(pacienteSchema),
-    defaultValues: initialData || {},
-    mode: 'onSubmit'
+    defaultValues: mapDatabaseToForm(initialData),
+    mode: 'onChange'
   })
 
-  const { handleSubmit, watch, formState: { errors, isValid } } = methods
+  const { handleSubmit, watch, reset, trigger, formState: { errors, isValid } } = methods
   const watchedValues = watch()
 
-  // Auto-save draft a cada 30 segundos
+  // Mapear dados iniciais quando initialData mudar
   useEffect(() => {
-    if (mode === 'create') {
-      const interval = setInterval(() => {
-        saveDraft()
-      }, 30000) // 30 segundos
-
-      return () => clearInterval(interval)
+    if (initialData && mode === 'edit') {
+      const mappedData = mapDatabaseToForm(initialData)
+      reset(mappedData)
+      // Trigger validation após reset para atualizar isValid
+      setTimeout(() => trigger(), 100)
     }
-  }, [watchedValues, mode])
+  }, [initialData, mode, reset, trigger])
 
-  // Carregar draft salvo ao inicializar
-  useEffect(() => {
-    if (mode === 'create' && !initialData) {
-      loadDraft()
-    }
-  }, [mode, initialData])
+
 
   const currentStepIndex = STEPS.findIndex(step => step.id === currentStep)
   const progress = ((currentStepIndex + 1) / STEPS.length) * 100
@@ -210,118 +274,40 @@ export function PatientFormWizard({
     }
   }
 
-  const saveDraft = async () => {
-    console.log('saveDraft called')
-    if (isDraftSaving) return
-    
-    setIsDraftSaving(true)
-    try {
-      // Preparar dados para salvamento
-      const draftData = {
-        nome_completo: watchedValues.nome_completo || null,
-        cpf: watchedValues.cpf || null,
-        data_nascimento: watchedValues.data_nascimento || null,
-        genero: watchedValues.genero || null,
-        rg: watchedValues.rg || null,
-        orgao_emissor: watchedValues.orgao_emissor || null,
-        uf_rg: watchedValues.uf_rg || null,
-        estado_civil: watchedValues.estado_civil || null,
-        profissao: watchedValues.profissao || null,
-        telefone_celular: watchedValues.telefone_celular || null,
-        telefone_fixo: watchedValues.telefone_fixo || null,
-        email: watchedValues.email || null,
-        cep: watchedValues.cep || null,
-        logradouro: watchedValues.logradouro || null,
-        numero: watchedValues.numero || null,
-        complemento: watchedValues.complemento || null,
-        bairro: watchedValues.bairro || null,
-        cidade: watchedValues.cidade || null,
-        uf: watchedValues.uf || null,
-        nome_emergencia: watchedValues.contato_emergencia_nome || null,
-      parentesco_emergencia: watchedValues.contato_emergencia_parentesco || null,
-      telefone_emergencia: watchedValues.contato_emergencia_telefone || null,
-        convenio_medico: watchedValues.convenio_medico || null,
-        numero_carteirinha: watchedValues.numero_carteirinha || null,
-        historico_medico_detalhado: watchedValues.historico_medico_detalhado || null,
-        alergias_conhecidas: watchedValues.alergias_conhecidas || null,
-        medicamentos_uso: watchedValues.medicamentos_uso || null,
-        observacoes_gerais: watchedValues.observacoes_gerais || null,
-        tipo_sanguineo: watchedValues.tipo_sanguineo || null,
-        whatsapp_id: watchedValues.whatsapp_id || null,
-        instagram_id: watchedValues.instagram_id || null,
-        status: 'rascunho',
-        data_rascunho: new Date().toISOString()
-      }
-      
-      // Salvar no localStorage como backup
-      localStorage.setItem('patient-form-draft', JSON.stringify(draftData))
-      
-      // Se há dados suficientes, salvar no banco
-      if (watchedValues.nome_completo && watchedValues.cpf) {
-        const { error } = await supabase
-          .from('pacientes')
-          .upsert([draftData], { onConflict: 'cpf' })
-        
-        if (error) {
-           console.error('Erro ao salvar rascunho no banco:', error)
-         } else {
-           toast({
-             title: "Rascunho salvo",
-             description: "Seus dados foram salvos automaticamente."
-           })
-         }
-      }
-    } catch (error) {
-      console.error('Erro ao salvar rascunho:', error)
-    } finally {
-      setIsDraftSaving(false)
-    }
-  }
 
-  const loadDraft = async () => {
+
+  const onSubmit = async (data: PacienteFormData) => {
+    console.log('=== FUNÇÃO ONSUBMIT INICIADA ===', { mode, data })
     try {
-      // Primeiro tentar carregar do localStorage
-      const localDraftData = localStorage.getItem('patient-form-draft')
-      if (localDraftData) {
-        const parsed = JSON.parse(localDraftData)
-        methods.reset(parsed)
+      setIsSubmitting(true)
+      console.log('onSubmit chamado:', { mode, hasInitialData: !!initialData, initialDataId: initialData?.id })
+      
+      // Verificar se o usuário está autenticado e obter clinica_id
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
         toast({
-          title: "Rascunho carregado",
-          description: "Seus dados foram restaurados do armazenamento local."
+          title: "Erro de autenticação",
+          description: "Usuário não autenticado.",
+          variant: "destructive"
         })
         return
       }
-      
-      // Se não há dados locais, tentar carregar rascunhos do banco
-      const { data: drafts, error } = await supabase
-        .from('pacientes')
-        .select('*')
-        .eq('status', 'rascunho')
-        .order('created_at', { ascending: false })
-        .limit(1)
-      
-      if (error) {
-        console.error('Erro ao carregar rascunhos do banco:', error)
+
+      // Buscar o perfil do usuário para obter o clinica_id
+      const { data: perfil, error: perfilError } = await supabase
+        .from('perfis')
+        .select('clinica_id')
+        .eq('id', user.id)
+        .single()
+
+      if (perfilError || !perfil?.clinica_id) {
+        toast({
+          title: "Erro de configuração",
+          description: "Não foi possível identificar a clínica do usuário.",
+          variant: "destructive"
+        })
         return
       }
-      
-      if (drafts && drafts.length > 0) {
-        const draft = drafts[0]
-        methods.reset(draft)
-        // Removida a segunda mensagem de toast para evitar duplicação
-      }
-    } catch (error) {
-      console.error('Erro ao carregar rascunho:', error)
-    }
-  }
-
-  const clearDraft = () => {
-    localStorage.removeItem('patient-form-draft')
-  }
-
-  const onSubmit = async (data: PacienteFormData) => {
-    try {
-      setIsSubmitting(true)
       
       // Verificar se CPF já existe (apenas para novos pacientes)
       if (mode === 'create') {
@@ -344,16 +330,23 @@ export function PatientFormWizard({
       // Preparar dados para inserção/atualização
       const pacienteData = {
         ...data,
+        clinica_id: perfil.clinica_id,
         cpf: data.cpf.replace(/\D/g, ''),
         telefone_celular: data.telefone_celular?.replace(/\D/g, ''),
         telefone_fixo: data.telefone_fixo?.replace(/\D/g, ''),
         cep: data.cep?.replace(/\D/g, ''),
-        contato_emergencia_telefone: data.contato_emergencia_telefone?.replace(/\D/g, ''),
-        updated_at: new Date().toISOString()
+        // Mapear campos de emergência para os nomes corretos no banco
+        nome_emergencia: data.contato_emergencia_nome,
+        parentesco_emergencia: data.contato_emergencia_parentesco,
+        telefone_emergencia: data.contato_emergencia_telefone?.replace(/\D/g, ''),
+        observacoes_emergencia: data.observacoes_emergencia,
+        status: 'ativo'
       }
 
       // Sanitizar dados antes de enviar
         const sanitizedData = sanitizeDataForSupabase(pacienteData)
+        console.log('Dados originais:', pacienteData)
+        console.log('Dados sanitizados:', sanitizedData)
 
         let result
         if (mode === 'create') {
@@ -387,6 +380,8 @@ export function PatientFormWizard({
             })
             return
           }
+          
+          console.log('Tentando criar novo paciente:', { cpf: sanitizedData.cpf, nome: sanitizedData.nome_completo })
           
           result = await supabase
             .from('pacientes')
@@ -426,6 +421,8 @@ export function PatientFormWizard({
           return
         }
         
+        console.log('Tentando atualizar paciente:', { id: initialData!.id, cpf: sanitizedData.cpf, nome: sanitizedData.nome_completo })
+        
         result = await supabase
           .from('pacientes')
           .update(sanitizedData)
@@ -435,24 +432,52 @@ export function PatientFormWizard({
       }
 
       if (result.error) {
+        console.error('Erro detalhado na operação:', {
+          mode,
+          code: result.error.code,
+          message: result.error.message,
+          details: result.error.details,
+          hint: result.error.hint,
+          sanitizedData: sanitizedData
+        })
         throw result.error
       }
 
+      console.log(`${mode === 'create' ? 'Paciente criado' : 'Paciente atualizado'} com sucesso:`, result.data)
+      
       toast({
-        title: mode === 'create' ? "Paciente cadastrado" : "Paciente atualizado",
+        title: mode === 'create' ? "Paciente cadastrado com sucesso!" : "Paciente atualizado com sucesso!",
         description: mode === 'create' 
-          ? "Paciente cadastrado com sucesso!" 
-          : "Dados do paciente atualizados com sucesso!"
+          ? `${result.data.nome_completo} foi adicionado ao sistema.` 
+          : `Os dados de ${result.data.nome_completo} foram atualizados.`
       })
+
+      // Redirecionar após sucesso
+      if (mode === 'create') {
+        setTimeout(() => {
+          router.push('/dashboard/patients')
+        }, 1500)
+      } else {
+        setTimeout(() => {
+          router.push(`/dashboard/patients/${result.data.id}`)
+        }, 1500)
+      }
 
       if (onSuccess) {
         onSuccess(result.data)
       }
     } catch (error: any) {
-      console.error('Erro ao salvar paciente:', error)
+      console.error('Erro detalhado ao salvar paciente:', {
+        mode,
+        error: error,
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint
+      })
       toast({
         title: "Erro ao salvar",
-        description: error.message || "Ocorreu um erro inesperado. Tente novamente.",
+        description: `Falha ao ${mode === 'create' ? 'cadastrar' : 'atualizar'} paciente: ${error.message || 'Erro desconhecido'}`,
         variant: "destructive"
       })
     } finally {
@@ -554,15 +579,7 @@ export function PatientFormWizard({
         </div>
       </div>
 
-      {/* Auto-save indicator */}
-      {isDraftSaving && (
-        <Alert>
-          <Save className="h-4 w-4" />
-          <AlertDescription>
-            Salvando rascunho automaticamente...
-          </AlertDescription>
-        </Alert>
-      )}
+
 
       {/* Form */}
       <FormProvider {...methods}>
@@ -617,17 +634,6 @@ export function PatientFormWizard({
               </div>
 
               <div className="flex gap-3">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="lg"
-                  onClick={saveDraft}
-                  disabled={isDraftSaving}
-                  className="border-gray-300 hover:border-green-400 text-green-700 hover:text-green-800"
-                >
-                  <Save className="h-4 w-4 mr-2" />
-                  {isDraftSaving ? 'Salvando...' : 'Salvar Rascunho'}
-                </Button>
                 
                 {currentStepIndex < STEPS.length - 1 ? (
                   <Button
@@ -649,6 +655,29 @@ export function PatientFormWizard({
                     type="submit"
                     size="lg"
                     disabled={isSubmitting}
+                    onClick={(e) => {
+                      console.log('=== BOTÃO SUBMIT CLICADO ===', { isSubmitting, mode, isValid, errors })
+                      console.log('Valores do formulário:', watchedValues)
+                      console.log('Erros detalhados:', errors)
+                      console.log('Dados iniciais mapeados:', mapDatabaseToForm(initialData))
+                      
+                      // Verificar campos obrigatórios específicos
+                      const requiredFields = {
+                        nome_completo: watchedValues.nome_completo,
+                        cpf: watchedValues.cpf,
+                        data_nascimento: watchedValues.data_nascimento,
+                        genero: watchedValues.genero,
+                        telefone_celular: watchedValues.telefone_celular,
+                        email: watchedValues.email,
+                        cep: watchedValues.cep,
+                        logradouro: watchedValues.logradouro,
+                        numero: watchedValues.numero,
+                        bairro: watchedValues.bairro,
+                        cidade: watchedValues.cidade,
+                        uf: watchedValues.uf
+                      }
+                      console.log('Campos obrigatórios:', requiredFields)
+                    }}
                     className="bg-green-600 hover:bg-green-700 text-white px-8"
                   >
                     {isSubmitting ? 'Salvando...' : (mode === 'create' ? 'Cadastrar Paciente' : 'Atualizar Paciente')}

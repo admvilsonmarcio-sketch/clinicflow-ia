@@ -78,13 +78,14 @@ export const pacienteSchema = z.object({
   contato_emergencia_telefone: z.string()
     .regex(TELEFONE_CELULAR_REGEX, 'Telefone de emergência deve estar no formato (XX) XXXXX-XXXX')
     .optional().or(z.literal('')),
+  observacoes_emergencia: z.string().optional().or(z.literal('')),
   
   // INFORMAÇÕES MÉDICAS OPCIONAIS
   convenio_medico: z.string().optional().or(z.literal('')),
   numero_carteirinha: z.string().optional().or(z.literal('')),
   historico_medico_detalhado: z.string().optional().or(z.literal('')),
-  alergias_conhecidas: z.string().optional(),
-  medicamentos_uso: z.string().optional(),
+  alergias_conhecidas: z.union([z.string(), z.array(z.string())]).optional().or(z.literal('')),
+  medicamentos_uso: z.union([z.string(), z.array(z.string())]).optional().or(z.literal('')),
   observacoes_gerais: z.string().optional().or(z.literal('')),
   tipo_sanguineo: z.string().optional().or(z.literal('')),
   
