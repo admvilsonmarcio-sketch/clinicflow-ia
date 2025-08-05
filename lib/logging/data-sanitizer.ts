@@ -8,7 +8,8 @@ const SENSITIVE_FIELDS = [
     'nome_completo',
     'email',
     'telefone',
-    'telefone_emergencia',
+    'telefone_celular',
+    'telefone_fixo',
     'endereco',
     'data_nascimento',
     'historico_medico',
@@ -26,7 +27,8 @@ const SENSITIVE_FIELDS = [
 const MASKABLE_FIELDS = [
     'email',
     'telefone',
-    'telefone_emergencia'
+    'telefone_celular',
+    'telefone_fixo'
 ]
 
 /**
@@ -50,7 +52,7 @@ export const sanitizeForLog = (data: any): any => {
         if (SENSITIVE_FIELDS.includes(key.toLowerCase())) {
             if (key.toLowerCase() === 'email' && value) {
                 sanitized[key] = maskEmail(value)
-            } else if ((key.toLowerCase() === 'telefone' || key.toLowerCase() === 'telefone_emergencia') && value) {
+            } else if (['telefone', 'telefone_celular', 'telefone_fixo'].includes(key.toLowerCase()) && value) {
                 sanitized[key] = maskPhone(value)
             } else {
                 sanitized[key] = '[REDACTED]'
@@ -100,7 +102,7 @@ export const sanitizePatientData = (patientData: any) => {
         id: patientData.id || '[NEW]',
         hasName: !!patientData.nome_completo,
         hasEmail: !!patientData.email,
-        hasPhone: !!patientData.telefone,
+        hasPhone: !!patientData.telefone_celular,
         hasBirthDate: !!patientData.data_nascimento,
         hasAddress: !!patientData.endereco,
         hasMedicalHistory: !!patientData.historico_medico,
