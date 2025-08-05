@@ -22,21 +22,48 @@ import { DocumentList } from './document-list'
 interface PatientDetailsProps {
     patient: {
         id: string
+        clinica_id: string
         nome_completo: string
-        email?: string
-        telefone: string
-        data_nascimento?: string
-        genero?: 'masculino' | 'feminino' | 'outro'
-        endereco?: string
-        contato_emergencia?: string
-        telefone_emergencia?: string
-        historico_medico?: string
-        alergias?: string
-        medicamentos?: string
-        observacoes?: string
+        email: string
+        data_nascimento: string
+        genero: 'masculino' | 'feminino' | 'outro'
+        whatsapp_id?: string
+        instagram_id?: string
+        ultimo_contato?: string
         status: 'ativo' | 'inativo' | 'bloqueado'
         criado_em: string
         atualizado_em: string
+        cpf?: string
+        rg?: string
+        orgao_emissor?: string
+        uf_rg?: string
+        estado_civil?: string
+        profissao?: string
+        telefone_celular?: string
+        telefone_fixo?: string
+        cep?: string
+        logradouro?: string
+        numero?: string
+        complemento?: string
+        bairro?: string
+        cidade?: string
+        uf?: string
+        nome_emergencia?: string
+        parentesco_emergencia?: string
+        observacoes_emergencia?: string
+        telefone_emergencia?: string
+        tipo_sanguineo?: string
+        alergias_conhecidas?: string[]
+        medicamentos_uso?: string[]
+        historico_medico_detalhado?: string
+        observacoes_gerais?: string
+        foto_url?: string
+        qr_code?: string
+        data_ultima_consulta?: string
+        status_ativo?: boolean
+        convenio_medico?: string
+        data_rascunho?: string
+        numero_carteirinha?: string
     }
 }
 
@@ -68,7 +95,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                                     <Phone className="h-3 w-3 sm:h-4 sm:w-4" />
                                     Telefone
                                 </div>
-                                <p className="font-medium text-sm sm:text-base break-all">{patient.telefone}</p>
+                                <p className="font-medium text-sm sm:text-base break-all">{patient.telefone_celular || 'Não informado'}</p>
                             </div>
 
                             {patient.email && (
@@ -102,21 +129,11 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                                 </p>
                             </div>
                         </div>
-
-                        {patient.endereco && (
-                            <div className="space-y-2 pt-3 lg:pt-4 border-t">
-                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
-                                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
-                                    Endereço
-                                </div>
-                                <p className="font-medium text-sm sm:text-base break-words">{patient.endereco}</p>
-                            </div>
-                        )}
                     </CardContent>
                 </Card>
 
                 {/* Contato de Emergência */}
-                {(patient.contato_emergencia || patient.telefone_emergencia) && (
+                {(patient.nome_emergencia || patient.parentesco_emergencia || patient.observacoes_emergencia) && (
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
@@ -126,20 +143,27 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                         </CardHeader>
                         <CardContent className="space-y-3 lg:space-y-4">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
-                                {patient.contato_emergencia && (
+                                {patient.nome_emergencia && (
                                     <div className="space-y-2">
                                         <div className="text-xs sm:text-sm text-gray-500">Nome</div>
-                                        <p className="font-medium text-sm sm:text-base break-words">{patient.contato_emergencia}</p>
+                                        <p className="font-medium text-sm sm:text-base break-words">{patient.nome_emergencia}</p>
                                     </div>
                                 )}
 
-                                {patient.telefone_emergencia && (
+                                {patient.parentesco_emergencia && (
                                     <div className="space-y-2">
-                                        <div className="text-xs sm:text-sm text-gray-500">Telefone</div>
-                                        <p className="font-medium text-sm sm:text-base break-all">{patient.telefone_emergencia}</p>
+                                        <div className="text-xs sm:text-sm text-gray-500">Parentesco</div>
+                                        <p className="font-medium text-sm sm:text-base break-words">{patient.parentesco_emergencia}</p>
                                     </div>
                                 )}
                             </div>
+
+                            {patient.observacoes_emergencia && (
+                                <div className="space-y-2 pt-2 border-t">
+                                    <div className="text-xs sm:text-sm text-gray-500">Observações</div>
+                                    <p className="font-medium text-sm sm:text-base break-words">{patient.observacoes_emergencia}</p>
+                                </div>
+                            )}
                         </CardContent>
                     </Card>
                 )}
@@ -153,38 +177,46 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4 lg:space-y-6">
-                        {patient.alergias && (
+                        {patient.alergias_conhecidas && (
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
                                     <AlertTriangle className="h-3 w-3 sm:h-4 sm:w-4 text-red-500" />
-                                    Alergias
+                                    Alergias Conhecidas
                                 </div>
                                 <div className="p-2 sm:p-3 bg-red-50 border border-red-200 rounded-md">
-                                    <p className="text-red-800 text-sm sm:text-base break-words">{patient.alergias}</p>
+                                    <p className="text-red-800 text-sm sm:text-base break-words">
+                                        {Array.isArray(patient.alergias_conhecidas)
+                                            ? patient.alergias_conhecidas.join(', ')
+                                            : patient.alergias_conhecidas}
+                                    </p>
                                 </div>
                             </div>
                         )}
 
-                        {patient.medicamentos && (
+                        {patient.medicamentos_uso && (
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
                                     <Pill className="h-3 w-3 sm:h-4 sm:w-4" />
                                     Medicamentos em Uso
                                 </div>
                                 <div className="p-2 sm:p-3 bg-blue-50 border border-blue-200 rounded-md">
-                                    <p className="text-blue-800 text-sm sm:text-base break-words">{patient.medicamentos}</p>
+                                    <p className="text-blue-800 text-sm sm:text-base break-words">
+                                        {Array.isArray(patient.medicamentos_uso)
+                                            ? patient.medicamentos_uso.join(', ')
+                                            : patient.medicamentos_uso}
+                                    </p>
                                 </div>
                             </div>
                         )}
 
-                        {patient.historico_medico && (
+                        {patient.historico_medico_detalhado && (
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
                                     <FileText className="h-3 w-3 sm:h-4 sm:w-4" />
-                                    Histórico Médico
+                                    Histórico Médico Detalhado
                                 </div>
                                 <div className="p-2 sm:p-3 bg-gray-50 border border-gray-200 rounded-md">
-                                    <p className="text-gray-800 text-sm sm:text-base whitespace-pre-wrap break-words">{patient.historico_medico}</p>
+                                    <p className="text-gray-800 text-sm sm:text-base whitespace-pre-wrap break-words">{patient.historico_medico_detalhado}</p>
                                 </div>
                             </div>
                         )}
@@ -192,7 +224,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                 </Card>
 
                 {/* Observações */}
-                {patient.observacoes && (
+                {patient.observacoes_gerais && (
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
@@ -202,7 +234,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                         </CardHeader>
                         <CardContent>
                             <div className="p-2 sm:p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-                                <p className="text-yellow-800 text-sm sm:text-base whitespace-pre-wrap break-words">{patient.observacoes}</p>
+                                <p className="text-yellow-800 text-sm sm:text-base whitespace-pre-wrap break-words">{patient.observacoes_gerais}</p>
                             </div>
                         </CardContent>
                     </Card>
@@ -248,8 +280,8 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <DocumentList 
-                            patientId={patient.id} 
+                        <DocumentList
+                            patientId={patient.id}
                             showUpload={false}
                             showDownload={true}
                             compact={true}

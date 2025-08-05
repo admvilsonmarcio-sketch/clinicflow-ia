@@ -3,6 +3,7 @@
 import { useFormContext } from 'react-hook-form'
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertTriangle, Phone, User, Heart } from 'lucide-react'
@@ -37,6 +38,7 @@ export function EmergenciaStep() {
   const watchedNomeEmergencia = watch('contato_emergencia_nome')
   const watchedTelefoneEmergencia = watch('contato_emergencia_telefone')
   const watchedParentesco = watch('contato_emergencia_parentesco')
+  const watchedObservacoesEmergencia = watch('observacoes_emergencia')
 
   // Validação de telefone em tempo real
   useEffect(() => {
@@ -185,11 +187,34 @@ export function EmergenciaStep() {
               <FormMessage />
             </FormItem>
           )}
-        />
-      </div>
+        />      </div>
+
+      {/* Observações de Emergência */}
+      <FormField
+        control={control}
+        name="observacoes_emergencia"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4" />
+              Observações de Emergência
+            </FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder="Informações importantes para situações de emergência (ex: alergias graves, medicamentos essenciais, condições especiais, etc.)"
+                {...field}
+                value={field.value || ''}
+                rows={3}
+                className="resize-none"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
       {/* Resumo do Contato de Emergência */}
-      {(watchedNomeEmergencia || watchedTelefoneEmergencia || watchedParentesco) && (
+      {(watchedNomeEmergencia || watchedTelefoneEmergencia || watchedParentesco || watchedObservacoesEmergencia) && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
           <h4 className="font-medium text-red-900 mb-2 flex items-center gap-2">
             <AlertTriangle className="h-4 w-4" />
@@ -212,6 +237,12 @@ export function EmergenciaStep() {
               <div className="flex items-center gap-2">
                 <Phone className="h-3 w-3" />
                 <span><strong>Telefone:</strong> {watchedTelefoneEmergencia}</span>
+              </div>
+            )}
+            {watchedObservacoesEmergencia && (
+              <div className="flex items-start gap-2">
+                <AlertTriangle className="h-3 w-3 mt-0.5" />
+                <span><strong>Observações:</strong> {watchedObservacoesEmergencia}</span>
               </div>
             )}
           </div>
