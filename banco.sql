@@ -181,8 +181,7 @@ CREATE TABLE public.pacientes (
   status_ativo boolean DEFAULT true,
   convenio_medico character varying,
   data_rascunho timestamp with time zone,
-  numero_carteirinha character varying,
-  orgao_emissor_rg character varying,
+  numero_carteirinha character varying
   CONSTRAINT pacientes_pkey PRIMARY KEY (id),
   CONSTRAINT pacientes_clinica_id_fkey FOREIGN KEY (clinica_id) REFERENCES public.clinicas(id)
 );

@@ -48,7 +48,7 @@ export const pacienteSchema = z.object({
   
   // DOCUMENTOS OPCIONAIS
   rg: z.string().optional().or(z.literal('')),
-  orgao_emissor_rg: z.string().optional().or(z.literal('')),
+  orgao_emissor: z.string().optional().or(z.literal('')),
   uf_rg: z.string().length(2, 'UF deve ter 2 caracteres').optional().or(z.literal('')),
   estado_civil: z.enum(['solteiro', 'casado', 'divorciado', 'viuvo', 'uniao_estavel']).optional(),
   profissao: z.string().optional().or(z.literal('')),
@@ -146,7 +146,7 @@ export interface PacienteFormSteps {
     data_nascimento: string
     genero: 'masculino' | 'feminino' | 'outro'
     rg?: string
-    orgao_emissor_rg?: string
+    orgao_emissor?: string
     uf_rg?: string
     estado_civil?: 'solteiro' | 'casado' | 'divorciado' | 'viuvo' | 'uniao_estavel'
     profissao?: string

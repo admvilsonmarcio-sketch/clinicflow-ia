@@ -301,7 +301,7 @@ export interface Database {
           genero?: 'masculino' | 'feminino' | 'outro'
           cpf?: string
           rg?: string | null
-          orgao_emissor?: string | null
+          orgao_emissor_rg?: string | null
           uf_rg?: string | null
           estado_civil?: string | null
           profissao?: string | null

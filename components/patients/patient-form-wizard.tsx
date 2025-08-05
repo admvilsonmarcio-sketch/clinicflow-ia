@@ -223,7 +223,7 @@ export function PatientFormWizard({
         data_nascimento: watchedValues.data_nascimento || null,
         genero: watchedValues.genero || null,
         rg: watchedValues.rg || null,
-        orgao_emissor_rg: watchedValues.orgao_emissor_rg || null,
+        orgao_emissor: watchedValues.orgao_emissor || null,
         uf_rg: watchedValues.uf_rg || null,
         estado_civil: watchedValues.estado_civil || null,
         profissao: watchedValues.profissao || null,

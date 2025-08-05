@@ -264,7 +264,7 @@ export function DadosPessoaisStep() {
       {/* Órgão Emissor RG */}
       <FormField
         control={control}
-        name="orgao_emissor_rg"
+        name="orgao_emissor"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Órgão Emissor</FormLabel>
