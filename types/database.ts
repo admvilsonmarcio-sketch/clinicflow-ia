@@ -202,7 +202,6 @@ export interface Database {
           clinica_id: string
           nome_completo: string
           email: string
-          telefone: string
           data_nascimento: string
           genero: 'masculino' | 'feminino' | 'outro'
           cpf: string
@@ -249,7 +248,6 @@ export interface Database {
           clinica_id: string
           nome_completo: string
           email: string
-          telefone: string
           data_nascimento: string
           genero: 'masculino' | 'feminino' | 'outro'
           cpf: string
@@ -296,7 +294,6 @@ export interface Database {
           clinica_id?: string
           nome_completo?: string
           email?: string
-          telefone?: string
           data_nascimento?: string
           genero?: 'masculino' | 'feminino' | 'outro'
           cpf?: string

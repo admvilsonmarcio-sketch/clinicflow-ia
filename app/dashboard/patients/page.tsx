@@ -5,10 +5,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Search, Plus, User, Phone, Mail, Filter, X, Users } from 'lucide-react'
+import { Search, Plus, User, Phone, Mail, Filter, X, Users, Trash2, MoreVertical } from 'lucide-react'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useToast } from '@/components/ui/use-toast'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,7 +19,7 @@ interface Patient {
     id: string
     nome_completo: string
     email?: string
-    telefone: string
+    telefone_celular?: string
     data_nascimento?: string
     genero?: 'masculino' | 'feminino' | 'outro'
     status: 'ativo' | 'inativo' | 'bloqueado'
@@ -45,6 +48,7 @@ export default function PatientsPage() {
     })
 
     const supabase = createClientComponentClient()
+    const { toast } = useToast()
 
     useEffect(() => {
         fetchPatients()
@@ -70,6 +74,40 @@ export default function PatientsPage() {
         }
     }
 
+    const deletePatient = async (patientId: string, patientName: string) => {
+        try {
+            const { error } = await supabase
+                .from('pacientes')
+                .delete()
+                .eq('id', patientId)
+
+            if (error) {
+                console.error('Erro ao excluir paciente:', error)
+                toast({
+                    title: "Erro ao excluir paciente",
+                    description: error.message,
+                    variant: "destructive"
+                })
+                return
+            }
+
+            // Atualizar a lista removendo o paciente excluído
+            setPatients(prev => prev.filter(p => p.id !== patientId))
+            
+            toast({
+                title: "Paciente excluído com sucesso!",
+                description: `${patientName} foi removido do sistema.`
+            })
+        } catch (error) {
+            console.error('Erro ao excluir paciente:', error)
+            toast({
+                title: "Erro ao excluir paciente",
+                description: "Ocorreu um erro inesperado. Tente novamente.",
+                variant: "destructive"
+            })
+        }
+    }
+
     const calculateAge = (birthDate: string) => {
         const today = new Date()
         const birth = new Date(birthDate)
@@ -91,7 +129,7 @@ export default function PatientsPage() {
             const searchLower = filters.search.toLowerCase()
             filtered = filtered.filter(patient => 
                 patient.nome_completo.toLowerCase().includes(searchLower) ||
-                patient.telefone.includes(filters.search) ||
+                (patient.telefone_celular && patient.telefone_celular.includes(filters.search)) ||
                 (patient.email && patient.email.toLowerCase().includes(searchLower))
             )
         }
@@ -160,7 +198,7 @@ export default function PatientsPage() {
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                             <Input
-                                placeholder="Buscar pacientes por nome, telefone ou email..."
+                                placeholder="Buscar pacientes por nome, telefone celular ou email..."
                                 className="pl-10"
                                 value={filters.search}
                                 onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
@@ -276,10 +314,10 @@ export default function PatientsPage() {
                                                 {patient.nome_completo}
                                             </h3>
                                             <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-1 sm:space-y-0 text-sm text-gray-500">
-                                                {patient.telefone && (
+                                                {patient.telefone_celular && (
                                                     <div className="flex items-center">
                                                         <Phone className="h-3 w-3 mr-1 flex-shrink-0" />
-                                                        <span className="truncate">{patient.telefone}</span>
+                                                        <span className="truncate">{patient.telefone_celular}</span>
                                                     </div>
                                                 )}
                                                 {patient.email && (
@@ -303,12 +341,50 @@ export default function PatientsPage() {
                                             {patient.status === 'ativo' ? 'Ativo' : patient.status === 'inativo' ? 'Inativo' : 'Bloqueado'}
                                         </Badge>
 
-                                        <Button variant="outline" size="sm" asChild className="flex-shrink-0">
-                                            <Link href={`/dashboard/patients/${patient.id}`}>
-                                                <span className="hidden sm:inline">Ver Detalhes</span>
-                                                <span className="sm:hidden">Ver</span>
-                                            </Link>
-                                        </Button>
+                                        <div className="flex items-center space-x-2">
+                                            <Button variant="outline" size="sm" asChild className="flex-shrink-0">
+                                                <Link href={`/dashboard/patients/${patient.id}`}>
+                                                    <span className="hidden sm:inline">Ver Detalhes</span>
+                                                    <span className="sm:hidden">Ver</span>
+                                                </Link>
+                                            </Button>
+
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="outline" size="sm" className="flex-shrink-0">
+                                                        <MoreVertical className="h-4 w-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <AlertDialog>
+                                                        <AlertDialogTrigger asChild>
+                                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                                <Trash2 className="h-4 w-4 mr-2" />
+                                                                Excluir Paciente
+                                                            </DropdownMenuItem>
+                                                        </AlertDialogTrigger>
+                                                        <AlertDialogContent>
+                                                            <AlertDialogHeader>
+                                                                <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
+                                                                <AlertDialogDescription>
+                                                                    Tem certeza que deseja excluir o paciente <strong>{patient.nome_completo}</strong>? 
+                                                                    Esta ação não pode ser desfeita e todos os dados relacionados serão permanentemente removidos.
+                                                                </AlertDialogDescription>
+                                                            </AlertDialogHeader>
+                                                            <AlertDialogFooter>
+                                                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                                                <AlertDialogAction 
+                                                                    onClick={() => deletePatient(patient.id, patient.nome_completo)}
+                                                                    className="bg-red-600 hover:bg-red-700"
+                                                                >
+                                                                    Excluir
+                                                                </AlertDialogAction>
+                                                            </AlertDialogFooter>
+                                                        </AlertDialogContent>
+                                                    </AlertDialog>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
