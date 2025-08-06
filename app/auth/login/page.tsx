@@ -61,7 +61,7 @@ export default async function LoginPage() {
           {/* Footer */}
           <div className="text-center pt-6 sm:pt-8">
             <p className="text-xs text-gray-500">
-              © 2024 MediFlow. Todos os direitos reservados.
+              © 2025 MediFlow. Todos os direitos reservados.
             </p>
             <p className="text-xs text-gray-400 mt-2">
               Desenvolvimento por{' '}

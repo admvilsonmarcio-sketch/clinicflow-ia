@@ -240,7 +240,7 @@ export default function Home() {
               <span className="font-semibold text-sm sm:text-base">MediFlow</span>
             </div>
             <div className="text-xs sm:text-sm text-center">
-              © 2024 MediFlow. Todos os direitos reservados.{' '}
+              © 2025 MediFlow. Todos os direitos reservados.{' '}
               <a 
                 href="https://www.linkedin.com/in/marshallpaiva/" 
                 target="_blank" 

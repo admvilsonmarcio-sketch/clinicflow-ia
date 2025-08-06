@@ -1,6 +1,6 @@
 # 📋 Changelog - MediFlow v0.5.0-beta
 
-> **Data de Lançamento**: Dezembro 2024  
+> **Data de Lançamento:** Agosto 2025  
 > **Versão**: 0.5.0-beta  
 > **Tipo**: Melhorias e Correções Críticas
 

@@ -8,7 +8,7 @@
 - [x] Componentes UI base (shadcn/ui)
 - [x] Página inicial de pacientes
 
-## ✅ Fase 2: Correções Críticas (Concluída - 2024-12-25)
+## ✅ Fase 2: Correções Críticas (Concluída - 2025-07-28)
 - [x] Validação Zod implementada em todos os formulários
 - [x] Sistema de logging médico com sanitização de dados
 - [x] Tratamento de erros específico para área médica
@@ -17,7 +17,7 @@
 - [x] CRUD completo de pacientes
 - [x] Compliance LGPD/HIPAA nos logs
 
-## ✅ Fase 3: Sistema de Documentos (Concluída - 2024-12-26)
+## ✅ Fase 3: Sistema de Documentos (Concluída - 2025-08-01)
 - [x] **Supabase Storage** configurado com bucket 'documentos-pacientes'
 - [x] **Upload de documentos** com validação de tipo e tamanho
 - [x] **Categorização** de documentos (Exame, Receita, Laudo, etc.)
@@ -35,7 +35,7 @@
   - [x] Tabelas com scroll horizontal
   - [x] Cards e grids responsivos
 
-## ✅ Fase 3.5: Busca Avançada e Histórico (Concluída - 2024-12-27)
+## ✅ Fase 3.5: Busca Avançada e Histórico (Concluída - 2025-08-02)
 - [x] **Busca avançada** com filtros múltiplos (nome, CPF, telefone, convênio)
 - [x] **Histórico médico** com timeline e paginação
 - [x] **Navegação otimizada** com duplo clique nos cards
@@ -43,7 +43,7 @@
 - [x] **Queries otimizadas** no Supabase com ordenação e filtros
 - [x] **UX melhorada** com loading states e feedback visual
 
-## ✅ Fase 4: Melhorias no Cadastro de Pacientes (Concluída - 2024-12-28)
+## ✅ Fase 4: Melhorias no Cadastro de Pacientes (Concluída - 2025-08-05)
 **Status Atual:** Fase 4 concluída - Melhorias no Cadastro de Pacientes (v0.5.0-beta)
 
 ### 4.1 Campos Obrigatórios e Validações
