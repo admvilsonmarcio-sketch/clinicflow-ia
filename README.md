@@ -14,7 +14,7 @@
   
   <div style="margin-top: 10px;">
     <img src="https://img.shields.io/badge/Versão-0.5.0--beta-blue?style=flat-square" alt="Versão" />
-    <img src="https://img.shields.io/badge/Status-Cadastro%20Avançado%20Completo-success?style=flat-square" alt="Status" />
+    <img src="https://img.shields.io/badge/Status-Dashboard%20e%20SEO%20Completos-success?style=flat-square" alt="Status" />
     <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License" />
     <img src="https://img.shields.io/badge/LGPD-Compliant-purple?style=flat-square" alt="LGPD" />
   </div>
@@ -96,6 +96,9 @@ O **MediFlow** é uma plataforma completa de gestão médica que combina automa�
 - **Exclusão completa** com remoção automática de documentos
 - **Sistema de auditoria** com logs detalhados
 - **Salvamento automático** de rascunho
+- **SEO e Performance** - Página comercial otimizada
+- **Metadados dinâmicos** com Open Graph e Twitter Cards
+- **Sitemap automático** para melhor indexação
 
 ### 🔄 **Próximas Funcionalidades** (v0.6.0)
 
@@ -134,7 +137,7 @@ cp .env.example .env.local
 # Edite .env.local com suas credenciais do Supabase
 
 # 4. Configure o banco de dados
-# Execute database-schema.sql no Supabase SQL Editor
+# Execute banco.sql no Supabase SQL Editor
 
 # 5. Configure o Supabase Storage
 npm run init-storage
@@ -157,7 +160,7 @@ npm run dev
    NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anonima
    ```
 3. **Execute o schema** no SQL Editor:
-   - Copie o conteúdo de `database-schema.sql`
+   - Copie o conteúdo de `banco.sql`
    - Cole no SQL Editor do Supabase
    - Execute o script
 
@@ -175,7 +178,7 @@ npm run dev
 <table>
 <tr>
 <td><strong>Frontend</strong></td>
-<td>Next.js 14, TypeScript, Tailwind CSS, shadcn/ui</td>
+<td>Next.js 14, TypeScript 5.0, Tailwind CSS, shadcn/ui, React IMask</td>
 </tr>
 <tr>
 <td><strong>Backend</strong></td>
@@ -187,7 +190,7 @@ npm run dev
 </tr>
 <tr>
 <td><strong>Validação</strong></td>
-<td>Zod + React Hook Form</td>
+<td>Zod + React Hook Form + ViaCEP</td>
 </tr>
 <tr>
 <td><strong>Estado</strong></td>
@@ -195,7 +198,11 @@ npm run dev
 </tr>
 <tr>
 <td><strong>Estilização</strong></td>
-<td>Tailwind CSS + shadcn/ui</td>
+<td>Tailwind CSS + shadcn/ui + Responsive Design</td>
+</tr>
+<tr>
+<td><strong>SEO & Performance</strong></td>
+<td>Metadados otimizados, Open Graph, Sitemap automático</td>
 </tr>
 </table>
 
@@ -252,10 +259,9 @@ Contribuições são **muito bem-vindas**! Este projeto segue as melhores práti
 
 ### 📋 Documentos Essenciais
 
-- 📊 **[STATUS-PROJETO.md](./STATUS-PROJETO.md)** - Status detalhado e métricas
 - 🛠️ **[technical-roadmap.md](./docs/technical-roadmap.md)** - Roadmap técnico completo
-- 🔧 **[TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)** - Soluções para problemas
-- 📝 **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** - Guia de contribuição
+- 📝 **[CHANGELOG.md](./CHANGELOG.md)** - Histórico de versões e mudanças
+- 📝 **[CHANGELOG-V0.5.0-beta.md](./CHANGELOG-V0.5.0-beta.md)** - Mudanças da versão atual
 - ⚙️ **[GITHUB-SETUP.md](./docs/GITHUB-SETUP.md)** - Configuração do GitHub
 - 📝 **[COMMIT-CONVENTIONS.md](./docs/COMMIT-CONVENTIONS.md)** - Convenções de commit
 
@@ -296,36 +302,13 @@ O **MediFlow** foi desenvolvido com foco total na **segurança** e **compliance*
 
 ### 📊 Métricas do Projeto
 
-<table>
-<tr>
-<td><strong>Versão</strong></td>
-<td>0.5.0-beta - Cadastro Avançado e Exclusão Completa</td>
-</tr>
-<tr>
-<td><strong>Arquivos</strong></td>
-<td>40+ arquivos criados</td>
-</tr>
-<tr>
-<td><strong>Código</strong></td>
-<td>~4.200+ linhas</td>
-</tr>
-<tr>
-<td><strong>Componentes</strong></td>
-<td>14+ componentes funcionais</td>
-</tr>
-<tr>
-<td><strong>Páginas</strong></td>
-<td>8 páginas completas</td>
-</tr>
-<tr>
-<td><strong>Banco</strong></td>
-<td>11 tabelas principais</td>
-</tr>
-<tr>
-<td><strong>Desenvolvimento</strong></td>
-<td>~16 horas</td>
-</tr>
-</table>
+- **Versão**: 0.5.0-beta
+- **Arquivos**: 101 arquivos
+- **Código**: ~12.6k linhas
+- **Componentes**: 39 componentes React
+- **Páginas**: 9 páginas Next.js
+- **Banco**: 8 tabelas principais
+- **Desenvolvimento**: Em andamento
 
 ## 📄 Licença
 

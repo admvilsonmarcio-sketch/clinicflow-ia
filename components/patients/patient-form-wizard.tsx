@@ -209,27 +209,8 @@ export function PatientFormWizard({
   const { handleSubmit, watch, reset, trigger, formState: { errors, isValid } } = methods
   const watchedValues = watch()
 
-  // Mapear dados iniciais quando initialData mudar
-  useEffect(() => {
-    if (initialData && mode === 'edit') {
-      const mappedData = mapDatabaseToForm(initialData)
-      reset(mappedData)
-      // Trigger validation após reset para atualizar isValid
-      setTimeout(() => trigger(), 100)
-    }
-  }, [initialData, mode, reset, trigger])
-
-
-
-  const currentStepIndex = STEPS.findIndex(step => step.id === currentStep)
-  const progress = ((currentStepIndex + 1) / STEPS.length) * 100
-
-  // Verificar se a etapa atual está válida
-  const isCurrentStepValid = () => {
-    const step = STEPS[currentStepIndex]
-    if (!step.required) return true
-
-    const stepId = step.id as StepId
+  // Função para verificar se um step específico está válido
+  const isStepValid = (stepId: StepId) => {
     switch (stepId) {
       case 'dadosPessoais':
         return !errors.nome_completo && !errors.cpf && !errors.data_nascimento && !errors.genero &&
@@ -249,6 +230,49 @@ export function PatientFormWizard({
       default:
         return true
     }
+  }
+
+  // Mapear dados iniciais quando initialData mudar
+  useEffect(() => {
+    if (initialData && mode === 'edit') {
+      const mappedData = mapDatabaseToForm(initialData)
+      reset(mappedData)
+      // Trigger validation após reset para atualizar isValid
+      setTimeout(() => trigger(), 100)
+    }
+  }, [initialData, mode, reset, trigger])
+
+  // No modo de edição, validar automaticamente todos os steps após carregar os dados
+  useEffect(() => {
+    if (mode === 'edit' && watchedValues && Object.keys(watchedValues).length > 0) {
+      const validSteps = new Set<StepId>()
+      
+      STEPS.forEach(step => {
+        if (isStepValid(step.id)) {
+          validSteps.add(step.id)
+        }
+      })
+      
+      // Só atualizar se houver diferença nos steps válidos
+      const currentValidSteps = Array.from(completedSteps).sort()
+      const newValidSteps = Array.from(validSteps).sort()
+      
+      if (JSON.stringify(currentValidSteps) !== JSON.stringify(newValidSteps)) {
+        setCompletedSteps(validSteps)
+      }
+    }
+  }, [mode, watchedValues, errors, completedSteps])
+
+
+
+  const currentStepIndex = STEPS.findIndex(step => step.id === currentStep)
+  const progress = ((currentStepIndex + 1) / STEPS.length) * 100
+
+  // Verificar se a etapa atual está válida
+  const isCurrentStepValid = () => {
+    const step = STEPS[currentStepIndex]
+    if (!step.required) return true
+    return isStepValid(step.id)
   }
 
   const nextStep = () => {

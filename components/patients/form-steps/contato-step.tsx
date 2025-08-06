@@ -142,7 +142,7 @@ export function ContatoStep() {
                   )}
                 </div>
               </FormControl>
-              {emailValidation && (
+              {emailValidation && !errors.email && (
                 <p className={cn(
                   "text-sm",
                   emailValidation.isValid ? "text-green-600" : "text-red-600"

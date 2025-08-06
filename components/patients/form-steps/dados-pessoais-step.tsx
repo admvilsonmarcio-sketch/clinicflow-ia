@@ -172,7 +172,7 @@ export function DadosPessoaisStep() {
                 )}
               </div>
             </FormControl>
-            {cpfValidation && (
+            {cpfValidation && !errors.cpf && (
               <p className={cn(
                 "text-sm",
                 cpfValidation.isValid ? "text-green-600" : "text-red-600"

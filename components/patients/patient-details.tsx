@@ -18,6 +18,7 @@ import {
 } from 'lucide-react'
 import PatientHistory from './patient-history'
 import { DocumentList } from './document-list'
+import { useFormatTelefone } from '@/hooks/use-viacep'
 
 interface PatientDetailsProps {
     patient: {
@@ -68,12 +69,26 @@ interface PatientDetailsProps {
 }
 
 export function PatientDetails({ patient }: PatientDetailsProps) {
+    const { formatTelefone } = useFormatTelefone()
+    
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('pt-BR')
     }
 
     const formatDateTime = (dateString: string) => {
         return new Date(dateString).toLocaleString('pt-BR')
+    }
+
+    const formatEnderecoCompleto = () => {
+        const partes = []
+        if (patient.logradouro) partes.push(patient.logradouro)
+        if (patient.numero) partes.push(patient.numero)
+        if (patient.complemento) partes.push(patient.complemento)
+        if (patient.bairro) partes.push(patient.bairro)
+        if (patient.cidade) partes.push(patient.cidade)
+        if (patient.uf) partes.push(patient.uf)
+        if (patient.cep) partes.push(`CEP: ${patient.cep}`)
+        return partes.length > 0 ? partes.join(', ') : 'Não informado'
     }
 
     return (
@@ -95,7 +110,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                                     <Phone className="h-3 w-3 sm:h-4 sm:w-4" />
                                     Telefone
                                 </div>
-                                <p className="font-medium text-sm sm:text-base break-all">{patient.telefone_celular || 'Não informado'}</p>
+                                <p className="font-medium text-sm sm:text-base break-all">{patient.telefone_celular ? formatTelefone(patient.telefone_celular, 'celular') : 'Não informado'}</p>
                             </div>
 
                             {patient.email && (
@@ -128,12 +143,20 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                                         patient.genero === 'feminino' ? 'Feminino' : 'Outro'}
                                 </p>
                             </div>
+
+                            <div className="space-y-2 sm:col-span-2">
+                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
+                                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
+                                    Endereço
+                                </div>
+                                <p className="font-medium text-sm sm:text-base break-words">{formatEnderecoCompleto()}</p>
+                            </div>
                         </div>
                     </CardContent>
                 </Card>
 
                 {/* Contato de Emergência */}
-                {(patient.nome_emergencia || patient.parentesco_emergencia || patient.observacoes_emergencia) && (
+                {(patient.nome_emergencia || patient.parentesco_emergencia || patient.telefone_emergencia || patient.observacoes_emergencia) && (
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
@@ -154,6 +177,13 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                                     <div className="space-y-2">
                                         <div className="text-xs sm:text-sm text-gray-500">Parentesco</div>
                                         <p className="font-medium text-sm sm:text-base break-words">{patient.parentesco_emergencia}</p>
+                                    </div>
+                                )}
+
+                                {patient.telefone_emergencia && (
+                                    <div className="space-y-2">
+                                        <div className="text-xs sm:text-sm text-gray-500">Telefone</div>
+                                        <p className="font-medium text-sm sm:text-base break-words">{formatTelefone(patient.telefone_emergencia, 'celular')}</p>
                                     </div>
                                 )}
                             </div>
@@ -284,7 +314,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                             patientId={patient.id}
                             showUpload={false}
                             showDownload={true}
-                            compact={true}
+                            compact={false}
                         />
                     </CardContent>
                 </Card>

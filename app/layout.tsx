@@ -6,9 +6,11 @@ import { Toaster } from '@/components/ui/toaster'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'MediFlow - CRM para Médicos e Clínicas',
+  title: {
+    template: '%s | MediFlow',
+    default: 'MediFlow - CRM para Médicos e Clínicas'
+  },
   description: 'Sistema completo de CRM com atendimento automatizado via WhatsApp/Instagram e IA contextual para médicos e clínicas. Simplifique sua prática médica com nossa plataforma completa.',
-  keywords: ['CRM médico', 'gestão clínica', 'atendimento automatizado', 'WhatsApp médico', 'IA médica', 'prontuário eletrônico'],
   authors: [{ name: 'Marshall Paiva' }],
   creator: 'Marshall Paiva',
   publisher: 'MediFlow',
@@ -18,30 +20,13 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL('https://mediflow-tau.vercel.app'),
-  alternates: {
-    canonical: '/',
-  },
   openGraph: {
-    title: 'MediFlow - CRM para Médicos e Clínicas',
-    description: 'A melhor experiência de gestão médica. Simplifique sua prática médica com nossa plataforma completa de CRM, atendimento automatizado e IA contextual.',
     url: 'https://mediflow-tau.vercel.app',
     siteName: 'MediFlow',
     locale: 'pt_BR',
     type: 'website',
-    images: [
-      {
-        url: '/og-image.svg',
-        width: 1200,
-        height: 630,
-        alt: 'MediFlow - CRM para Médicos e Clínicas - A melhor experiência de gestão médica',
-      },
-    ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'MediFlow - CRM para Médicos e Clínicas',
-    description: 'A melhor experiência de gestão médica. Simplifique sua prática médica com nossa plataforma completa.',
-    images: ['/og-image.svg'],
     creator: '@mediflow',
   },
   robots: {

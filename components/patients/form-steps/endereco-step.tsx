@@ -51,6 +51,8 @@ export function EnderecoStep() {
   
   const watchedCep = watch('cep')
   const watchedLogradouro = watch('logradouro')
+  const watchedNumero = watch('numero')
+  const watchedComplemento = watch('complemento')
   const watchedBairro = watch('bairro')
   const watchedCidade = watch('cidade')
   const watchedUf = watch('uf')
@@ -384,7 +386,13 @@ export function EnderecoStep() {
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h4 className="font-medium text-blue-900 mb-2">Endereço Completo:</h4>
           <p className="text-sm text-blue-800">
-            {[watchedLogradouro, watchedBairro, watchedCidade, watchedUf]
+            {[
+              watchedLogradouro && watchedNumero ? `${watchedLogradouro}, ${watchedNumero}` : watchedLogradouro,
+              watchedComplemento,
+              watchedBairro,
+              watchedCidade,
+              watchedUf
+            ]
               .filter(Boolean)
               .join(', ')}
             {watchedCep && ` - CEP: ${watchedCep}`}

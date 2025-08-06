@@ -1,142 +1,85 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background -->
-  <rect width="1200" height="630" fill="url(#gradient)"/>
-  
-  <!-- Gradient Definition -->
+  <!-- Background Gradient -->
   <defs>
-    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
     </linearGradient>
-    
-    <!-- Medical Icons Patterns -->
-    <pattern id="medicalPattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-      <circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/>
-      <circle cx="80" cy="80" r="1.5" fill="white" opacity="0.1"/>
-      <circle cx="50" cy="70" r="1" fill="white" opacity="0.1"/>
-    </pattern>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.05" />
+    </linearGradient>
   </defs>
   
-  <!-- Background Pattern -->
-  <rect width="1200" height="630" fill="url(#medicalPattern)"/>
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
   
-  <!-- Main Content Container -->
-  <g transform="translate(100, 100)">
+  <!-- Decorative Elements -->
+  <circle cx="1100" cy="100" r="80" fill="#ffffff" opacity="0.1"/>
+  <circle cx="100" cy="530" r="60" fill="#ffffff" opacity="0.1"/>
+  <circle cx="1050" cy="500" r="40" fill="#fbbf24" opacity="0.3"/>
+  
+  <!-- Main Content Card -->
+  <rect x="80" y="80" width="1040" height="470" rx="20" fill="url(#cardGradient)" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
+  
+  <!-- Logo/Brand -->
+  <text x="120" y="150" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#ffffff">
+    MediFlow
+  </text>
+  
+  <!-- Main Headline -->
+  <text x="120" y="220" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="#ffffff">
+    Aumente sua receita em
+  </text>
+  <text x="120" y="270" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="#fbbf24">
+    até 300% em 90 dias
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="120" y="320" font-family="Arial, sans-serif" font-size="24" fill="#e0f2fe">
+    Mais de 2.500 médicos já aumentaram seus lucros
+  </text>
+  <text x="120" y="350" font-family="Arial, sans-serif" font-size="24" fill="#e0f2fe">
+    com nossa plataforma de CRM médico + IA
+  </text>
+  
+  <!-- Features Icons and Text -->
+  <g transform="translate(120, 400)">
+    <!-- CRM Icon -->
+    <rect x="0" y="0" width="40" height="40" rx="8" fill="#fbbf24"/>
+    <text x="50" y="25" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">CRM Completo</text>
     
-    <!-- Logo and Title Section -->
-    <g transform="translate(0, 50)">
-      <!-- Logo -->
-      <circle cx="60" cy="60" r="40" fill="white" opacity="0.15"/>
-      <g transform="translate(20, 20)">
-        <!-- Medical Cross -->
-        <rect x="35" y="20" width="10" height="60" fill="white"/>
-        <rect x="20" y="35" width="40" height="10" fill="white"/>
-        <!-- Heart Monitor Line -->
-        <path d="M10 70 L20 70 L25 60 L30 80 L35 50 L40 70 L70 70" stroke="white" stroke-width="2" fill="none"/>
-      </g>
-      
-      <!-- Title -->
-      <text x="140" y="45" font-family="Inter, sans-serif" font-size="48" font-weight="700" fill="white">
-        MediFlow
-      </text>
-      
-      <!-- Subtitle -->
-      <text x="140" y="85" font-family="Inter, sans-serif" font-size="24" font-weight="400" fill="white" opacity="0.9">
-        CRM para Médicos e Clínicas
-      </text>
-    </g>
+    <!-- AI Icon -->
+    <rect x="200" y="0" width="40" height="40" rx="8" fill="#fbbf24"/>
+    <text x="250" y="25" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">IA Contextual</text>
     
-    <!-- Features Section -->
-    <g transform="translate(0, 200)">
-      <!-- Feature 1 -->
-      <g>
-        <circle cx="20" cy="20" r="15" fill="white" opacity="0.2"/>
-        <text x="10" y="27" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="white">📱</text>
-        <text x="50" y="15" font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="white">
-          Atendimento Automatizado
-        </text>
-        <text x="50" y="35" font-family="Inter, sans-serif" font-size="16" fill="white" opacity="0.8">
-          WhatsApp e Instagram integrados
-        </text>
-      </g>
-      
-      <!-- Feature 2 -->
-      <g transform="translate(0, 80)">
-        <circle cx="20" cy="20" r="15" fill="white" opacity="0.2"/>
-        <text x="12" y="27" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="white">🤖</text>
-        <text x="50" y="15" font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="white">
-          IA Contextual
-        </text>
-        <text x="50" y="35" font-family="Inter, sans-serif" font-size="16" fill="white" opacity="0.8">
-          Assistente inteligente para médicos
-        </text>
-      </g>
-      
-      <!-- Feature 3 -->
-      <g transform="translate(0, 160)">
-        <circle cx="20" cy="20" r="15" fill="white" opacity="0.2"/>
-        <text x="10" y="27" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="white">📊</text>
-        <text x="50" y="15" font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="white">
-          Gestão Completa
-        </text>
-        <text x="50" y="35" font-family="Inter, sans-serif" font-size="16" fill="white" opacity="0.8">
-          CRM, prontuários e relatórios
-        </text>
-      </g>
-    </g>
-    
-    <!-- Medical Dashboard Mockup -->
-    <g transform="translate(600, 50)">
-      <!-- Device Frame -->
-      <rect x="0" y="0" width="400" height="300" rx="20" fill="white" opacity="0.95"/>
-      <rect x="20" y="20" width="360" height="260" rx="10" fill="#f8fafc"/>
-      
-      <!-- Header -->
-      <rect x="30" y="30" width="340" height="40" rx="8" fill="#0ea5e9" opacity="0.1"/>
-      <text x="40" y="50" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#0ea5e9">
-        Dashboard Médico
-      </text>
-      
-      <!-- Stats Cards -->
-      <rect x="30" y="80" width="100" height="60" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
-      <text x="40" y="100" font-family="Inter, sans-serif" font-size="12" fill="#64748b">Pacientes</text>
-      <text x="40" y="120" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#0ea5e9">247</text>
-      
-      <rect x="140" y="80" width="100" height="60" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
-      <text x="150" y="100" font-family="Inter, sans-serif" font-size="12" fill="#64748b">Consultas</text>
-      <text x="150" y="120" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#10b981">89</text>
-      
-      <rect x="250" y="80" width="100" height="60" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
-      <text x="260" y="100" font-family="Inter, sans-serif" font-size="12" fill="#64748b">Receita</text>
-      <text x="260" y="120" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#8b5cf6">R$ 45k</text>
-      
-      <!-- Chart Area -->
-      <rect x="30" y="160" width="340" height="100" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
-      <text x="40" y="180" font-family="Inter, sans-serif" font-size="12" fill="#64748b">Atendimentos por Semana</text>
-      
-      <!-- Simple Chart Lines -->
-      <path d="M50 240 L80 220 L110 200 L140 210 L170 190 L200 180 L230 170 L260 160 L290 150 L320 140" 
-            stroke="#0ea5e9" stroke-width="3" fill="none" opacity="0.8"/>
-      
-      <!-- Floating Medical Icons -->
-      <g opacity="0.3">
-        <text x="380" y="40" font-size="20">🩺</text>
-        <text x="420" y="120" font-size="16">💊</text>
-        <text x="390" y="200" font-size="18">📋</text>
-        <text x="430" y="280" font-size="14">⚕️</text>
-      </g>
-    </g>
-    
+    <!-- Automation Icon -->
+    <rect x="400" y="0" width="40" height="40" rx="8" fill="#fbbf24"/>
+    <text x="450" y="25" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">Automação 24/7</text>
   </g>
   
-  <!-- Bottom CTA -->
-  <g transform="translate(100, 520)">
-    <text x="0" y="30" font-family="Inter, sans-serif" font-size="24" font-weight="600" fill="white">
-      Simplifique sua prática médica com nossa plataforma completa
-    </text>
-    <text x="0" y="60" font-family="Inter, sans-serif" font-size="18" fill="white" opacity="0.8">
-      99% Satisfação • 24/7 Suporte • 100% Seguro
+  <!-- Call to Action Badge -->
+  <rect x="120" y="480" width="280" height="40" rx="20" fill="#fbbf24"/>
+  <text x="260" y="505" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1e40af" text-anchor="middle">
+    🔥 30 DIAS GRÁTIS
+  </text>
+  
+  <!-- Right Side Illustration -->
+  <g transform="translate(700, 150)">
+    <!-- Phone/Dashboard Mockup -->
+    <rect x="0" y="0" width="200" height="300" rx="20" fill="#ffffff" opacity="0.9"/>
+    <rect x="20" y="30" width="160" height="20" rx="10" fill="#e5e7eb"/>
+    <rect x="20" y="70" width="160" height="15" rx="7" fill="#e5e7eb"/>
+    <rect x="20" y="100" width="120" height="15" rx="7" fill="#e5e7eb"/>
+    
+    <!-- Chart/Graph -->
+    <rect x="20" y="140" width="160" height="100" rx="8" fill="#0ea5e9" opacity="0.1"/>
+    <polyline points="30,220 60,200 90,180 120,160 150,140 170,130" stroke="#0ea5e9" stroke-width="3" fill="none"/>
+    <circle cx="170" cy="130" r="4" fill="#fbbf24"/>
+    
+    <!-- Stats -->
+    <text x="100" y="270" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#0ea5e9" text-anchor="middle">
+      +300% ROI
     </text>
   </g>
-  
 </svg>

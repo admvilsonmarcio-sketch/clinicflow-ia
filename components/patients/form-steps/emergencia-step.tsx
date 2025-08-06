@@ -176,7 +176,7 @@ export function EmergenciaStep() {
                   )}
                 </div>
               </FormControl>
-              {telefoneValidation && (
+              {telefoneValidation && !errors.contato_emergencia_telefone && (
                 <p className={cn(
                   "text-sm",
                   telefoneValidation.isValid ? "text-green-600" : "text-red-600"
