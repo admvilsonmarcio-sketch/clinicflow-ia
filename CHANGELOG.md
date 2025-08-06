@@ -35,7 +35,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
-## [0.4.1] - 2025-01-03
+## [0.4.1] - 2024-12-28
 
 ### 🔧 Corrigido
 - **Campos de emergência:** Corrigidos nomes dos campos `contato_emergencia_*` para `*_emergencia` no formulário wizard
@@ -52,7 +52,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
-## [0.4.0] - 2025-01-03
+## [0.4.0] - 2024-12-27
 
 ### ✨ Adicionado
 - **🔍 Busca avançada de pacientes** com filtros múltiplos
@@ -85,7 +85,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
-## [0.3.0] - 2025-01-02
+## [0.3.0] - 2024-12-26
 
 ### ✨ Adicionado
 - **📁 Sistema completo de documentos** para pacientes
@@ -153,7 +153,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
-## [0.2.0] - 2024-07-23
+## [0.2.0] - 2024-12-20
 
 ### ✨ Adicionado
 - **Sistema completo de autenticação** com Supabase Auth
@@ -188,7 +188,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
-## [0.1.0] - 2024-07-01
+## [0.1.0] - 2024-12-15
 
 ### ✨ Inicial
 - **Configuração inicial** do projeto Next.js 14
