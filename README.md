@@ -13,8 +13,8 @@
   </div>
   
   <div style="margin-top: 10px;">
-    <img src="https://img.shields.io/badge/Versão-0.4.0-blue?style=flat-square" alt="Versão" />
-    <img src="https://img.shields.io/badge/Status-Fases%201--3%20Completas-success?style=flat-square" alt="Status" />
+    <img src="https://img.shields.io/badge/Versão-0.5.0-blue?style=flat-square" alt="Versão" />
+    <img src="https://img.shields.io/badge/Status-Cadastro%20Avançado%20Completo-success?style=flat-square" alt="Status" />
     <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License" />
     <img src="https://img.shields.io/badge/LGPD-Compliant-purple?style=flat-square" alt="LGPD" />
   </div>
@@ -71,6 +71,8 @@ O **MediFlow** é uma plataforma completa de gestão médica que combina automa�
 - Categorização automática
 - Download e visualização
 - Controle de acesso por RLS
+- Exclusão automática ao deletar pacientes
+- Limpeza completa do storage
 - Suporte a múltiplos formatos
 
 **🏥 Gestão de Clínicas**
@@ -83,7 +85,7 @@ O **MediFlow** é uma plataforma completa de gestão médica que combina automa�
 </tr>
 </table>
 
-### 🔄 **Em Desenvolvimento** (v0.5.0) - Melhorias no Cadastro
+### ✅ **Implementado** (v0.5.0) - Melhorias no Cadastro
 
 - **Campos obrigatórios** com validação de CPF, RG e telefone
 - **Integração ViaCEP** para preenchimento automático de endereço
@@ -91,12 +93,19 @@ O **MediFlow** é uma plataforma completa de gestão médica que combina automa�
 - **Validações em tempo real** com feedback imediato
 - **Máscaras brasileiras** para CPF, telefone e CEP
 - **Verificação de duplicatas** por CPF
-- **Upload de foto** do paciente
+- **Exclusão completa** com remoção automática de documentos
+- **Sistema de auditoria** com logs detalhados
 - **Salvamento automático** de rascunho
+
+### 🔄 **Em Desenvolvimento** (v0.6.0)
+
+- **Sistema de Agendamentos** com calendário interativo
+- **Integração Google Calendar** para sincronização
+- **Notificações automáticas** via email
+- **Gestão de horários** por profissional
 
 ### 📋 **Roadmap**
 
-- **v0.6.0** - Sistema de Agendamentos com calendário interativo
 - **v0.7.0** - Integração WhatsApp via EvolutionAPI
 - **v0.8.0** - IA Médica com assistente inteligente OpenAI
 - **v0.9.0** - Relatórios avançados e dashboard de métricas
@@ -290,7 +299,7 @@ O **MediFlow** foi desenvolvido com foco total na **segurança** e **compliance*
 <table>
 <tr>
 <td><strong>Versão</strong></td>
-<td>0.3.0 - Sistema de Documentos Completo</td>
+<td>0.5.0 - Cadastro Avançado e Exclusão Completa</td>
 </tr>
 <tr>
 <td><strong>Arquivos</strong></td>
@@ -328,7 +337,7 @@ Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](./LICENSE) p
   <img src="./public/logo.svg" alt="MediFlow Logo" width="100" height="40" />
   
   <p><strong>Desenvolvido com ❤️ para profissionais de saúde</strong></p>
-  <p>MediFlow v0.3.0 - Transformando o atendimento médico com tecnologia</p>
+  <p>MediFlow v0.5.0 - Transformando o atendimento médico com tecnologia</p>
   
   <div style="margin-top: 20px;">
     <a href="https://github.com/seu-usuario/mediflow/issues">🐛 Reportar Bug</a> •

@@ -114,12 +114,16 @@ Use [Conventional Commits](https://www.conventionalcommits.org/):
 - Evite `any`, prefira `unknown`
 - Use interfaces para objetos complexos
 - Documente tipos complexos
+- Implemente validações robustas com Zod
+- Use tipos condicionais para campos opcionais
 
 ### React/Next.js
 - Use Server Components quando possível
 - Client Components apenas quando necessário
 - Prefira hooks nativos
 - Use Suspense para loading states
+- Implemente formatação automática de máscaras
+- Garanta exclusão completa de dados relacionados
 
 ## 🧪 Testes
 
@@ -163,6 +167,9 @@ npm run test:coverage
 - Valide inputs do usuário
 - Implemente rate limiting
 - Siga princípios LGPD/GDPR
+- Implemente exclusão completa (direito ao esquecimento)
+- Valide campos opcionais corretamente
+- Sanitize dados antes de salvar no banco
 
 ### Reportando Vulnerabilidades
 Para vulnerabilidades de segurança, envie email para:
@@ -183,7 +190,10 @@ Para vulnerabilidades de segurança, envie email para:
 ## 🎯 Roadmap de Contribuições
 
 ### Prioridade Alta
-- [ ] CRUD completo de pacientes
+- [x] CRUD completo de pacientes (v2.5)
+- [x] Validações robustas de campos (v2.5)
+- [x] Formatação automática de máscaras (v2.5)
+- [x] Exclusão completa com documentos (v2.5)
 - [ ] Sistema de agendamentos
 - [ ] Integração WhatsApp
 

@@ -70,35 +70,40 @@
 - [ ] **Convênio médico** com número da carteirinha
 
 ### 4.2 Estrutura de Endereço Completa
-- [ ] **Integração ViaCEP API** para preenchimento automático
-- [ ] **Campos separados de endereço:**
-  - [ ] CEP (obrigatório) com máscara 99999-999
-  - [ ] Logradouro (preenchido automaticamente)
-  - [ ] Número (obrigatório)
-  - [ ] Complemento (opcional)
-  - [ ] Bairro (preenchido automaticamente)
-  - [ ] Cidade (preenchida automaticamente)
-  - [ ] Estado/UF (preenchido automaticamente)
-- [ ] **Validação de CEP** com feedback de erro
-- [ ] **Fallback manual** caso API não encontre o CEP
+- [x] **Integração ViaCEP API** para preenchimento automático
+- [x] **Campos separados de endereço:**
+  - [x] CEP (obrigatório) com máscara 99999-999
+  - [x] Logradouro (preenchido automaticamente)
+  - [x] Número (obrigatório)
+  - [x] Complemento (opcional)
+  - [x] Bairro (preenchido automaticamente)
+  - [x] Cidade (preenchida automaticamente)
+  - [x] Estado/UF (preenchido automaticamente)
+- [x] **Validação de CEP** com feedback de erro
+- [x] **Fallback manual** caso API não encontre o CEP
 
 ### 4.3 Melhorias de UX/UI no Formulário
-- [ ] **Formulário multi-step (wizard)** dividido em etapas:
-  - [ ] Etapa 1: Dados Pessoais (nome, CPF, RG, nascimento)
-  - [ ] Etapa 2: Contato (telefone, email, endereço)
-  - [ ] Etapa 3: Informações Médicas (convênio, observações)
-  - [ ] Etapa 4: Revisão e Confirmação
-- [ ] **Barra de progresso** visual entre etapas
-- [ ] **Validação em tempo real** com feedback imediato
-- [ ] **Salvamento automático** de rascunho
-- [ ] **Navegação entre etapas** com botões Anterior/Próximo
-- [ ] **Responsividade aprimorada** para mobile
+- [x] **Formulário multi-step (wizard)** dividido em etapas:
+  - [x] Etapa 1: Dados Pessoais (nome, CPF, RG, nascimento)
+  - [x] Etapa 2: Contato (telefone, email)
+  - [x] Etapa 3: Endereço (CEP, logradouro, número, etc.)
+  - [x] Etapa 4: Contato de Emergência
+  - [x] Etapa 5: Informações Médicas
+- [x] **Barra de progresso** visual entre etapas
+- [x] **Validação em tempo real** com feedback imediato
+- [x] **Salvamento automático** de rascunho
+- [x] **Navegação entre etapas** com botões Anterior/Próximo
+- [x] **Responsividade aprimorada** para mobile
 
 ### 4.4 Funcionalidades Avançadas
-- [ ] **Busca de paciente por CPF** antes do cadastro (evitar duplicatas)
+- [x] **Busca de paciente por CPF** antes do cadastro (evitar duplicatas)
+- [x] **QR Code** para identificação rápida
+- [x] **Histórico de alterações** no cadastro com auditoria completa
+- [x] **Validação robusta** de campos opcionais
+- [x] **Formatação automática** de máscaras ao carregar dados
+- [x] **Notificações detalhadas** de erro com campos específicos
+- [x] **Exclusão completa** com remoção automática de documentos
 - [ ] **Foto do paciente** com upload opcional
-- [ ] **QR Code** para identificação rápida
-- [ ] **Histórico de alterações** no cadastro
 - [ ] **Campos personalizáveis** por clínica
 - [ ] **Importação em lote** via CSV/Excel
 

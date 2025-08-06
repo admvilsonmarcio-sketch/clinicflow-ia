@@ -1,4 +1,4 @@
-# Sistema de Cadastro de Pacientes v2.0
+# Sistema de Cadastro de Pacientes v2.5
 
 ## Visão Geral
 
@@ -12,12 +12,16 @@ O Sistema de Cadastro de Pacientes v2.0 do MediFlow foi completamente reformulad
 - **Indicadores visuais** de progresso e status
 - **Auto-save** automático de rascunhos
 - **Validação em tempo real** com feedback imediato
+- **Notificações detalhadas** de erro com campos específicos
+- **Formatação automática** de máscaras ao carregar dados
 
 ### ✅ Validações Brasileiras
 - **CPF**: Validação completa com dígitos verificadores
 - **CEP**: Formato brasileiro com integração ViaCEP
 - **Telefone**: Suporte a celular (11 dígitos) e fixo (10 dígitos)
 - **Email**: Validação de formato e domínio
+- **Campos opcionais**: Validação robusta que aceita valores vazios
+- **Telefone de emergência**: Validação opcional com formato correto
 
 ### ✅ Integração ViaCEP
 - **Preenchimento automático** de endereço via CEP
@@ -37,6 +41,8 @@ O Sistema de Cadastro de Pacientes v2.0 do MediFlow foi completamente reformulad
 - **Contato de emergência** completo
 - **Tipo sanguíneo** e alergias
 - **Medicamentos em uso** e histórico médico
+- **Sistema de auditoria** completo com logs de alterações
+- **Exclusão completa** com remoção automática de documentos do storage
 
 ## 📋 Estrutura do Formulário
 
@@ -221,18 +227,22 @@ Ou clique em "Novo Paciente" no dashboard
 - **Isolamento por clínica**: Cada clínica só acessa seus próprios pacientes
 - **Autenticação obrigatória**: Todas as operações requerem login
 - **Logs de auditoria**: Todas as alterações são registradas
+- **Auditoria completa** de criação, edição e exclusão
 
 ### Validações de Segurança
 - **CPF único** por clínica
 - **Email único** por clínica
 - **Sanitização** de todos os inputs
 - **Validação dupla** (frontend + backend)
+- **Validação robusta** de campos opcionais
 - **Criptografia** de dados sensíveis
 
 ### Compliance
 - **LGPD**: Conformidade com Lei Geral de Proteção de Dados
 - **CFM**: Atende resoluções do Conselho Federal de Medicina
 - **Auditoria**: Logs completos para compliance médico
+- **Exclusão automática** de documentos associados
+- **Limpeza completa** do storage e banco de dados
 
 ## 📈 Performance
 
@@ -293,4 +303,4 @@ Para dúvidas ou problemas:
 
 ---
 
-**MediFlow v2.0** - Sistema de Gestão Médica Moderno e Seguro
+**MediFlow v2.5** - Sistema de Gestão Médica Moderno e Seguro
