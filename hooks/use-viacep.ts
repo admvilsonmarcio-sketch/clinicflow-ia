@@ -144,15 +144,6 @@ export function useFormatTelefone() {
     if (limitedNumbers.length <= 2) {
       return limitedNumbers
     }
-    if (limitedNumbers.length <= 2) {
-      return `(${limitedNumbers}`
-    }
-    if (limitedNumbers.length <= 2) {
-      return `(${limitedNumbers.slice(0, 2)}`
-    }
-    if (limitedNumbers.length <= 2) {
-      return `(${limitedNumbers.slice(0, 2)})`
-    }
     
     const ddd = limitedNumbers.slice(0, 2)
     const resto = limitedNumbers.slice(2)

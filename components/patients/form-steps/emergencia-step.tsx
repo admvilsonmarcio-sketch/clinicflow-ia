@@ -154,7 +154,7 @@ export function EmergenciaStep() {
                   <Input
                     placeholder="(11) 91234-5678 ou (11) 1234-5678"
                     {...field}
-                    value={field.value ? formatTelefone(field.value) : ''}
+                    value={field.value || ''}
                     onChange={(e) => {
                       const formatted = formatTelefone(e.target.value)
                       field.onChange(formatted)

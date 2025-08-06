@@ -142,6 +142,8 @@ export function EnderecoStep() {
                       onChange={(e) => {
                         const formatted = formatCEP(e.target.value)
                         field.onChange(formatted)
+                        setCepSearched(false)
+                        setManualEdit(false)
                       }}
                       className={cn(
                         errors.cep ? 'border-red-500' : '',

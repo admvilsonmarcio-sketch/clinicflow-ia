@@ -150,18 +150,31 @@ const mapDatabaseToForm = (data: any) => {
     const numbers = cep.replace(/\D/g, '')
     return numbers.replace(/(\d{5})(\d{3})/, '$1-$2')
   }
-  
+
+  // Função para formatar telefone
+  const formatTelefone = (telefone: string) => {
+    if (!telefone) return ''
+    const numbers = telefone.replace(/\D/g, '')
+    if (numbers.length === 10) {
+      return numbers.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
+    } else if (numbers.length === 11) {
+      return numbers.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
+    }
+    return telefone
+  }
+
   return {
     ...data,
-    // Formatar CPF e CEP
+    // Formatar CPF, CEP e telefones
     cpf: formatCPF(data.cpf),
     cep: formatCEP(data.cep),
+    telefone_celular: formatTelefone(data.telefone_celular),
+    telefone_fixo: formatTelefone(data.telefone_fixo),
     // Mapear campos de emergência do banco para o formulário
     contato_emergencia_nome: data.nome_emergencia || '',
     contato_emergencia_parentesco: data.parentesco_emergencia || '',
-    contato_emergencia_telefone: data.telefone_emergencia || '',
+    contato_emergencia_telefone: formatTelefone(data.telefone_emergencia),
     // Converter campos null para string vazia
-    telefone_fixo: data.telefone_fixo || '',
     instagram_id: data.instagram_id || '',
     whatsapp_id: data.whatsapp_id || '',
     observacoes_gerais: data.observacoes_gerais || '',
@@ -181,7 +194,7 @@ export function PatientFormWizard({
   const [currentStep, setCurrentStep] = useState<StepId>('dadosPessoais')
   const [completedSteps, setCompletedSteps] = useState<Set<StepId>>(new Set())
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [documentRefresh, setDocumentRefresh] = useState(0)
+  const [documentsKey, setDocumentsKey] = useState(0)
   const { toast } = useToast()
   const router = useRouter()
   const supabase = createClient()
@@ -278,6 +291,38 @@ export function PatientFormWizard({
 
   const onSubmit = async (data: PacienteFormData) => {
     console.log('=== FUNÇÃO ONSUBMIT INICIADA ===', { mode, data })
+    
+    if (!isValid) {
+      console.log('Formulário inválido, não enviando')
+      
+      // Mostrar notificação de erro com detalhes dos campos inválidos
+      const errorMessages = Object.entries(errors).map(([field, error]) => {
+        const fieldNames: { [key: string]: string } = {
+          'nome_completo': 'Nome Completo',
+          'cpf': 'CPF',
+          'data_nascimento': 'Data de Nascimento',
+          'genero': 'Gênero',
+          'telefone_celular': 'Telefone Celular',
+          'email': 'Email',
+          'cep': 'CEP',
+          'logradouro': 'Logradouro',
+          'numero': 'Número',
+          'bairro': 'Bairro',
+          'cidade': 'Cidade',
+          'uf': 'UF',
+          'contato_emergencia_telefone': 'Telefone de Emergência'
+        }
+        return `${fieldNames[field] || field}: ${error?.message || 'Campo inválido'}`
+      })
+      
+      toast({
+        title: "Campos inválidos",
+        description: `Por favor, corrija os seguintes campos:\n${errorMessages.join('\n')}`,
+        variant: "destructive",
+      })
+      return
+    }
+    
     try {
       setIsSubmitting(true)
       console.log('onSubmit chamado:', { mode, hasInitialData: !!initialData, initialDataId: initialData?.id })
@@ -449,7 +494,9 @@ export function PatientFormWizard({
         title: mode === 'create' ? "Paciente cadastrado com sucesso!" : "Paciente atualizado com sucesso!",
         description: mode === 'create' 
           ? `${result.data.nome_completo} foi adicionado ao sistema.` 
-          : `Os dados de ${result.data.nome_completo} foram atualizados.`
+          : `Os dados de ${result.data.nome_completo} foram atualizados.`,
+        variant: "default",
+        className: "border-green-500 bg-green-50 text-green-900"
       })
 
       // Redirecionar após sucesso
@@ -502,11 +549,11 @@ export function PatientFormWizard({
           <div className="space-y-6">
             <DocumentUpload 
               pacienteId={initialData.id} 
-              onDocumentUploaded={() => setDocumentRefresh(prev => prev + 1)}
+              onDocumentUploaded={() => setDocumentsKey(prev => prev + 1)}
             />
             <DocumentList 
               pacienteId={initialData.id} 
-              refreshTrigger={documentRefresh}
+              refreshTrigger={documentsKey}
             />
           </div>
         ) : (

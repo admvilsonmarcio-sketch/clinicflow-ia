@@ -76,6 +76,45 @@ export default function PatientsPage() {
 
     const deletePatient = async (patientId: string, patientName: string) => {
         try {
+            // Primeiro, buscar todos os documentos do paciente
+            const { data: documentos, error: docError } = await supabase
+                .from('documentos_pacientes')
+                .select('url_arquivo')
+                .eq('paciente_id', patientId)
+
+            if (docError) {
+                console.error('Erro ao buscar documentos do paciente:', docError)
+            }
+
+            // Deletar os arquivos do storage
+            if (documentos && documentos.length > 0) {
+                const { deleteDocument } = await import('@/lib/storage/supabase-storage')
+                
+                for (const doc of documentos) {
+                    try {
+                        // Extrair o caminho do arquivo da URL
+                        const filePath = doc.url_arquivo.split('/').pop()
+                        if (filePath) {
+                            await deleteDocument(`documents/${filePath}`)
+                        }
+                    } catch (storageError) {
+                        console.error('Erro ao deletar arquivo do storage:', storageError)
+                        // Continua mesmo se houver erro ao deletar um arquivo específico
+                    }
+                }
+            }
+
+            // Deletar os registros de documentos do banco
+            const { error: deleteDocsError } = await supabase
+                .from('documentos_pacientes')
+                .delete()
+                .eq('paciente_id', patientId)
+
+            if (deleteDocsError) {
+                console.error('Erro ao deletar documentos do banco:', deleteDocsError)
+            }
+
+            // Deletar o paciente
             const { error } = await supabase
                 .from('pacientes')
                 .delete()
@@ -93,10 +132,12 @@ export default function PatientsPage() {
 
             // Atualizar a lista removendo o paciente excluído
             setPatients(prev => prev.filter(p => p.id !== patientId))
-            
+
             toast({
                 title: "Paciente excluído com sucesso!",
-                description: `${patientName} foi removido do sistema.`
+                description: `${patientName} foi removido do sistema junto com todos os seus documentos.`,
+                variant: "default",
+                className: "border-green-500 bg-green-50 text-green-900"
             })
         } catch (error) {
             console.error('Erro ao excluir paciente:', error)
@@ -127,7 +168,7 @@ export default function PatientsPage() {
         // Filtro de busca por texto
         if (filters.search) {
             const searchLower = filters.search.toLowerCase()
-            filtered = filtered.filter(patient => 
+            filtered = filtered.filter(patient =>
                 patient.nome_completo.toLowerCase().includes(searchLower) ||
                 (patient.telefone_celular && patient.telefone_celular.includes(filters.search)) ||
                 (patient.email && patient.email.toLowerCase().includes(searchLower))
@@ -367,13 +408,13 @@ export default function PatientsPage() {
                                                             <AlertDialogHeader>
                                                                 <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
                                                                 <AlertDialogDescription>
-                                                                    Tem certeza que deseja excluir o paciente <strong>{patient.nome_completo}</strong>? 
+                                                                    Tem certeza que deseja excluir o paciente <strong>{patient.nome_completo}</strong>?
                                                                     Esta ação não pode ser desfeita e todos os dados relacionados serão permanentemente removidos.
                                                                 </AlertDialogDescription>
                                                             </AlertDialogHeader>
                                                             <AlertDialogFooter>
                                                                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                                                <AlertDialogAction 
+                                                                <AlertDialogAction
                                                                     onClick={() => deletePatient(patient.id, patient.nome_completo)}
                                                                     className="bg-red-600 hover:bg-red-700"
                                                                 >
