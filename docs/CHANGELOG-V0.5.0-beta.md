@@ -1,7 +1,7 @@
-# 📋 Changelog - MediFlow v2.5
+# 📋 Changelog - MediFlow v0.5.0-beta
 
 > **Data de Lançamento**: Janeiro 2025  
-> **Versão**: 2.5.0  
+> **Versão**: 0.5.0-beta  
 > **Tipo**: Melhorias e Correções Críticas
 
 ## 🎯 Resumo das Melhorias
@@ -252,4 +252,4 @@ Esta versão foi desenvolvida com foco na **experiência do usuário** e **robus
 
 ---
 
-*MediFlow v2.5 - Transformando o atendimento médico com tecnologia*
+*MediFlow v0.5.0-beta - Transformando o atendimento médico com tecnologia*

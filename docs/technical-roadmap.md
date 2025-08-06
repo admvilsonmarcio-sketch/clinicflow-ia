@@ -1,4 +1,4 @@
-# MediFlow - Roadmap Técnico Detalhado
+# 🗺️ Technical Roadmap - MediFlow v0.5.0-beta
 
 ## ✅ Fase 1: Fundação (Concluída)
 - [x] Estrutura inicial do projeto Next.js
@@ -44,6 +44,7 @@
 - [x] **UX melhorada** com loading states e feedback visual
 
 ## ✅ Fase 4: Melhorias no Cadastro de Pacientes (Concluída - 05/01/2025)
+**Status Atual:** Fase 4 concluída - Melhorias no Cadastro de Pacientes (v0.5.0-beta)
 
 ### 4.1 Campos Obrigatórios e Validações
 - [x] **Campo CPF obrigatório** com validação e máscara

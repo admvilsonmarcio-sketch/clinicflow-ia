@@ -190,10 +190,10 @@ Para vulnerabilidades de segurança, envie email para:
 ## 🎯 Roadmap de Contribuições
 
 ### Prioridade Alta
-- [x] CRUD completo de pacientes (v2.5)
-- [x] Validações robustas de campos (v2.5)
-- [x] Formatação automática de máscaras (v2.5)
-- [x] Exclusão completa com documentos (v2.5)
+- [x] CRUD completo de pacientes (v0.5.0-beta)
+- [x] Validações robustas de campos (v0.5.0-beta)
+- [x] Formatação automática de máscaras (v0.5.0-beta)
+- [x] Exclusão completa com documentos (v0.5.0-beta)
 - [ ] Sistema de agendamentos
 - [ ] Integração WhatsApp
 

@@ -1,4 +1,4 @@
-# Sistema de Cadastro de Pacientes v2.5
+# Sistema de Cadastro de Pacientes v0.5.0-beta
 
 ## Visão Geral
 
@@ -303,4 +303,4 @@ Para dúvidas ou problemas:
 
 ---
 
-**MediFlow v2.5** - Sistema de Gestão Médica Moderno e Seguro
+**MediFlow v0.5.0-beta** - Sistema de Gestão Médica Moderno e Seguro
