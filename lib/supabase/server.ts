@@ -1,11 +1,16 @@
 import { createClient } from '@supabase/supabase-js'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createServerComponentClient, createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import type { Database } from '@/types/database'
 
 // Cliente para componentes do servidor que precisa acessar cookies de sessão
 export const createServerClient = () => {
   return createServerComponentClient<Database>({ cookies })
+}
+
+// Cliente para route handlers que precisa gerenciar cookies de sessão
+export const createRouteHandlerSupabaseClient = () => {
+  return createRouteHandlerClient<Database>({ cookies })
 }
 
 // Cliente administrativo com service role para operações que requerem permissões elevadas

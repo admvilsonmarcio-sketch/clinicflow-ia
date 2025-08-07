@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/supabase/server'
+import { createRouteHandlerSupabaseClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 
 const updatePasswordSchema = z.object({
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { password } = validation.data
-    const supabase = createServerClient()
+    const supabase = createRouteHandlerSupabaseClient()
 
     // Verificar se há uma sessão ativa
     const { data: { session }, error: sessionError } = await supabase.auth.getSession()
