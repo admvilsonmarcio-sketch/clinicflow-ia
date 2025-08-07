@@ -42,25 +42,26 @@ export function ForgotPasswordForm() {
   // Função para verificar se o email existe na base
   const checkEmailExists = async (email: string): Promise<boolean> => {
     try {
-      // Fazemos uma tentativa de login com uma senha inválida
-      // Se o email não existir, o Supabase retornará um erro específico
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password: 'invalid-password-check-123'
+      const response = await fetch('/api/auth/check-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
       })
 
-      // Se o erro for "Invalid login credentials", significa que o email existe
-      // Se for "User not found" ou similar, o email não existe
-      if (error) {
-        // Email existe se o erro for de credenciais inválidas
-        return error.message.includes('Invalid login credentials') || 
-               error.message.includes('Invalid email or password')
+      if (!response.ok) {
+        console.error('Erro ao verificar email:', response.statusText)
+        // Em caso de erro, assumimos que o email existe (fail-safe)
+        return true
       }
-      
-      return false
+
+      const { exists } = await response.json()
+      return exists
     } catch (err) {
       console.error('Erro ao verificar email:', err)
-      return false
+      // Em caso de erro, assumimos que o email existe (fail-safe)
+      return true
     }
   }
 
