@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
-import { Loader2, Mail, ArrowLeft, CheckCircle } from 'lucide-react'
+import { Loader2, Mail, ArrowLeft, CheckCircle, Clock } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { z } from 'zod'
@@ -17,8 +17,52 @@ export function ForgotPasswordForm() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
+  const [resendTimer, setResendTimer] = useState(0)
+  const [canResend, setCanResend] = useState(true)
   const { toast } = useToast()
   const supabase = createClient()
+
+  // Timer para controlar reenvio de email
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+    if (resendTimer > 0) {
+      interval = setInterval(() => {
+        setResendTimer((prev) => {
+          if (prev <= 1) {
+            setCanResend(true)
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+    }
+    return () => clearInterval(interval)
+  }, [resendTimer])
+
+  // Função para verificar se o email existe na base
+  const checkEmailExists = async (email: string): Promise<boolean> => {
+    try {
+      // Fazemos uma tentativa de login com uma senha inválida
+      // Se o email não existir, o Supabase retornará um erro específico
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password: 'invalid-password-check-123'
+      })
+
+      // Se o erro for "Invalid login credentials", significa que o email existe
+      // Se for "User not found" ou similar, o email não existe
+      if (error) {
+        // Email existe se o erro for de credenciais inválidas
+        return error.message.includes('Invalid login credentials') || 
+               error.message.includes('Invalid email or password')
+      }
+      
+      return false
+    } catch (err) {
+      console.error('Erro ao verificar email:', err)
+      return false
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -36,6 +80,17 @@ export function ForgotPasswordForm() {
         return
       }
 
+      // Verificar se o email existe na base
+      const emailExists = await checkEmailExists(email)
+      if (!emailExists) {
+        toast({
+          variant: "destructive",
+          title: "Email não encontrado",
+          description: "Este email não está cadastrado em nossa plataforma. Verifique se digitou corretamente ou crie uma nova conta.",
+        })
+        return
+      }
+
       // Enviar email de recuperação
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/reset-password`,
@@ -45,9 +100,7 @@ export function ForgotPasswordForm() {
         // Tratar diferentes tipos de erro
         let errorMessage = 'Erro ao enviar email de recuperação.'
         
-        if (error.message.includes('Email not found')) {
-          errorMessage = 'Email não encontrado. Verifique se o email está correto.'
-        } else if (error.message.includes('Email rate limit exceeded')) {
+        if (error.message.includes('Email rate limit exceeded')) {
           errorMessage = 'Muitas tentativas. Aguarde alguns minutos antes de tentar novamente.'
         } else if (error.message.includes('Invalid email')) {
           errorMessage = 'Email inválido. Verifique o formato do email.'
@@ -60,6 +113,8 @@ export function ForgotPasswordForm() {
         })
       } else {
         setEmailSent(true)
+        setCanResend(false)
+        setResendTimer(60) // 1 minuto
         toast({
           variant: "default",
           title: "Email enviado!",
@@ -78,6 +133,8 @@ export function ForgotPasswordForm() {
   }
 
   const handleResendEmail = async () => {
+    if (!canResend) return
+    
     setLoading(true)
     
     try {
@@ -92,6 +149,8 @@ export function ForgotPasswordForm() {
           description: "Erro ao reenviar email. Tente novamente.",
         })
       } else {
+        setCanResend(false)
+        setResendTimer(60) // 1 minuto
         toast({
           variant: "default",
           title: "Email reenviado!",
@@ -145,7 +204,7 @@ export function ForgotPasswordForm() {
         <div className="space-y-3">
           <Button
             onClick={handleResendEmail}
-            disabled={loading}
+            disabled={loading || !canResend}
             variant="outline"
             className="w-full"
           >
@@ -153,6 +212,11 @@ export function ForgotPasswordForm() {
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Reenviando...
+              </>
+            ) : !canResend ? (
+              <>
+                <Clock className="mr-2 h-4 w-4" />
+                Aguarde {resendTimer}s
               </>
             ) : (
               'Reenviar email'
