@@ -55,7 +55,7 @@ No painel do Supabase (https://app.supabase.com):
 
 1. Vá para **Authentication > URL Configuration**
 2. Configure:
-   - **Site URL**: `http://localhost:3001` (desenvolvimento) ou sua URL de produção
+   - **Site URL**: `http://localhost:3000` (desenvolvimento) ou sua URL de produção
    - **Redirect URLs**: Adicione:
      - `http://localhost:3001/auth/reset-password`
      - `https://seudominio.com/auth/reset-password` (produção)
