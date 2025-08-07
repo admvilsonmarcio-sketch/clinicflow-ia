@@ -25,6 +25,8 @@ export async function POST(request: NextRequest) {
     // Verificar se há uma sessão ativa
     const { data: { session }, error: sessionError } = await supabase.auth.getSession()
     
+    console.log('Update password session check:', { hasSession: !!session, sessionError, userId: session?.user?.id })
+    
     if (sessionError || !session) {
       console.error('Erro ao obter sessão:', sessionError)
       return NextResponse.json(

@@ -17,7 +17,15 @@ export async function GET(request: NextRequest) {
       token_hash,
     })
 
+    console.log('VerifyOtp result:', { error, hasSession: !!data.session, sessionId: data.session?.access_token?.substring(0, 20) })
+
     if (!error && data.session) {
+      // Garantir que a sessão seja definida nos cookies
+      await supabase.auth.setSession({
+        access_token: data.session.access_token,
+        refresh_token: data.session.refresh_token
+      })
+      
       // Se for um reset de senha, redirecionar para a página de redefinição
       if (type === 'recovery') {
         redirect('/auth/reset-password?verified=true')
