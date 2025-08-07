@@ -12,12 +12,12 @@ export async function GET(request: NextRequest) {
   if (token_hash && type) {
     const supabase = createServerClient()
 
-    const { error } = await supabase.auth.verifyOtp({
+    const { data, error } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     })
 
-    if (!error) {
+    if (!error && data.session) {
       // Se for um reset de senha, redirecionar para a página de redefinição
       if (type === 'recovery') {
         redirect('/auth/reset-password?verified=true')

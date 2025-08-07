@@ -86,20 +86,8 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
     )
   }
 
-  // Verificar sessão atual - se já estiver logado, redirecionar para dashboard
-  if (supabase) {
-    try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
-
-      if (session) {
-        redirect('/dashboard')
-      }
-    } catch (error) {
-      console.log('Erro ao verificar sessão:', error)
-    }
-  }
+  // Para reset de senha, não redirecionar mesmo se houver sessão
+  // A sessão é necessária para a API de atualização de senha funcionar
 
   return (
     <div className="min-h-screen flex">
