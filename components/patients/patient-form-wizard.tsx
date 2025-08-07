@@ -13,7 +13,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { useToast } from '@/components/ui/use-toast'
 // Hooks são utilizados nos componentes filhos
 import { pacienteSchema, PacienteFormData, PacienteFormSteps } from '@/lib/validations/paciente'
-import { createClient } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase/client'
 
 // Função para validar e limpar dados antes de enviar para o Supabase
 const sanitizeDataForSupabase = (data: any) => {

@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase/client'
 
 // Nome do bucket para documentos de pacientes
 export const DOCUMENTS_BUCKET = 'documentos-pacientes'

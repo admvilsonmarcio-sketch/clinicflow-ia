@@ -88,7 +88,7 @@ export default function PatientsPage() {
 
             // Deletar os arquivos do storage
             if (documentos && documentos.length > 0) {
-                const { deleteDocument } = await import('@/lib/storage/supabase-storage')
+                const { deleteDocument } = await import('@/lib/supabase/storage')
                 
                 for (const doc of documentos) {
                     try {

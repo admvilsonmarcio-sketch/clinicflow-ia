@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase/client'
 import { MedicalLogEntry, MedicalAction, MedicalResource, LogContext } from './types'
 import { sanitizeForLog, sanitizePatientData, sanitizeClinicData, sanitizeProfileData, sanitizeChanges, createSafeLogSummary, sanitizeErrorMessage } from './data-sanitizer'
 import { v4 as uuidv4 } from 'uuid'

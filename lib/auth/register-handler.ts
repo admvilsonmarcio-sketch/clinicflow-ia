@@ -1,5 +1,5 @@
-import { createClient } from '@/lib/supabase'
-import { createAdminClient } from '@/lib/supabase-server'
+import { createClient } from '@/lib/supabase/client'
+import { createAdminClient } from '@/lib/supabase/server'
 import { medicalLogger } from '@/lib/logging/medical-logger'
 import { MedicalAction } from '@/lib/logging/types'
 

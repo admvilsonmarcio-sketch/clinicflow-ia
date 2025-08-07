@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase-server'
+import { createServerClient } from '@/lib/supabase/server'
 import { PatientFormWizard } from '@/components/patients/patient-form-wizard'
 import { ArrowLeft, User, Edit } from 'lucide-react'
 import Link from 'next/link'
