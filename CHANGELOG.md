@@ -7,6 +7,18 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Não Lançado]
 
+### ✨ Adicionado
+- **Recuperação de senha:** Funcionalidade completa de "Esqueceu a senha" com Supabase Auth
+  - Página `/auth/forgot-password` para solicitar recuperação
+  - Página `/auth/reset-password` para redefinir senha
+  - Componentes `ForgotPasswordForm` e `ResetPasswordForm`
+  - Validação de email e senha com Zod
+  - Estados de loading e feedback visual
+  - Tratamento de erros específicos
+  - Interface responsiva e acessível
+  - Indicador de força da senha
+  - Documentação completa em `docs/FORGOT-PASSWORD-SETUP.md`
+
 ### 🐛 Bugs Identificados - Prioridade Alta
 - **Layout inconsistente:** Telas de cadastrar/editar paciente devem seguir o mesmo padrão do formulário de configuração
 - **Botões não funcionais:** Botões "Salvar" e "Editar" não estão respondendo adequadamente
