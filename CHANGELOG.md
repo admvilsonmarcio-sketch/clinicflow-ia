@@ -7,6 +7,14 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Não Lançado]
 
+### 🔄 Em Desenvolvimento
+- Melhorias no sistema de cadastro de pacientes
+- Otimizações de performance
+
+---
+
+## [0.6.0-beta] - 2025-01-03
+
 ### ✨ Adicionado
 - **Recuperação de senha:** Funcionalidade completa de "Esqueceu a senha" com Supabase Auth
   - Página `/auth/forgot-password` para solicitar recuperação
@@ -17,7 +25,21 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
   - Tratamento de erros específicos
   - Interface responsiva e acessível
   - Indicador de força da senha
+  - Template de email personalizado no Supabase
   - Documentação completa em `docs/FORGOT-PASSWORD-SETUP.md`
+
+### 🔧 Melhorado
+- **Estrutura de pastas do Supabase:** Reorganização completa para melhor manutenibilidade
+  - Movido `lib/supabase.ts` → `lib/supabase/client.ts`
+  - Movido `lib/supabase-server.ts` → `lib/supabase/server.ts`
+  - Movido `lib/storage/supabase-storage.ts` → `lib/supabase/storage.ts`
+  - Adicionado `createRouteHandlerSupabaseClient` para route handlers
+  - Atualização de 75+ arquivos com novos caminhos de importação
+
+### 🐛 Corrigido
+- **Erro 401 na recuperação de senha:** Corrigido problema de sessão entre rotas
+- **Gerenciamento de sessão:** Melhorado usando `createRouteHandlerClient`
+- **Fluxo de autenticação:** Corrigido conflito na validação de sessão
 
 ### 🐛 Bugs Identificados - Prioridade Alta
 - **Layout inconsistente:** Telas de cadastrar/editar paciente devem seguir o mesmo padrão do formulário de configuração

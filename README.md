@@ -13,8 +13,8 @@
   </div>
   
   <div style="margin-top: 10px;">
-    <img src="https://img.shields.io/badge/Versão-0.5.0--beta-blue?style=flat-square" alt="Versão" />
-    <img src="https://img.shields.io/badge/Status-Dashboard%20e%20SEO%20Completos-success?style=flat-square" alt="Status" />
+    <img src="https://img.shields.io/badge/Versão-0.6.0--beta-blue?style=flat-square" alt="Versão" />
+    <img src="https://img.shields.io/badge/Status-Recuperação%20de%20Senha%20Implementada-success?style=flat-square" alt="Status" />
     <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License" />
     <img src="https://img.shields.io/badge/LGPD-Compliant-purple?style=flat-square" alt="LGPD" />
   </div>
@@ -98,6 +98,24 @@ O **MediFlow** é uma plataforma completa de gestão médica que combina automa�
 - **Salvamento automático** de rascunho
 - **SEO e Performance** - Página comercial otimizada
 - **Metadados dinâmicos** com Open Graph e Twitter Cards
+
+### ✅ **Implementado** (v0.6.0-beta) - Recuperação de Senha & Melhorias
+
+**🔐 Sistema de Recuperação de Senha**
+- **Página "Esqueceu a senha"** com validação de email
+- **Redefinição segura** via token por email
+- **Template personalizado** de email no Supabase
+- **Indicador de força** da senha em tempo real
+- **Validação robusta** com Zod e feedback visual
+- **Estados de loading** e tratamento de erros específicos
+- **Interface responsiva** e acessível
+
+**🔧 Melhorias Técnicas**
+- **Reestruturação de pastas** do Supabase para melhor organização
+- **Novo cliente** `createRouteHandlerSupabaseClient` para route handlers
+- **Correção do erro 401** no fluxo de autenticação
+- **Atualização de 75+ arquivos** com novos caminhos de importação
+- **Documentação completa** em `docs/FORGOT-PASSWORD-SETUP.md`
 - **Sitemap automático** para melhor indexação
 
 ### 🔄 **Próximas Funcionalidades** (v0.6.0)
