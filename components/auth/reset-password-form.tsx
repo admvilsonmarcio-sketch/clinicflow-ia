@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 import { Loader2, Lock, Eye, EyeOff, CheckCircle } from 'lucide-react'
-import { createClient } from '@/lib/supabase'
 import { z } from 'zod'
 
 const resetPasswordSchema = z.object({
@@ -30,7 +29,6 @@ export function ResetPasswordForm({ code }: ResetPasswordFormProps) {
   const [success, setSuccess] = useState(false)
   const { toast } = useToast()
   const router = useRouter()
-  const supabase = createClient()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -49,27 +47,25 @@ export function ResetPasswordForm({ code }: ResetPasswordFormProps) {
         return
       }
 
-      // Atualizar a senha (a sessão já foi estabelecida no servidor)
-      const { error: updateError } = await supabase.auth.updateUser({
-        password: password
+      // Chamar a API para atualizar a senha
+      const response = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          password: password,
+          code: code
+        })
       })
-      
-      if (updateError) {
-        console.error('Erro ao atualizar senha:', updateError)
-        let errorMessage = 'Erro ao atualizar senha.'
-        
-        if (updateError.message?.includes('Password should be at least')) {
-          errorMessage = 'A senha deve ter pelo menos 6 caracteres.'
-        } else if (updateError.message?.includes('New password should be different')) {
-          errorMessage = 'A nova senha deve ser diferente da atual.'
-        } else if (updateError.message?.includes('session')) {
-          errorMessage = 'Sessão inválida. Tente acessar o link novamente.'
-        }
 
+      const data = await response.json()
+
+      if (!response.ok) {
         toast({
           variant: "destructive",
           title: "Erro",
-          description: errorMessage,
+          description: data.error || 'Erro ao atualizar senha.',
         })
         return
       }
@@ -82,11 +78,12 @@ export function ResetPasswordForm({ code }: ResetPasswordFormProps) {
         description: "Sua senha foi redefinida com sucesso.",
       })
       
-      // Redirecionar para o dashboard após 2 segundos
+      // Redirecionar para o login após 2 segundos
       setTimeout(() => {
-        router.push('/dashboard')
+        router.push('/auth/login')
       }, 2000)
     } catch (err) {
+      console.error('Erro ao redefinir senha:', err)
       toast({
         variant: "destructive",
         title: "Erro inesperado",
@@ -111,7 +108,7 @@ export function ResetPasswordForm({ code }: ResetPasswordFormProps) {
             Senha redefinida com sucesso!
           </h3>
           <p className="text-sm text-gray-600">
-            Você será redirecionado para o dashboard em instantes...
+            Você será redirecionado para o login em instantes...
           </p>
         </div>
 
