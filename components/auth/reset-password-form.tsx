@@ -16,11 +16,9 @@ const resetPasswordSchema = z.object({
   path: ["confirmPassword"],
 })
 
-interface ResetPasswordFormProps {
-  code: string
-}
+interface ResetPasswordFormProps {}
 
-export function ResetPasswordForm({ code }: ResetPasswordFormProps) {
+export function ResetPasswordForm({}: ResetPasswordFormProps) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -48,14 +46,13 @@ export function ResetPasswordForm({ code }: ResetPasswordFormProps) {
       }
 
       // Chamar a API para atualizar a senha
-      const response = await fetch('/api/auth/reset-password', {
+      const response = await fetch('/api/auth/update-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          password: password,
-          code: code
+          password: password
         })
       })
 

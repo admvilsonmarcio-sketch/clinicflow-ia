@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 
 interface ResetPasswordPageProps {
   searchParams: {
-    code?: string
+    verified?: string
     error?: string
     error_description?: string
   }
@@ -51,8 +51,8 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
     )
   }
 
-  // Verificar se há código de recuperação
-  if (!searchParams.code) {
+  // Se não foi verificado via /auth/confirm, mostrar erro
+  if (!searchParams.verified) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 bg-white">
         <div className="max-w-md w-full space-y-6 text-center">
@@ -61,18 +61,18 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
             alt="MediFlow" 
             className="mx-auto h-12 sm:h-16 w-auto mb-4 sm:mb-6"
           />
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-yellow-900 mb-2">
-              Acesso direto não permitido
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+            <h2 className="text-xl font-semibold text-red-900 mb-2">
+              Acesso não autorizado
             </h2>
-            <p className="text-sm text-yellow-700 mb-4">
-              Esta página só pode ser acessada através do link enviado por email.
+            <p className="text-sm text-red-700 mb-4">
+              Você precisa acessar esta página através do link enviado por e-mail.
             </p>
             <Link 
               href="/auth/forgot-password"
-              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 transition-colors"
+              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors"
             >
-              Solicitar link de recuperação
+              Solicitar novo link
             </Link>
           </div>
           <Link 
@@ -121,7 +121,7 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
             </p>
           </div>
           
-          <ResetPasswordForm code={searchParams.code} />
+          <ResetPasswordForm />
           
           <div className="text-center">
             <Link 
