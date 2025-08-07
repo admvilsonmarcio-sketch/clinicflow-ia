@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerSupabaseClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,7 +12,16 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = createRouteHandlerSupabaseClient()
+    const supabase = createAdminClient()
+
+    // Verifica se o cliente admin foi criado corretamente
+    if (!supabase) {
+      console.error('Cliente admin do Supabase não disponível')
+      return NextResponse.json(
+        { error: 'Serviço temporariamente indisponível' },
+        { status: 503 }
+      )
+    }
 
     // Verifica se o email existe na tabela auth.users
     // Usamos o admin client para acessar dados de autenticação
@@ -27,7 +36,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verifica se o email existe na lista de usuários
-    const emailExists = users.some(user => user.email === email)
+    const emailExists = users.some((user: any) => user.email === email)
 
     return NextResponse.json({ exists: emailExists })
   } catch (error) {
