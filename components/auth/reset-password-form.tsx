@@ -49,30 +49,21 @@ export function ResetPasswordForm({ code }: ResetPasswordFormProps) {
         return
       }
 
-      // Verificar e trocar o código por uma sessão
-      const { data: sessionData, error: sessionError } = await supabase.auth.exchangeCodeForSession(code)
-      
-      if (sessionError) {
-        toast({
-          variant: "destructive",
-          title: "Código inválido",
-          description: "O link de recuperação é inválido ou já expirou. Solicite um novo link.",
-        })
-        return
-      }
-
-      // Atualizar a senha
+      // Atualizar a senha (a sessão já foi estabelecida no servidor)
       const { error: updateError } = await supabase.auth.updateUser({
         password: password
       })
-
+      
       if (updateError) {
+        console.error('Erro ao atualizar senha:', updateError)
         let errorMessage = 'Erro ao atualizar senha.'
         
-        if (updateError.message.includes('Password should be at least')) {
+        if (updateError.message?.includes('Password should be at least')) {
           errorMessage = 'A senha deve ter pelo menos 6 caracteres.'
-        } else if (updateError.message.includes('New password should be different')) {
+        } else if (updateError.message?.includes('New password should be different')) {
           errorMessage = 'A nova senha deve ser diferente da atual.'
+        } else if (updateError.message?.includes('session')) {
+          errorMessage = 'Sessão inválida. Tente acessar o link novamente.'
         }
 
         toast({
@@ -80,19 +71,21 @@ export function ResetPasswordForm({ code }: ResetPasswordFormProps) {
           title: "Erro",
           description: errorMessage,
         })
-      } else {
-        setSuccess(true)
-        toast({
-          variant: "default",
-          title: "Senha atualizada!",
-          description: "Sua senha foi redefinida com sucesso.",
-        })
-        
-        // Redirecionar para o dashboard após 2 segundos
-        setTimeout(() => {
-          router.push('/dashboard')
-        }, 2000)
+        return
       }
+
+      // Se chegou até aqui, a senha foi atualizada com sucesso
+      setSuccess(true)
+      toast({
+        variant: "default",
+        title: "Senha atualizada!",
+        description: "Sua senha foi redefinida com sucesso.",
+      })
+      
+      // Redirecionar para o dashboard após 2 segundos
+      setTimeout(() => {
+        router.push('/dashboard')
+      }, 2000)
     } catch (err) {
       toast({
         variant: "destructive",

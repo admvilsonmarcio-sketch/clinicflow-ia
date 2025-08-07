@@ -86,15 +86,38 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
     )
   }
 
-  // Verificar sessão
+  // Processar código PKCE no servidor
+  let sessionEstablished = false
+  if (supabase && searchParams.code) {
+    try {
+      // Tentar trocar o código por uma sessão
+      const { data: sessionData, error: sessionError } = await supabase.auth.exchangeCodeForSession(searchParams.code)
+      
+      if (sessionData?.session) {
+        sessionEstablished = true
+      } else if (sessionError) {
+        console.error('Erro ao processar código PKCE:', sessionError)
+        // Redirecionar com erro
+        const errorParams = new URLSearchParams({
+          error: 'invalid_code',
+          error_description: 'O link de recuperação é inválido ou já expirou.'
+        })
+        redirect(`/auth/reset-password?${errorParams.toString()}`)
+      }
+    } catch (error) {
+      console.error('Erro inesperado ao processar código:', error)
+    }
+  }
+  
+  // Verificar sessão atual
   if (supabase) {
     try {
       const {
         data: { session },
       } = await supabase.auth.getSession()
 
-      // Se já estiver logado, redirecionar para dashboard
-      if (session) {
+      // Se já estiver logado e não for uma sessão de reset, redirecionar para dashboard
+      if (session && !sessionEstablished) {
         redirect('/dashboard')
       }
     } catch (error) {
