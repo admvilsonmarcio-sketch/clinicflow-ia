@@ -55,7 +55,7 @@ export default function Home() {
           </div>
           <div className="flex items-center space-x-4">
             <Link href="/auth/login">
-              <Button variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+              <Button variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20">
                 Entrar
               </Button>
             </Link>
@@ -70,25 +70,25 @@ export default function Home() {
 
       {/* Hero Section */}
       <main className="container mx-auto px-4 py-8 sm:py-12 lg:py-16">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
           {/* Content */}
-          <div className="text-white order-2 lg:order-1">
+          <div className="order-2 text-white lg:order-1">
             <div className="mb-3 sm:mb-4">
-              <span className="bg-yellow-400 text-blue-900 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold">
+              <span className="rounded-full bg-yellow-400 px-3 py-2 text-xs font-semibold text-blue-900 sm:px-4 sm:text-sm">
                 🔥 OFERTA LIMITADA - 30 DIAS GRÁTIS
               </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+            <h1 className="mb-4 text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl lg:text-5xl xl:text-6xl">
               Aumente sua receita em
               <span className="block text-yellow-300">até 300% em 90 dias</span>
             </h1>
-            <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-blue-100 leading-relaxed">
+            <p className="mb-6 text-lg leading-relaxed text-blue-100 sm:mb-8 sm:text-xl">
               <strong>Mais de 2.500 médicos</strong> já aumentaram seus lucros com nossa plataforma de CRM médico, 
               atendimento automatizado 24/7 e IA que converte leads em pacientes.
             </p>
             
             {/* Stats */}
-             <div className="grid grid-cols-3 gap-6 mb-8">
+             <div className="mb-8 grid grid-cols-3 gap-6">
                <div className="text-center">
                  <div className="text-3xl font-bold text-yellow-300">+300%</div>
                  <div className="text-sm text-blue-200">Aumento de Receita</div>
@@ -104,21 +104,21 @@ export default function Home() {
              </div>
 
             {/* CTA Buttons */}
-             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
+             <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:gap-4">
                <Link href="/auth/register" className="w-full sm:w-auto">
-                 <Button size="lg" className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 hover:from-yellow-300 hover:to-yellow-400 font-bold px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                 <Button size="lg" className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-3 text-base font-bold text-blue-900 shadow-lg transition-all duration-200 hover:scale-105 hover:from-yellow-300 hover:to-yellow-400 hover:shadow-xl sm:px-8 sm:py-4 sm:text-lg">
                    🚀 COMEÇAR TESTE GRÁTIS AGORA
                  </Button>
                </Link>
                <Link href="/auth/login" className="w-full sm:w-auto">
-                 <Button size="lg" variant="outline" className="w-full border-2 border-white/60 text-blue-600 hover:bg-white hover:text-blue-900 hover:border-white font-semibold px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg transition-all duration-200">
+                 <Button size="lg" variant="outline" className="w-full border-2 border-white/60 px-6 py-3 text-base font-semibold text-blue-600 transition-all duration-200 hover:border-white hover:bg-white hover:text-blue-900 sm:px-8 sm:py-4 sm:text-lg">
                    Entrar na Conta
                  </Button>
                </Link>
              </div>
              
              {/* Guarantee */}
-             <div className="flex items-center justify-center sm:justify-start gap-2 text-blue-100 text-xs sm:text-sm">
+             <div className="flex items-center justify-center gap-2 text-xs text-blue-100 sm:justify-start sm:text-sm">
                <span className="text-green-400">✓</span>
                <span className="text-center sm:text-left">Sem cartão de crédito • Cancele quando quiser • Suporte 24/7</span>
              </div>
@@ -126,21 +126,21 @@ export default function Home() {
 
           {/* Illustration */}
           <div className="relative order-1 lg:order-2">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8">
+            <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm sm:p-6 lg:p-8">
               <Image
                 src="/login-illustration.svg"
                 alt="MediFlow Dashboard"
                 width={500}
                 height={400}
-                className="w-full h-auto"
+                className="h-auto w-full"
               />
             </div>
             
             {/* Floating Elements */}
-            <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-yellow-400 text-blue-900 p-2 sm:p-3 rounded-full text-lg sm:text-2xl animate-bounce">
+            <div className="absolute -right-2 -top-2 animate-bounce rounded-full bg-yellow-400 p-2 text-lg text-blue-900 sm:-right-4 sm:-top-4 sm:p-3 sm:text-2xl">
               🩺
             </div>
-            <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-white/20 backdrop-blur-sm p-2 sm:p-3 rounded-full text-lg sm:text-2xl animate-pulse">
+            <div className="absolute -bottom-2 -left-2 animate-pulse rounded-full bg-white/20 p-2 text-lg backdrop-blur-sm sm:-bottom-4 sm:-left-4 sm:p-3 sm:text-2xl">
               📱
             </div>
           </div>
@@ -148,46 +148,46 @@ export default function Home() {
 
         {/* Benefits Section */}
          <div className="mt-16 lg:mt-24">
-           <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-3 lg:mb-4">
+           <h2 className="mb-3 text-center text-2xl font-bold text-white sm:text-3xl lg:mb-4">
              Como o MediFlow vai transformar sua clínica
            </h2>
-           <p className="text-center text-blue-100 mb-8 lg:mb-12 max-w-2xl mx-auto px-4">
+           <p className="mx-auto mb-8 max-w-2xl px-4 text-center text-blue-100 lg:mb-12">
              Veja os resultados reais que nossos clientes alcançaram em apenas 90 dias
            </p>
            
-           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
              {/* Benefit 1 */}
-             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 text-white border border-yellow-400/20">
-               <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">💰</div>
-               <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-yellow-300">+300% de Receita</h3>
-               <p className="text-blue-100 mb-3 sm:mb-4 text-sm sm:text-base">
+             <div className="rounded-xl border border-yellow-400/20 bg-white/10 p-4 text-white backdrop-blur-sm sm:p-6">
+               <div className="mb-3 text-3xl sm:mb-4 sm:text-4xl">💰</div>
+               <h3 className="mb-2 text-lg font-semibold text-yellow-300 sm:mb-3 sm:text-xl">+300% de Receita</h3>
+               <p className="mb-3 text-sm text-blue-100 sm:mb-4 sm:text-base">
                  Atendimento automatizado 24/7 que converte leads em pacientes enquanto você dorme.
                </p>
-               <div className="text-xs sm:text-sm text-green-300">
+               <div className="text-xs text-green-300 sm:text-sm">
                  ✓ Média de R$ 15.000 extras/mês
                </div>
              </div>
              
              {/* Benefit 2 */}
-             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 text-white border border-yellow-400/20">
-               <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">⏰</div>
-               <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-yellow-300">-70% Tempo Administrativo</h3>
-               <p className="text-blue-100 mb-3 sm:mb-4 text-sm sm:text-base">
+             <div className="rounded-xl border border-yellow-400/20 bg-white/10 p-4 text-white backdrop-blur-sm sm:p-6">
+               <div className="mb-3 text-3xl sm:mb-4 sm:text-4xl">⏰</div>
+               <h3 className="mb-2 text-lg font-semibold text-yellow-300 sm:mb-3 sm:text-xl">-70% Tempo Administrativo</h3>
+               <p className="mb-3 text-sm text-blue-100 sm:mb-4 sm:text-base">
                  IA que automatiza agendamentos, prontuários e follow-ups. Mais tempo para pacientes.
                </p>
-               <div className="text-xs sm:text-sm text-green-300">
+               <div className="text-xs text-green-300 sm:text-sm">
                  ✓ 4h/dia economizadas em média
                </div>
              </div>
              
              {/* Benefit 3 */}
-             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 text-white border border-yellow-400/20 sm:col-span-2 lg:col-span-1">
-               <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">📈</div>
-               <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-yellow-300">+85% Retenção</h3>
-               <p className="text-blue-100 mb-3 sm:mb-4 text-sm sm:text-base">
+             <div className="rounded-xl border border-yellow-400/20 bg-white/10 p-4 text-white backdrop-blur-sm sm:col-span-2 sm:p-6 lg:col-span-1">
+               <div className="mb-3 text-3xl sm:mb-4 sm:text-4xl">📈</div>
+               <h3 className="mb-2 text-lg font-semibold text-yellow-300 sm:mb-3 sm:text-xl">+85% Retenção</h3>
+               <p className="mb-3 text-sm text-blue-100 sm:mb-4 sm:text-base">
                  Sistema de follow-up inteligente que mantém pacientes engajados e fiéis.
                </p>
-               <div className="text-xs sm:text-sm text-green-300">
+               <div className="text-xs text-green-300 sm:text-sm">
                  ✓ Pacientes retornam 3x mais
                </div>
              </div>
@@ -196,59 +196,59 @@ export default function Home() {
 
          {/* Testimonials Section */}
          <div className="mt-16 lg:mt-24">
-           <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-8 lg:mb-12 px-4">
+           <h2 className="mb-8 px-4 text-center text-2xl font-bold text-white sm:text-3xl lg:mb-12">
              O que nossos clientes estão dizendo
            </h2>
            
-           <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+           <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
              {/* Testimonial 1 */}
-             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 text-white">
-               <div className="flex items-center mb-3 sm:mb-4">
-                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-400 rounded-full flex items-center justify-center text-blue-900 font-bold mr-3 sm:mr-4 text-sm sm:text-base">
+             <div className="rounded-xl bg-white/10 p-4 text-white backdrop-blur-sm sm:p-6">
+               <div className="mb-3 flex items-center sm:mb-4">
+                 <div className="mr-3 flex size-10 items-center justify-center rounded-full bg-yellow-400 text-sm font-bold text-blue-900 sm:mr-4 sm:size-12 sm:text-base">
                    DR
                  </div>
                  <div>
-                   <div className="font-semibold text-sm sm:text-base">Dr. Carlos Silva</div>
-                   <div className="text-xs sm:text-sm text-blue-200">Cardiologista - São Paulo</div>
+                   <div className="text-sm font-semibold sm:text-base">Dr. Carlos Silva</div>
+                   <div className="text-xs text-blue-200 sm:text-sm">Cardiologista - São Paulo</div>
                  </div>
                </div>
-               <p className="text-blue-100 mb-3 sm:mb-4 text-sm sm:text-base leading-relaxed">
+               <p className="mb-3 text-sm leading-relaxed text-blue-100 sm:mb-4 sm:text-base">
                  Em 3 meses, minha receita aumentou 280%. O atendimento automatizado trouxe 150 novos pacientes. 
                  Nunca imaginei que seria tão fácil!
                </p>
-               <div className="text-yellow-300 text-xs sm:text-sm">⭐⭐⭐⭐⭐ 5/5 estrelas</div>
+               <div className="text-xs text-yellow-300 sm:text-sm">⭐⭐⭐⭐⭐ 5/5 estrelas</div>
              </div>
              
              {/* Testimonial 2 */}
-             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 text-white">
-               <div className="flex items-center mb-3 sm:mb-4">
-                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-400 rounded-full flex items-center justify-center text-blue-900 font-bold mr-3 sm:mr-4 text-sm sm:text-base">
+             <div className="rounded-xl bg-white/10 p-4 text-white backdrop-blur-sm sm:p-6">
+               <div className="mb-3 flex items-center sm:mb-4">
+                 <div className="mr-3 flex size-10 items-center justify-center rounded-full bg-yellow-400 text-sm font-bold text-blue-900 sm:mr-4 sm:size-12 sm:text-base">
                    DRA
                  </div>
                  <div>
-                   <div className="font-semibold text-sm sm:text-base">Dra. Ana Costa</div>
-                   <div className="text-xs sm:text-sm text-blue-200">Dermatologista - Rio de Janeiro</div>
+                   <div className="text-sm font-semibold sm:text-base">Dra. Ana Costa</div>
+                   <div className="text-xs text-blue-200 sm:text-sm">Dermatologista - Rio de Janeiro</div>
                  </div>
                </div>
-               <p className="text-blue-100 mb-3 sm:mb-4 text-sm sm:text-base leading-relaxed">
+               <p className="mb-3 text-sm leading-relaxed text-blue-100 sm:mb-4 sm:text-base">
                  Economizo 5 horas por dia com a automação. Agora posso focar no que realmente importa: 
                  cuidar dos meus pacientes.
                </p>
-               <div className="text-yellow-300 text-xs sm:text-sm">⭐⭐⭐⭐⭐ 5/5 estrelas</div>
+               <div className="text-xs text-yellow-300 sm:text-sm">⭐⭐⭐⭐⭐ 5/5 estrelas</div>
              </div>
            </div>
          </div>
 
          {/* Urgency CTA Section */}
-         <div className="mt-16 lg:mt-24 text-center">
-           <div className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-2xl p-6 sm:p-8 text-blue-900">
-             <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
+         <div className="mt-16 text-center lg:mt-24">
+           <div className="rounded-2xl bg-gradient-to-r from-yellow-400 to-orange-400 p-6 text-blue-900 sm:p-8">
+             <h2 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">
                🚨 ÚLTIMAS 48 HORAS - Oferta Especial
              </h2>
-             <p className="text-lg sm:text-xl mb-4 sm:mb-6">
+             <p className="mb-4 text-lg sm:mb-6 sm:text-xl">
                <strong>30 dias grátis + Setup personalizado</strong> (valor R$ 2.500)
              </p>
-             <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-8 mb-4 sm:mb-6 text-xs sm:text-sm">
+             <div className="mb-4 flex flex-col justify-center gap-3 text-xs sm:mb-6 sm:flex-row sm:gap-8 sm:text-sm">
                <div className="flex items-center justify-center gap-2">
                  <span className="text-green-600">✓</span>
                  <span>Sem taxa de setup</span>
@@ -263,11 +263,11 @@ export default function Home() {
                </div>
              </div>
              <Link href="/auth/register">
-               <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 font-bold px-8 sm:px-12 py-3 sm:py-4 text-lg sm:text-xl shadow-2xl hover:shadow-blue-500/25 transform hover:scale-105 transition-all duration-300 border-2 border-blue-500 w-full sm:w-auto">
+               <Button size="lg" className="w-full border-2 border-blue-500 bg-blue-600 px-8 py-3 text-lg font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-blue-500/25 sm:w-auto sm:px-12 sm:py-4 sm:text-xl">
                  🎯 GARANTIR MINHA VAGA AGORA
                </Button>
              </Link>
-             <p className="text-xs sm:text-sm mt-3 sm:mt-4 opacity-80">
+             <p className="mt-3 text-xs opacity-80 sm:mt-4 sm:text-sm">
                ⏰ Restam apenas 12 vagas para esta oferta
              </p>
            </div>
@@ -275,19 +275,19 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="container mx-auto px-4 py-6 sm:py-8 mt-12 sm:mt-16">
+      <footer className="container mx-auto mt-12 px-4 py-6 sm:mt-16 sm:py-8">
         <div className="border-t border-white/20 pt-6 sm:pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center text-white/80 gap-4">
+          <div className="flex flex-col items-center justify-between gap-4 text-white/80 md:flex-row">
             <div className="flex items-center space-x-2">
-              <span className="font-semibold text-sm sm:text-base">MediFlow</span>
+              <span className="text-sm font-semibold sm:text-base">MediFlow</span>
             </div>
-            <div className="text-xs sm:text-sm text-center">
+            <div className="text-center text-xs sm:text-sm">
               © 2025 MediFlow. Todos os direitos reservados.{' '}
               <a 
                 href="https://www.linkedin.com/in/marshallpaiva/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-yellow-300 hover:text-yellow-200 transition-colors duration-200 font-medium"
+                className="font-medium text-yellow-300 transition-colors duration-200 hover:text-yellow-200"
               >
                 Marshall Paiva
               </a>

@@ -45,34 +45,34 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-4 md:space-y-6">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Configurações</h1>
-        <p className="text-sm md:text-base text-gray-600">Gerencie suas preferências e integrações do sistema</p>
+        <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">Configurações</h1>
+        <p className="text-sm text-gray-600 md:text-base">Gerencie suas preferências e integrações do sistema</p>
       </div>
 
       <Tabs defaultValue="profile" className="space-y-4 md:space-y-6">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1">
-          <TabsTrigger value="profile" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
-            <User className="h-3 w-3 md:h-4 md:w-4" />
+        <TabsList className="grid w-full grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-6">
+          <TabsTrigger value="profile" className="flex items-center gap-1 text-xs md:gap-2 md:text-sm">
+            <User className="size-3 md:size-4" />
             <span className="hidden sm:inline">Perfil</span>
           </TabsTrigger>
-          <TabsTrigger value="clinic" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
-            <Building2 className="h-3 w-3 md:h-4 md:w-4" />
+          <TabsTrigger value="clinic" className="flex items-center gap-1 text-xs md:gap-2 md:text-sm">
+            <Building2 className="size-3 md:size-4" />
             <span className="hidden sm:inline">Clínica</span>
           </TabsTrigger>
-          <TabsTrigger value="integrations" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
-            <MessageSquare className="h-3 w-3 md:h-4 md:w-4" />
+          <TabsTrigger value="integrations" className="flex items-center gap-1 text-xs md:gap-2 md:text-sm">
+            <MessageSquare className="size-3 md:size-4" />
             <span className="hidden sm:inline">Integrações</span>
           </TabsTrigger>
-          <TabsTrigger value="ai" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
-            <Brain className="h-3 w-3 md:h-4 md:w-4" />
+          <TabsTrigger value="ai" className="flex items-center gap-1 text-xs md:gap-2 md:text-sm">
+            <Brain className="size-3 md:size-4" />
             <span className="hidden sm:inline">IA</span>
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
-            <Bell className="h-3 w-3 md:h-4 md:w-4" />
+          <TabsTrigger value="notifications" className="flex items-center gap-1 text-xs md:gap-2 md:text-sm">
+            <Bell className="size-3 md:size-4" />
             <span className="hidden sm:inline">Notificações</span>
           </TabsTrigger>
-          <TabsTrigger value="security" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm">
-            <Shield className="h-3 w-3 md:h-4 md:w-4" />
+          <TabsTrigger value="security" className="flex items-center gap-1 text-xs md:gap-2 md:text-sm">
+            <Shield className="size-3 md:size-4" />
             <span className="hidden sm:inline">Segurança</span>
           </TabsTrigger>
         </TabsList>
@@ -112,12 +112,12 @@ export default async function SettingsPage() {
 
         {/* Aba Integrações */}
         <TabsContent value="integrations">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-2">
             {/* WhatsApp */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5 text-green-600" />
+                  <MessageSquare className="size-5 text-green-600" />
                   WhatsApp Business
                 </CardTitle>
                 <CardDescription>
@@ -139,7 +139,7 @@ export default async function SettingsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5 text-pink-600" />
+                  <MessageSquare className="size-5 text-pink-600" />
                   Instagram
                 </CardTitle>
                 <CardDescription>
@@ -161,7 +161,7 @@ export default async function SettingsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-blue-600" />
+                  <Calendar className="size-5 text-blue-600" />
                   Google Calendar
                 </CardTitle>
                 <CardDescription>
@@ -183,7 +183,7 @@ export default async function SettingsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Settings className="h-5 w-5 text-purple-600" />
+                  <Settings className="size-5 text-purple-600" />
                   N8N Automação
                 </CardTitle>
                 <CardDescription>
@@ -230,13 +230,13 @@ export default async function SettingsPage() {
                     step="0.1"
                     placeholder="0.8"
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="mt-1 text-xs text-gray-500">
                     Respostas com confiança abaixo deste valor serão escaladas para humanos
                   </p>
                 </div>
                 <div>
                   <label className="text-sm font-medium">Horário de Funcionamento da IA</label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                  <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <Input type="time" defaultValue="08:00" />
                     <Input type="time" defaultValue="18:00" />
                   </div>
@@ -244,7 +244,7 @@ export default async function SettingsPage() {
                 <div>
                   <label className="text-sm font-medium">Mensagem de Saudação</label>
                   <textarea
-                    className="w-full p-3 border rounded-md"
+                    className="w-full rounded-md border p-3"
                     rows={3}
                     defaultValue="Olá! Sou a assistente virtual da clínica. Como posso ajudá-lo hoje?"
                     placeholder="Digite a mensagem de saudação..."
@@ -269,40 +269,40 @@ export default async function SettingsPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4 sm:space-y-6">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
                   <div className="flex-1">
-                    <h4 className="font-medium text-sm sm:text-base">Novas mensagens</h4>
-                    <p className="text-xs sm:text-sm text-gray-500">Receber notificação de novas mensagens de pacientes</p>
+                    <h4 className="text-sm font-medium sm:text-base">Novas mensagens</h4>
+                    <p className="text-xs text-gray-500 sm:text-sm">Receber notificação de novas mensagens de pacientes</p>
                   </div>
-                  <input type="checkbox" defaultChecked className="rounded self-start sm:self-center" />
+                  <input type="checkbox" defaultChecked className="self-start rounded sm:self-center" />
                 </div>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
                   <div className="flex-1">
-                    <h4 className="font-medium text-sm sm:text-base">Consultas agendadas</h4>
-                    <p className="text-xs sm:text-sm text-gray-500">Lembrete de consultas próximas</p>
+                    <h4 className="text-sm font-medium sm:text-base">Consultas agendadas</h4>
+                    <p className="text-xs text-gray-500 sm:text-sm">Lembrete de consultas próximas</p>
                   </div>
-                  <input type="checkbox" defaultChecked className="rounded self-start sm:self-center" />
+                  <input type="checkbox" defaultChecked className="self-start rounded sm:self-center" />
                 </div>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
                   <div className="flex-1">
-                    <h4 className="font-medium text-sm sm:text-base">IA escalou conversa</h4>
-                    <p className="text-xs sm:text-sm text-gray-500">Quando a IA não conseguir responder e escalar para humano</p>
+                    <h4 className="text-sm font-medium sm:text-base">IA escalou conversa</h4>
+                    <p className="text-xs text-gray-500 sm:text-sm">Quando a IA não conseguir responder e escalar para humano</p>
                   </div>
-                  <input type="checkbox" defaultChecked className="rounded self-start sm:self-center" />
+                  <input type="checkbox" defaultChecked className="self-start rounded sm:self-center" />
                 </div>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
                   <div className="flex-1">
-                    <h4 className="font-medium text-sm sm:text-base">Relatórios semanais</h4>
-                    <p className="text-xs sm:text-sm text-gray-500">Resumo semanal de atividades</p>
+                    <h4 className="text-sm font-medium sm:text-base">Relatórios semanais</h4>
+                    <p className="text-xs text-gray-500 sm:text-sm">Resumo semanal de atividades</p>
                   </div>
-                  <input type="checkbox" className="rounded self-start sm:self-center" />
+                  <input type="checkbox" className="self-start rounded sm:self-center" />
                 </div>
               </div>
-              <div className="border-t pt-4 mt-6">
+              <div className="mt-6 border-t pt-4">
                 <TestNotifications />
               </div>
 
-              <div className="flex justify-end mt-6">
+              <div className="mt-6 flex justify-end">
                 <Button>Salvar Preferências</Button>
               </div>
             </CardContent>
@@ -347,10 +347,10 @@ export default async function SettingsPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3 sm:space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 p-3 border rounded">
+                  <div className="flex flex-col gap-2 rounded border p-3 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
                     <div className="flex-1">
-                      <h4 className="font-medium text-sm sm:text-base">Sessão Atual</h4>
-                      <p className="text-xs sm:text-sm text-gray-500">Windows • Chrome • Agora</p>
+                      <h4 className="text-sm font-medium sm:text-base">Sessão Atual</h4>
+                      <p className="text-xs text-gray-500 sm:text-sm">Windows • Chrome • Agora</p>
                     </div>
                     <Badge variant="secondary" className="self-start sm:self-center">Ativo</Badge>
                   </div>

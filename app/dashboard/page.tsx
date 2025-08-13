@@ -53,23 +53,23 @@ export default async function Dashboard() {
   return (
     <div className="space-y-4 sm:space-y-6">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-sm sm:text-base text-gray-600">Visão geral do seu consultório</p>
+        <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Dashboard</h1>
+        <p className="text-sm text-gray-600 sm:text-base">Visão geral do seu consultório</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
         {stats.map((stat) => {
           const Icon = stat.icon
           return (
             <Card key={stat.title}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-xs sm:text-sm font-medium">
+                <CardTitle className="text-xs font-medium sm:text-sm">
                   {stat.title}
                 </CardTitle>
-                <Icon className="h-4 w-4 text-muted-foreground" />
+                <Icon className="size-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-xl sm:text-2xl font-bold">{stat.value}</div>
+                <div className="text-xl font-bold sm:text-2xl">{stat.value}</div>
                 <p className="text-xs text-muted-foreground">
                   {stat.description}
                 </p>
@@ -79,7 +79,7 @@ export default async function Dashboard() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Próximas Consultas</CardTitle>
@@ -88,7 +88,7 @@ export default async function Dashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-8 text-gray-500">
+            <div className="py-8 text-center text-gray-500">
               Nenhuma consulta agendada para hoje
             </div>
           </CardContent>
@@ -102,7 +102,7 @@ export default async function Dashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-8 text-gray-500">
+            <div className="py-8 text-center text-gray-500">
               Nenhuma atividade recente
             </div>
           </CardContent>

@@ -54,13 +54,13 @@ export default async function PatientPage({ params }: PatientPageProps) {
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="sm" asChild>
                         <Link href="/dashboard/patients">
-                            <ArrowLeft className="h-4 w-4 mr-2" />
+                            <ArrowLeft className="mr-2 size-4" />
                             Voltar
                         </Link>
                     </Button>
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900">{patient.nome_completo}</h1>
-                        <div className="flex items-center gap-4 mt-1">
+                        <div className="mt-1 flex items-center gap-4">
                             <p className="text-gray-600">
                                 {patient.data_nascimento && `${calculateAge(patient.data_nascimento)} anos`}
                                 {patient.genero && ` • ${patient.genero === 'masculino' ? 'Masculino' : patient.genero === 'feminino' ? 'Feminino' : 'Outro'}`}
@@ -74,16 +74,16 @@ export default async function PatientPage({ params }: PatientPageProps) {
 
                 <div className="flex gap-2">
                     <Button variant="outline" size="sm">
-                        <MessageCircle className="h-4 w-4 mr-2" />
+                        <MessageCircle className="mr-2 size-4" />
                         Conversar
                     </Button>
                     <Button variant="outline" size="sm">
-                        <Calendar className="h-4 w-4 mr-2" />
+                        <Calendar className="mr-2 size-4" />
                         Agendar
                     </Button>
                     <Button size="sm" asChild>
                         <Link href={`/dashboard/patients/${patient.id}/edit`}>
-                            <Edit className="h-4 w-4 mr-2" />
+                            <Edit className="mr-2 size-4" />
                             Editar
                         </Link>
                     </Button>

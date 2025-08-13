@@ -40,7 +40,7 @@ export function TestNotifications() {
   return (
     <div className="space-y-2">
       <h3 className="text-sm font-medium">Testar Notificações</h3>
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex flex-wrap gap-2">
         <Button size="sm" variant="outline" onClick={showSuccess}>
           Sucesso
         </Button>

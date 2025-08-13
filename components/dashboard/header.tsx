@@ -28,8 +28,8 @@ export function Header({ user, profile, isSidebarOpen, onToggleSidebar }: Header
   }
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
-      <div className="px-4 sm:px-6 py-4 flex items-center justify-between">
+    <header className="border-b border-gray-200 bg-white shadow-sm">
+      <div className="flex items-center justify-between p-4 sm:px-6">
         {/* Menu hambúrguer para mobile */}
         <div className="flex items-center space-x-4">
           <Button
@@ -38,7 +38,7 @@ export function Header({ user, profile, isSidebarOpen, onToggleSidebar }: Header
             className="md:hidden"
             onClick={onToggleSidebar}
           >
-            {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isSidebarOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </Button>
         <div>
             <h2 className="text-lg font-semibold text-gray-900">
@@ -52,7 +52,7 @@ export function Header({ user, profile, isSidebarOpen, onToggleSidebar }: Header
 
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2 text-sm text-gray-600">
-            <User className="h-4 w-4" />
+            <User className="size-4" />
             <span>{currentProfile?.cargo === 'medico' ? 'Médico' :
               currentProfile?.cargo === 'assistente' ? 'Assistente' :
                 currentProfile?.cargo === 'recepcionista' ? 'Recepcionista' :
@@ -64,7 +64,7 @@ export function Header({ user, profile, isSidebarOpen, onToggleSidebar }: Header
             size="sm"
             onClick={handleLogout}
           >
-            <LogOut className="h-4 w-4 mr-2" />
+            <LogOut className="mr-2 size-4" />
             Sair
           </Button>
         </div>

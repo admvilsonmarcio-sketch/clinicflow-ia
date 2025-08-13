@@ -19,30 +19,30 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
   // Verificar se há erro nos parâmetros da URL
   if (searchParams.error) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 bg-white">
-        <div className="max-w-md w-full space-y-6 text-center">
+      <div className="flex min-h-screen items-center justify-center bg-white px-4 sm:px-6 md:px-8">
+        <div className="w-full max-w-md space-y-6 text-center">
           <img 
             src="/logo.svg" 
             alt="MediFlow" 
-            className="mx-auto h-12 sm:h-16 w-auto mb-4 sm:mb-6"
+            className="mx-auto mb-4 h-12 w-auto sm:mb-6 sm:h-16"
           />
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-red-900 mb-2">
+          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
+            <h2 className="mb-2 text-xl font-semibold text-red-900">
               Link inválido ou expirado
             </h2>
-            <p className="text-sm text-red-700 mb-4">
+            <p className="mb-4 text-sm text-red-700">
               {searchParams.error_description || 'O link de recuperação não é válido ou já expirou.'}
             </p>
             <Link 
               href="/auth/forgot-password"
-              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors"
+              className="inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
             >
               Solicitar novo link
             </Link>
           </div>
           <Link 
             href="/auth/login"
-            className="text-sm text-gray-600 hover:text-gray-500 transition-colors"
+            className="text-sm text-gray-600 transition-colors hover:text-gray-500"
           >
             Voltar ao login
           </Link>
@@ -54,30 +54,30 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
   // Se não foi verificado via /auth/confirm, mostrar erro
   if (!searchParams.verified) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 bg-white">
-        <div className="max-w-md w-full space-y-6 text-center">
+      <div className="flex min-h-screen items-center justify-center bg-white px-4 sm:px-6 md:px-8">
+        <div className="w-full max-w-md space-y-6 text-center">
           <img 
             src="/logo.svg" 
             alt="MediFlow" 
-            className="mx-auto h-12 sm:h-16 w-auto mb-4 sm:mb-6"
+            className="mx-auto mb-4 h-12 w-auto sm:mb-6 sm:h-16"
           />
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-red-900 mb-2">
+          <div className="rounded-lg border border-red-200 bg-red-50 p-6">
+            <h2 className="mb-2 text-xl font-semibold text-red-900">
               Acesso não autorizado
             </h2>
-            <p className="text-sm text-red-700 mb-4">
+            <p className="mb-4 text-sm text-red-700">
               Você precisa acessar esta página através do link enviado por e-mail.
             </p>
             <Link 
               href="/auth/forgot-password"
-              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors"
+              className="inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
             >
               Solicitar novo link
             </Link>
           </div>
           <Link 
             href="/auth/login"
-            className="text-sm text-gray-600 hover:text-gray-500 transition-colors"
+            className="text-sm text-gray-600 transition-colors hover:text-gray-500"
           >
             Voltar ao login
           </Link>
@@ -90,21 +90,21 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
   // A sessão é necessária para a API de atualização de senha funcionar
 
   return (
-    <div className="min-h-screen flex">
+    <div className="flex min-h-screen">
       {/* Left side - Reset Password Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 md:px-8 bg-white">
-        <div className="max-w-md w-full space-y-6 sm:space-y-8">
+      <div className="flex flex-1 items-center justify-center bg-white px-4 sm:px-6 md:px-8">
+        <div className="w-full max-w-md space-y-6 sm:space-y-8">
           {/* Logo */}
           <div className="text-center">
             <img 
               src="/logo.svg" 
               alt="MediFlow" 
-              className="mx-auto h-12 sm:h-16 w-auto mb-4 sm:mb-6"
+              className="mx-auto mb-4 h-12 w-auto sm:mb-6 sm:h-16"
             />
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="mb-2 text-2xl font-bold text-gray-900 sm:text-3xl">
               Redefinir senha
             </h2>
-            <p className="text-sm sm:text-base text-gray-600">
+            <p className="text-sm text-gray-600 sm:text-base">
               Digite sua nova senha abaixo
             </p>
           </div>
@@ -114,7 +114,7 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
           <div className="text-center">
             <Link 
               href="/auth/login" 
-              className="text-xs sm:text-sm text-gray-600 hover:text-gray-500 transition-colors"
+              className="text-xs text-gray-600 transition-colors hover:text-gray-500 sm:text-sm"
             >
               Voltar ao login
             </Link>
@@ -123,14 +123,14 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
       </div>
       
       {/* Right side - Illustration */}
-      <div className="hidden lg:flex lg:flex-1 bg-gradient-to-br from-green-50 to-green-100 items-center justify-center p-8">
+      <div className="hidden items-center justify-center bg-gradient-to-br from-green-50 to-green-100 p-8 lg:flex lg:flex-1">
         <div className="max-w-md text-center">
           <img 
             src="/login-illustration.svg" 
             alt="Redefinir senha" 
-            className="w-full h-auto mb-8"
+            className="mb-8 h-auto w-full"
           />
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">
+          <h3 className="mb-4 text-xl font-semibold text-gray-900">
             Quase lá!
           </h3>
           <p className="text-gray-600">

@@ -1,18 +1,24 @@
 {
   "name": "mediflow",
-  "version": "0.6.1-beta",
+  "version": "0.7.0-beta",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix",
+    "lint": "next lint && stylelint '**/*.{css,scss,html}' --ignore-path .gitignore",
+    "lint:fix": "next lint --fix && stylelint '**/*.{css,scss,html}' --fix --ignore-path .gitignore",
+    "lint:tailwind": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "type-check": "tsc --noEmit",
     "db:types": "supabase gen types typescript --project-id YOUR_PROJECT_ID > types/supabase.ts",
     "validate-schema": "npx tsx scripts/validate-schema-types.ts",
     "init-storage": "npx tsx scripts/init-storage.ts",
-    "test": "echo 'Testes não implementados ainda' && exit 0"
+    "test": "playwright test",
+    "test:responsive": "playwright test tests/responsive --reporter=html --output-dir=reports/playwright",
+    "test:responsive:headed": "playwright test tests/responsive --headed",
+    "lighthouse": "node scripts/lighthouse-audit.js",
+    "audit:full": "npm run lint && npm run test:responsive && npm run lighthouse",
+    "ci:responsive": "npm run lint && npm run test:responsive && npm run lighthouse"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -46,15 +52,22 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@playwright/test": "^1.54.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/uuid": "^10.0.0",
     "autoprefixer": "^10.4.21",
+    "chrome-launcher": "^1.2.0",
     "dotenv": "^17.2.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.0.4",
+    "eslint-plugin-tailwindcss": "^3.18.2",
+    "lighthouse": "^12.8.1",
     "postcss": "^8.5.6",
+    "postcss-html": "^1.8.0",
+    "stylelint": "^16.23.1",
+    "stylelint-config-standard": "^39.0.0",
     "tailwindcss": "^3.3.0",
     "tsx": "^4.20.3",
     "typescript": "^5"

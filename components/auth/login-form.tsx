@@ -71,13 +71,13 @@ export function LoginForm() {
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">Email</label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Mail className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
             <Input
               type="email"
               placeholder="seu@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="pl-11 h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+              className="h-12 border-gray-300 pl-11 focus:border-green-500 focus:ring-green-500"
               required
             />
           </div>
@@ -88,19 +88,19 @@ export function LoginForm() {
             <label className="text-sm font-medium text-gray-700">Senha</label>
             <Link 
               href="/auth/forgot-password" 
-              className="text-sm text-green-600 hover:text-green-500 transition-colors"
+              className="text-sm text-green-600 transition-colors hover:text-green-500"
             >
               Esqueceu a senha?
             </Link>
           </div>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
             <Input
               type="password"
               placeholder="Sua senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="pl-11 h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+              className="h-12 border-gray-300 pl-11 focus:border-green-500 focus:ring-green-500"
               required
             />
           </div>
@@ -109,17 +109,17 @@ export function LoginForm() {
         <div className="space-y-4">
           <Button 
             type="submit" 
-            className="w-full h-12 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors" 
+            className="h-12 w-full rounded-lg bg-green-600 font-semibold text-white transition-colors hover:bg-green-700" 
             disabled={loading}
           >
             {loading ? (
               <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                <Loader2 className="mr-2 size-5 animate-spin" />
                 Entrando...
               </>
             ) : (
               <>
-                <LogIn className="mr-2 h-5 w-5" />
+                <LogIn className="mr-2 size-5" />
                 Entrar na minha conta
               </>
             )}

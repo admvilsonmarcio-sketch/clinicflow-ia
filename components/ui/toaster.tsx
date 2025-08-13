@@ -17,13 +17,13 @@ export function Toaster() {
   const getToastIcon = (variant: string) => {
     switch (variant) {
       case 'success':
-        return <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 flex-shrink-0 mt-0.5" />
+        return <CheckCircle className="mt-0.5 size-4 shrink-0 text-green-600 sm:size-5" />
       case 'destructive':
-        return <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600 flex-shrink-0 mt-0.5" />
+        return <AlertCircle className="mt-0.5 size-4 shrink-0 text-red-600 sm:size-5" />
       case 'warning':
-        return <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+        return <AlertTriangle className="mt-0.5 size-4 shrink-0 text-yellow-600 sm:size-5" />
       default:
-        return <Info className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+        return <Info className="mt-0.5 size-4 shrink-0 text-blue-600 sm:size-5" />
     }
   }
 
@@ -32,16 +32,16 @@ export function Toaster() {
       {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
           <Toast key={id} {...props}>
-            <div className="flex items-start space-x-3 flex-1">
+            <div className="flex flex-1 items-start space-x-3">
               {getToastIcon(props.variant || 'default')}
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0 flex-1">
                 {title && (
                   <ToastTitle className="text-base font-semibold leading-tight">
                     {title}
                   </ToastTitle>
                 )}
                 {description && (
-                  <ToastDescription className="text-sm opacity-80 leading-relaxed mt-1">
+                  <ToastDescription className="mt-1 text-sm leading-relaxed opacity-80">
                     {description}
                   </ToastDescription>
                 )}

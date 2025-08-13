@@ -13,8 +13,8 @@
   </div>
   
   <div style="margin-top: 10px;">
-    <img src="https://img.shields.io/badge/Versão-0.6.1--beta-blue?style=flat-square" alt="Versão" />
-    <img src="https://img.shields.io/badge/Status-Recuperação%20de%20Senha%20Implementada-success?style=flat-square" alt="Status" />
+    <img src="https://img.shields.io/badge/Versão-0.7.0--beta-blue?style=flat-square" alt="Versão" />
+    <img src="https://img.shields.io/badge/Status-Sistema%20de%20Responsividade%20Implementado-success?style=flat-square" alt="Status" />
     <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License" />
     <img src="https://img.shields.io/badge/LGPD-Compliant-purple?style=flat-square" alt="LGPD" />
   </div>

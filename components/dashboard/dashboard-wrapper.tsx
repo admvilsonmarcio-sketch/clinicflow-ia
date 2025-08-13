@@ -44,9 +44,9 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="flex min-h-screen items-center justify-center bg-gray-50">
                 <div className="text-center">
-                    <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+                    <Loader2 className="mx-auto mb-4 size-8 animate-spin" />
                     <p className="text-gray-600">Carregando...</p>
                 </div>
             </div>
@@ -72,7 +72,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
                     isOpen={isSidebarOpen} 
                     onClose={closeSidebar}
                 />
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                     <Header 
                         user={user} 
                         profile={profile}

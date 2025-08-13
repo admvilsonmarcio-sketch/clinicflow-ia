@@ -171,10 +171,10 @@ export function ForgotPasswordForm() {
 
   if (emailSent) {
     return (
-      <div className="w-full text-center space-y-6">
+      <div className="w-full space-y-6 text-center">
         <div className="flex justify-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-            <CheckCircle className="w-8 h-8 text-green-600" />
+          <div className="flex size-16 items-center justify-center rounded-full bg-green-100">
+            <CheckCircle className="size-8 text-green-600" />
           </div>
         </div>
         
@@ -190,11 +190,11 @@ export function ForgotPasswordForm() {
           </p>
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-left">
-          <h4 className="text-sm font-medium text-blue-900 mb-2">
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 text-left">
+          <h4 className="mb-2 text-sm font-medium text-blue-900">
             Próximos passos:
           </h4>
-          <ul className="text-sm text-blue-800 space-y-1">
+          <ul className="space-y-1 text-sm text-blue-800">
             <li>• Verifique sua caixa de entrada</li>
             <li>• Procure também na pasta de spam</li>
             <li>• Clique no link do email para redefinir sua senha</li>
@@ -211,12 +211,12 @@ export function ForgotPasswordForm() {
           >
             {loading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="mr-2 size-4 animate-spin" />
                 Reenviando...
               </>
             ) : !canResend ? (
               <>
-                <Clock className="mr-2 h-4 w-4" />
+                <Clock className="mr-2 size-4" />
                 Aguarde {resendTimer}s
               </>
             ) : (
@@ -226,7 +226,7 @@ export function ForgotPasswordForm() {
 
           <Link href="/auth/login">
             <Button variant="ghost" className="w-full">
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              <ArrowLeft className="mr-2 size-4" />
               Voltar ao login
             </Button>
           </Link>
@@ -243,13 +243,13 @@ export function ForgotPasswordForm() {
             Email
           </label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Mail className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
             <Input
               type="email"
               placeholder="seu@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="pl-11 h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+              className="h-12 border-gray-300 pl-11 focus:border-green-500 focus:ring-green-500"
               required
             />
           </div>
@@ -257,12 +257,12 @@ export function ForgotPasswordForm() {
 
         <Button 
           type="submit" 
-          className="w-full h-12 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors" 
+          className="h-12 w-full rounded-lg bg-green-600 font-semibold text-white transition-colors hover:bg-green-700" 
           disabled={loading}
         >
           {loading ? (
             <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              <Loader2 className="mr-2 size-5 animate-spin" />
               Enviando...
             </>
           ) : (
@@ -274,7 +274,7 @@ export function ForgotPasswordForm() {
       <div className="mt-6">
         <Link href="/auth/login">
           <Button variant="ghost" className="w-full">
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className="mr-2 size-4" />
             Voltar ao login
           </Button>
         </Link>

@@ -590,16 +590,16 @@ export function PatientFormWizard({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
-      <div className="max-w-6xl mx-auto px-6 space-y-8">
+      <div className="mx-auto max-w-6xl space-y-8 px-6">
         {/* Header */}
-        <div className="text-center space-y-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4">
-            <User className="h-8 w-8 text-white" />
+        <div className="space-y-4 text-center">
+          <div className="mb-4 inline-flex size-16 items-center justify-center rounded-full bg-blue-600">
+            <User className="size-8 text-white" />
           </div>
           <h1 className="text-4xl font-bold text-gray-900">
             {mode === 'create' ? 'Cadastrar Novo Paciente' : 'Editar Paciente'}
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-lg text-gray-600">
             {mode === 'create' 
               ? 'Preencha as informações do paciente seguindo os passos abaixo para um cadastro completo e organizado'
               : 'Atualize as informações do paciente de forma rápida e eficiente'
@@ -620,8 +620,8 @@ export function PatientFormWizard({
       )}
 
       {/* Steps Navigation */}
-      <div className="bg-white rounded-xl border-0 p-6 shadow-lg">
-        <div className="flex flex-wrap gap-2 justify-center">
+      <div className="rounded-xl border-0 bg-white p-6 shadow-lg">
+        <div className="flex flex-wrap justify-center gap-2">
           {STEPS.map((step, index) => {
             const Icon = step.icon
             const isCompleted = completedSteps.has(step.id)
@@ -634,15 +634,15 @@ export function PatientFormWizard({
                 key={step.id}
                 variant={isCurrent ? "default" : isCompleted ? "secondary" : "outline"}
                 size="sm"
-                className={`flex items-center gap-2 transition-all duration-200 hover:scale-105 ${!isAccessible ? 'opacity-50 cursor-not-allowed' : ''} ${isCurrent ? 'ring-2 ring-blue-500 ring-offset-2' : ''}`}
+                className={`flex items-center gap-2 transition-all duration-200 hover:scale-105 ${!isAccessible ? 'cursor-not-allowed opacity-50' : ''} ${isCurrent ? 'ring-2 ring-blue-500 ring-offset-2' : ''}`}
                 onClick={() => isAccessible && goToStep(step.id)}
                 disabled={!isAccessible}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="size-4" />
                 <span className="hidden sm:inline">{step.title}</span>
 
                 {isCompleted && (
-                  <CheckCircle2 className="h-4 w-4 text-green-500" />
+                  <CheckCircle2 className="size-4 text-green-500" />
                 )}
               </Button>
             )
@@ -656,7 +656,7 @@ export function PatientFormWizard({
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <Card className="border-0 shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-t-lg">
+            <CardHeader className="rounded-t-lg bg-gradient-to-r from-blue-50 to-indigo-50">
               <CardTitle className="flex items-center gap-3 text-xl">
                 {React.createElement(STEPS[currentStepIndex].icon, { className: "h-6 w-6 text-blue-600" })}
                 {STEPS[currentStepIndex].title}
@@ -676,8 +676,8 @@ export function PatientFormWizard({
           </Card>
 
           {/* Navigation */}
-          <div className="bg-white rounded-xl border-0 shadow-lg p-6">
-            <div className="flex justify-between items-center">
+          <div className="rounded-xl border-0 bg-white p-6 shadow-lg">
+            <div className="flex items-center justify-between">
               <div className="flex gap-3">
                 <Button
                   type="button"
@@ -687,7 +687,7 @@ export function PatientFormWizard({
                   disabled={currentStepIndex === 0}
                   className="border-gray-300 hover:border-blue-400"
                 >
-                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  <ArrowLeft className="mr-2 size-4" />
                   Anterior
                 </Button>
                 
@@ -716,10 +716,10 @@ export function PatientFormWizard({
                       nextStep()
                     }}
                     disabled={!isCurrentStepValid()}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-8"
+                    className="bg-blue-600 px-8 text-white hover:bg-blue-700"
                   >
                     Próximo
-                    <ArrowRight className="h-4 w-4 ml-2" />
+                    <ArrowRight className="ml-2 size-4" />
                   </Button>
                 ) : (
                   <Button
@@ -749,7 +749,7 @@ export function PatientFormWizard({
                       }
                       console.log('Campos obrigatórios:', requiredFields)
                     }}
-                    className="bg-green-600 hover:bg-green-700 text-white px-8"
+                    className="bg-green-600 px-8 text-white hover:bg-green-700"
                   >
                     {isSubmitting ? 'Salvando...' : (mode === 'create' ? 'Cadastrar Paciente' : 'Atualizar Paciente')}
                   </Button>

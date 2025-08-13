@@ -13,6 +13,49 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [0.7.0-beta] - 2025-08-13
+
+### 🎯 Novo
+- **Sistema de Responsividade Completo:** Implementação de baseline de responsividade
+  - ESLint + Tailwind CSS Plugin para detecção de problemas de responsividade
+  - Stylelint configurado para validação de CSS customizado
+  - Playwright configurado com testes visuais em 6 breakpoints (375px a 1920px)
+  - Lighthouse configurado para auditoria de performance, acessibilidade e best practices
+  - GitHub Actions CI/CD para testes automáticos de responsividade
+  - Scripts npm para execução local e CI (`test:responsive`, `lighthouse`, `audit:full`)
+
+### 🔧 Melhorado
+- **Linting Avançado:** Configuração completa de linters para responsividade
+  - Detecção automática de classes Tailwind conflitantes
+  - Correção automática de ordem de classes CSS
+  - Migração automática Tailwind v2 → v3 (flex-shrink-0 → shrink-0)
+  - Enforcement de shorthands (h-4 w-4 → size-4)
+  - Validação de CSS com suporte a sintaxe Tailwind
+
+### 📊 Adicionado
+- **Testes Visuais Automatizados:** Playwright configurado para responsividade
+  - Screenshots automáticos em 6 breakpoints para todas as páginas principais
+  - Detecção automática de overflow horizontal
+  - Verificação de usabilidade em dispositivos móveis
+  - Testes de legibilidade de texto (≥ 12px)
+  - Relatórios HTML interativos com resultados detalhados
+
+### 🚀 Infraestrutura
+- **CI/CD Responsividade:** GitHub Actions configurado
+  - Execução automática em push e pull requests
+  - Comentários automáticos em PRs com resultados
+  - Artifacts salvos por 30 dias (screenshots, relatórios)
+  - Critérios de aceite: Performance ≥ 80, Best Practices ≥ 90, Accessibility ≥ 90
+
+### 📚 Documentação
+- **Guias Completos:** Documentação detalhada do sistema de responsividade
+  - `docs/responsividade.md`: Guia completo de uso
+  - `docs/demo-responsividade.md`: Demonstração da implementação
+  - Exemplos de boas práticas mobile-first
+  - Troubleshooting para problemas comuns
+
+---
+
 ## [0.6.1-beta] - 2025-08-13
 
 ### 🔧 Melhorado

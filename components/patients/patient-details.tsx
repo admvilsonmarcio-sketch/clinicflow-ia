@@ -92,64 +92,64 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
     }
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6">
             {/* Coluna Principal */}
-            <div className="lg:col-span-2 space-y-4 lg:space-y-6">
+            <div className="space-y-4 lg:col-span-2 lg:space-y-6">
                 {/* Informações Básicas */}
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                            <User className="h-5 w-5" />
+                            <User className="size-5" />
                             Informações Básicas
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3 lg:space-y-4">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:gap-4">
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
-                                    <Phone className="h-3 w-3 sm:h-4 sm:w-4" />
+                                <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
+                                    <Phone className="size-3 sm:size-4" />
                                     Telefone
                                 </div>
-                                <p className="font-medium text-sm sm:text-base break-all">{patient.telefone_celular ? formatTelefone(patient.telefone_celular, 'celular') : 'Não informado'}</p>
+                                <p className="break-all text-sm font-medium sm:text-base">{patient.telefone_celular ? formatTelefone(patient.telefone_celular, 'celular') : 'Não informado'}</p>
                             </div>
 
                             {patient.email && (
                                 <div className="space-y-2">
-                                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
-                                        <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
+                                    <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
+                                        <Mail className="size-3 sm:size-4" />
                                         Email
                                     </div>
-                                    <p className="font-medium text-sm sm:text-base break-all">{patient.email}</p>
+                                    <p className="break-all text-sm font-medium sm:text-base">{patient.email}</p>
                                 </div>
                             )}
 
                             {patient.data_nascimento && (
                                 <div className="space-y-2">
-                                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
-                                        <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
+                                    <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
+                                        <Calendar className="size-3 sm:size-4" />
                                         Data de Nascimento
                                     </div>
-                                    <p className="font-medium text-sm sm:text-base">{formatDate(patient.data_nascimento)}</p>
+                                    <p className="text-sm font-medium sm:text-base">{formatDate(patient.data_nascimento)}</p>
                                 </div>
                             )}
 
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
-                                    <User className="h-3 w-3 sm:h-4 sm:w-4" />
+                                <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
+                                    <User className="size-3 sm:size-4" />
                                     Gênero
                                 </div>
-                                <p className="font-medium text-sm sm:text-base">
+                                <p className="text-sm font-medium sm:text-base">
                                     {patient.genero === 'masculino' ? 'Masculino' :
                                         patient.genero === 'feminino' ? 'Feminino' : 'Outro'}
                                 </p>
                             </div>
 
                             <div className="space-y-2 sm:col-span-2">
-                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
-                                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
+                                <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
+                                    <MapPin className="size-3 sm:size-4" />
                                     Endereço
                                 </div>
-                                <p className="font-medium text-sm sm:text-base break-words">{formatEnderecoCompleto()}</p>
+                                <p className="break-words text-sm font-medium sm:text-base">{formatEnderecoCompleto()}</p>
                             </div>
                         </div>
                     </CardContent>
@@ -160,38 +160,38 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
-                                <Phone className="h-5 w-5" />
+                                <Phone className="size-5" />
                                 Contato de Emergência
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-3 lg:space-y-4">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
+                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:gap-4">
                                 {patient.nome_emergencia && (
                                     <div className="space-y-2">
-                                        <div className="text-xs sm:text-sm text-gray-500">Nome</div>
-                                        <p className="font-medium text-sm sm:text-base break-words">{patient.nome_emergencia}</p>
+                                        <div className="text-xs text-gray-500 sm:text-sm">Nome</div>
+                                        <p className="break-words text-sm font-medium sm:text-base">{patient.nome_emergencia}</p>
                                     </div>
                                 )}
 
                                 {patient.parentesco_emergencia && (
                                     <div className="space-y-2">
-                                        <div className="text-xs sm:text-sm text-gray-500">Parentesco</div>
-                                        <p className="font-medium text-sm sm:text-base break-words">{patient.parentesco_emergencia}</p>
+                                        <div className="text-xs text-gray-500 sm:text-sm">Parentesco</div>
+                                        <p className="break-words text-sm font-medium sm:text-base">{patient.parentesco_emergencia}</p>
                                     </div>
                                 )}
 
                                 {patient.telefone_emergencia && (
                                     <div className="space-y-2">
-                                        <div className="text-xs sm:text-sm text-gray-500">Telefone</div>
-                                        <p className="font-medium text-sm sm:text-base break-words">{formatTelefone(patient.telefone_emergencia, 'celular')}</p>
+                                        <div className="text-xs text-gray-500 sm:text-sm">Telefone</div>
+                                        <p className="break-words text-sm font-medium sm:text-base">{formatTelefone(patient.telefone_emergencia, 'celular')}</p>
                                     </div>
                                 )}
                             </div>
 
                             {patient.observacoes_emergencia && (
-                                <div className="space-y-2 pt-2 border-t">
-                                    <div className="text-xs sm:text-sm text-gray-500">Observações</div>
-                                    <p className="font-medium text-sm sm:text-base break-words">{patient.observacoes_emergencia}</p>
+                                <div className="space-y-2 border-t pt-2">
+                                    <div className="text-xs text-gray-500 sm:text-sm">Observações</div>
+                                    <p className="break-words text-sm font-medium sm:text-base">{patient.observacoes_emergencia}</p>
                                 </div>
                             )}
                         </CardContent>
@@ -202,19 +202,19 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                            <Heart className="h-5 w-5" />
+                            <Heart className="size-5" />
                             Informações Médicas
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4 lg:space-y-6">
                         {patient.alergias_conhecidas && (
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
-                                    <AlertTriangle className="h-3 w-3 sm:h-4 sm:w-4 text-red-500" />
+                                <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
+                                    <AlertTriangle className="size-3 text-red-500 sm:size-4" />
                                     Alergias Conhecidas
                                 </div>
-                                <div className="p-2 sm:p-3 bg-red-50 border border-red-200 rounded-md">
-                                    <p className="text-red-800 text-sm sm:text-base break-words">
+                                <div className="rounded-md border border-red-200 bg-red-50 p-2 sm:p-3">
+                                    <p className="break-words text-sm text-red-800 sm:text-base">
                                         {Array.isArray(patient.alergias_conhecidas)
                                             ? patient.alergias_conhecidas.join(', ')
                                             : patient.alergias_conhecidas}
@@ -225,12 +225,12 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 
                         {patient.medicamentos_uso && (
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
-                                    <Pill className="h-3 w-3 sm:h-4 sm:w-4" />
+                                <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
+                                    <Pill className="size-3 sm:size-4" />
                                     Medicamentos em Uso
                                 </div>
-                                <div className="p-2 sm:p-3 bg-blue-50 border border-blue-200 rounded-md">
-                                    <p className="text-blue-800 text-sm sm:text-base break-words">
+                                <div className="rounded-md border border-blue-200 bg-blue-50 p-2 sm:p-3">
+                                    <p className="break-words text-sm text-blue-800 sm:text-base">
                                         {Array.isArray(patient.medicamentos_uso)
                                             ? patient.medicamentos_uso.join(', ')
                                             : patient.medicamentos_uso}
@@ -241,12 +241,12 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 
                         {patient.historico_medico_detalhado && (
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
-                                    <FileText className="h-3 w-3 sm:h-4 sm:w-4" />
+                                <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
+                                    <FileText className="size-3 sm:size-4" />
                                     Histórico Médico Detalhado
                                 </div>
-                                <div className="p-2 sm:p-3 bg-gray-50 border border-gray-200 rounded-md">
-                                    <p className="text-gray-800 text-sm sm:text-base whitespace-pre-wrap break-words">{patient.historico_medico_detalhado}</p>
+                                <div className="rounded-md border border-gray-200 bg-gray-50 p-2 sm:p-3">
+                                    <p className="whitespace-pre-wrap break-words text-sm text-gray-800 sm:text-base">{patient.historico_medico_detalhado}</p>
                                 </div>
                             </div>
                         )}
@@ -258,13 +258,13 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
-                                <FileText className="h-5 w-5" />
+                                <FileText className="size-5" />
                                 Observações Gerais
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="p-2 sm:p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-                                <p className="text-yellow-800 text-sm sm:text-base whitespace-pre-wrap break-words">{patient.observacoes_gerais}</p>
+                            <div className="rounded-md border border-yellow-200 bg-yellow-50 p-2 sm:p-3">
+                                <p className="whitespace-pre-wrap break-words text-sm text-yellow-800 sm:text-base">{patient.observacoes_gerais}</p>
                             </div>
                         </CardContent>
                     </Card>
@@ -280,20 +280,20 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                     </CardHeader>
                     <CardContent className="space-y-3 lg:space-y-4">
                         <div className="flex items-center justify-between">
-                            <span className="text-xs sm:text-sm text-gray-500">Status</span>
+                            <span className="text-xs text-gray-500 sm:text-sm">Status</span>
                             <Badge variant={patient.status === 'ativo' ? 'default' : 'secondary'}>
                                 {patient.status === 'ativo' ? 'Ativo' : 'Inativo'}
                             </Badge>
                         </div>
 
                         <div className="flex items-center justify-between">
-                            <span className="text-xs sm:text-sm text-gray-500">Cadastrado em</span>
-                            <span className="text-xs sm:text-sm font-medium">{formatDate(patient.criado_em)}</span>
+                            <span className="text-xs text-gray-500 sm:text-sm">Cadastrado em</span>
+                            <span className="text-xs font-medium sm:text-sm">{formatDate(patient.criado_em)}</span>
                         </div>
 
                         <div className="flex items-center justify-between">
-                            <span className="text-xs sm:text-sm text-gray-500">Última atualização</span>
-                            <span className="text-xs sm:text-sm font-medium">{formatDateTime(patient.atualizado_em)}</span>
+                            <span className="text-xs text-gray-500 sm:text-sm">Última atualização</span>
+                            <span className="text-xs font-medium sm:text-sm">{formatDateTime(patient.atualizado_em)}</span>
                         </div>
                     </CardContent>
                 </Card>
@@ -302,7 +302,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                            <FileText className="h-5 w-5" />
+                            <FileText className="size-5" />
                             Documentos
                         </CardTitle>
                         <CardDescription>

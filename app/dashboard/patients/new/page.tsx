@@ -11,7 +11,7 @@ export default function NewPatientPage() {
             <div className="flex items-center gap-4">
                 <Button variant="outline" size="sm" asChild>
                     <Link href="/dashboard/patients">
-                        <ArrowLeft className="h-4 w-4 mr-2" />
+                        <ArrowLeft className="mr-2 size-4" />
                         Voltar
                     </Link>
                 </Button>

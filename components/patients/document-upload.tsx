@@ -177,9 +177,9 @@ export function DocumentUpload({ pacienteId, onDocumentUploaded }: DocumentUploa
   }
 
   return (
-    <div className="space-y-4 p-4 border rounded-lg bg-gray-50">
+    <div className="space-y-4 rounded-lg border bg-gray-50 p-4">
       <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-        <Upload className="h-5 w-5" />
+        <Upload className="size-5" />
         Upload de Documentos
       </div>
 
@@ -196,18 +196,18 @@ export function DocumentUpload({ pacienteId, onDocumentUploaded }: DocumentUploa
             disabled={uploading}
             className="cursor-pointer"
           />
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="mt-1 text-xs text-gray-500">
             Formatos aceitos: PDF, JPG, PNG, WEBP, DOC, DOCX (máx. 10MB)
           </p>
         </div>
 
         {/* Arquivo selecionado */}
         {selectedFile && (
-          <div className="flex items-center justify-between p-3 bg-white border rounded-lg">
+          <div className="flex items-center justify-between rounded-lg border bg-white p-3">
             <div className="flex items-center gap-3">
-              <FileText className="h-5 w-5 text-blue-500" />
+              <FileText className="size-5 text-blue-500" />
               <div>
-                <p className="font-medium text-sm">{selectedFile.name}</p>
+                <p className="text-sm font-medium">{selectedFile.name}</p>
                 <p className="text-xs text-gray-500">{formatFileSize(selectedFile.size)}</p>
               </div>
             </div>
@@ -218,7 +218,7 @@ export function DocumentUpload({ pacienteId, onDocumentUploaded }: DocumentUploa
               onClick={removeSelectedFile}
               disabled={uploading}
             >
-              <X className="h-4 w-4" />
+              <X className="size-4" />
             </Button>
           </div>
         )}
@@ -273,12 +273,12 @@ export function DocumentUpload({ pacienteId, onDocumentUploaded }: DocumentUploa
         >
           {uploading ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="mr-2 size-4 animate-spin" />
               Enviando...
             </>
           ) : (
             <>
-              <Upload className="mr-2 h-4 w-4" />
+              <Upload className="mr-2 size-4" />
               Enviar Documento
             </>
           )}

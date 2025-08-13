@@ -112,7 +112,7 @@ export function DadosPessoaisStep() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
       {/* Nome Completo */}
       <FormField
         control={control}
@@ -162,11 +162,11 @@ export function DadosPessoaisStep() {
                   )}
                 />
                 {cpfValidation && (
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
                     {cpfValidation.isValid ? (
-                      <CheckCircle2 className="h-4 w-4 text-green-500" />
+                      <CheckCircle2 className="size-4 text-green-500" />
                     ) : (
-                      <AlertCircle className="h-4 w-4 text-red-500" />
+                      <AlertCircle className="size-4 text-red-500" />
                     )}
                   </div>
                 )}
@@ -361,9 +361,9 @@ export function DadosPessoaisStep() {
       {/* Alerta sobre campos obrigatórios */}
       <div className="md:col-span-2">
         <Alert>
-          <AlertCircle className="h-4 w-4" />
+          <AlertCircle className="size-4" />
           <AlertDescription>
-            Os campos marcados com <span className="text-red-500 font-semibold">*</span> são obrigatórios para prosseguir.
+            Os campos marcados com <span className="font-semibold text-red-500">*</span> são obrigatórios para prosseguir.
           </AlertDescription>
         </Alert>
       </div>

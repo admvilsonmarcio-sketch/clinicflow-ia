@@ -34,7 +34,7 @@ export default async function EditPatientPage({ params }: EditPatientPageProps) 
     }
 
     return (
-        <div className="container mx-auto py-6 space-y-6">
+        <div className="container mx-auto space-y-6 py-6">
             {/* Breadcrumb Navigation */}
             <Breadcrumb>
                 <BreadcrumbList>
@@ -67,22 +67,22 @@ export default async function EditPatientPage({ params }: EditPatientPageProps) 
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
-                                <User className="h-6 w-6 text-primary" />
+                            <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
+                                <User className="size-6 text-primary" />
                             </div>
                             <div>
                                 <CardTitle className="flex items-center gap-2">
-                                    <Edit className="h-5 w-5" />
+                                    <Edit className="size-5" />
                                     Editar Paciente
                                 </CardTitle>
-                                <p className="text-sm text-muted-foreground mt-1">
+                                <p className="mt-1 text-sm text-muted-foreground">
                                     Atualize as informações do paciente {patient.nome_completo}
                                 </p>
                             </div>
                         </div>
                         <Button variant="outline" size="sm" asChild>
                             <Link href="/dashboard/patients">
-                                <ArrowLeft className="h-4 w-4 mr-2" />
+                                <ArrowLeft className="mr-2 size-4" />
                                 Voltar para Lista
                             </Link>
                         </Button>

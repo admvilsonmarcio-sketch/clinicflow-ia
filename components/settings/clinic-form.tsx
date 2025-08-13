@@ -143,7 +143,7 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <label className="text-sm font-medium">Nome da Clínica</label>
           <Input
@@ -201,7 +201,7 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
         <Button type="submit" disabled={loading}>
           {loading ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="mr-2 size-4 animate-spin" />
               Salvando...
             </>
           ) : (

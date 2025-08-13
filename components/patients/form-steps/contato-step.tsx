@@ -52,11 +52,11 @@ export function ContatoStep() {
       {/* Informações de Contato Principal */}
       <div className="space-y-4">
         <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-          <Phone className="h-5 w-5" />
+          <Phone className="size-5" />
           Informações de Contato
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Celular - corrigir nome do campo */}
           <FormField
             control={control}
@@ -115,7 +115,7 @@ export function ContatoStep() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="flex items-center gap-2">
-                <Mail className="h-4 w-4" />
+                <Mail className="size-4" />
                 Email
                 <span className="text-red-500">*</span>
               </FormLabel>
@@ -132,11 +132,11 @@ export function ContatoStep() {
                     )}
                   />
                   {emailValidation && (
-                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
                       {emailValidation.isValid ? (
-                        <div className="h-2 w-2 bg-green-500 rounded-full" />
+                        <div className="size-2 rounded-full bg-green-500" />
                       ) : (
-                        <div className="h-2 w-2 bg-red-500 rounded-full" />
+                        <div className="size-2 rounded-full bg-red-500" />
                       )}
                     </div>
                   )}
@@ -160,24 +160,24 @@ export function ContatoStep() {
       
       {/* Resumo dos Contatos */}
       {(watchedCelular || watchedTelefone || watchedEmail) && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h4 className="font-medium text-blue-900 mb-2">Resumo dos Contatos:</h4>
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+          <h4 className="mb-2 font-medium text-blue-900">Resumo dos Contatos:</h4>
           <div className="space-y-1 text-sm text-blue-800">
             {watchedCelular && (
               <div className="flex items-center gap-2">
-                <Phone className="h-3 w-3" />
+                <Phone className="size-3" />
                 <span>Celular: {watchedCelular}</span>
               </div>
             )}
             {watchedTelefone && (
               <div className="flex items-center gap-2">
-                <Phone className="h-3 w-3" />
+                <Phone className="size-3" />
                 <span>Telefone: {watchedTelefone}</span>
               </div>
             )}
             {watchedEmail && (
               <div className="flex items-center gap-2">
-                <Mail className="h-3 w-3" />
+                <Mail className="size-3" />
                 <span>Email: {watchedEmail}</span>
               </div>
             )}
@@ -187,11 +187,11 @@ export function ContatoStep() {
 
       {/* Alerta sobre campos obrigatórios */}
       <Alert>
-        <AlertCircle className="h-4 w-4" />
+        <AlertCircle className="size-4" />
         <AlertDescription>
           <strong>Campos obrigatórios:</strong> Celular e Email são necessários para comunicação com o paciente.
           <br />
-          <span className="text-sm text-muted-foreground mt-1 block">
+          <span className="mt-1 block text-sm text-muted-foreground">
             O telefone fixo é opcional, mas pode ser útil como contato alternativo.
           </span>
         </AlertDescription>

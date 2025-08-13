@@ -71,13 +71,13 @@ export function EmergenciaStep() {
     <div className="space-y-6">
       {/* Título da Seção */}
       <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-        <AlertTriangle className="h-5 w-5 text-red-500" />
+        <AlertTriangle className="size-5 text-red-500" />
         Contato de Emergência
       </div>
 
       {/* Alerta de Importância */}
       <Alert className="border-orange-200 bg-orange-50">
-        <Heart className="h-4 w-4 text-orange-600" />
+        <Heart className="size-4 text-orange-600" />
         <AlertDescription className="text-orange-800">
           <strong>Importante:</strong> Essas informações são essenciais em caso de emergência médica.
           Certifique-se de que os dados estão atualizados e que a pessoa pode ser facilmente contatada.
@@ -86,7 +86,7 @@ export function EmergenciaStep() {
 
       {/* Informações do Contato de Emergência */}
       <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Nome do Contato - corrigir nome do campo */}
           <FormField
             control={control}
@@ -94,7 +94,7 @@ export function EmergenciaStep() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="flex items-center gap-2">
-                  <User className="h-4 w-4" />
+                  <User className="size-4" />
                   Nome Completo
                 </FormLabel>
                 <FormControl>
@@ -146,7 +146,7 @@ export function EmergenciaStep() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="flex items-center gap-2">
-                <Phone className="h-4 w-4" />
+                <Phone className="size-4" />
                 Telefone de Emergência
               </FormLabel>
               <FormControl>
@@ -166,11 +166,11 @@ export function EmergenciaStep() {
                     )}
                   />
                   {telefoneValidation && (
-                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
                       {telefoneValidation.isValid ? (
-                        <div className="h-2 w-2 bg-green-500 rounded-full" />
+                        <div className="size-2 rounded-full bg-green-500" />
                       ) : (
-                        <div className="h-2 w-2 bg-red-500 rounded-full" />
+                        <div className="size-2 rounded-full bg-red-500" />
                       )}
                     </div>
                   )}
@@ -196,7 +196,7 @@ export function EmergenciaStep() {
         render={({ field }) => (
           <FormItem>
             <FormLabel className="flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4" />
+              <AlertTriangle className="size-4" />
               Observações de Emergência
             </FormLabel>
             <FormControl>
@@ -215,33 +215,33 @@ export function EmergenciaStep() {
 
       {/* Resumo do Contato de Emergência */}
       {(watchedNomeEmergencia || watchedTelefoneEmergencia || watchedParentesco || watchedObservacoesEmergencia) && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <h4 className="font-medium text-red-900 mb-2 flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4" />
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+          <h4 className="mb-2 flex items-center gap-2 font-medium text-red-900">
+            <AlertTriangle className="size-4" />
             Resumo do Contato de Emergência:
           </h4>
           <div className="space-y-1 text-sm text-red-800">
             {watchedNomeEmergencia && (
               <div className="flex items-center gap-2">
-                <User className="h-3 w-3" />
+                <User className="size-3" />
                 <span><strong>Nome:</strong> {watchedNomeEmergencia}</span>
               </div>
             )}
             {watchedParentesco && (
               <div className="flex items-center gap-2">
-                <Heart className="h-3 w-3" />
+                <Heart className="size-3" />
                 <span><strong>Parentesco:</strong> {PARENTESCOS.find(p => p.value === watchedParentesco)?.label}</span>
               </div>
             )}
             {watchedTelefoneEmergencia && (
               <div className="flex items-center gap-2">
-                <Phone className="h-3 w-3" />
+                <Phone className="size-3" />
                 <span><strong>Telefone:</strong> {watchedTelefoneEmergencia}</span>
               </div>
             )}
             {watchedObservacoesEmergencia && (
               <div className="flex items-start gap-2">
-                <AlertTriangle className="h-3 w-3 mt-0.5" />
+                <AlertTriangle className="mt-0.5 size-3" />
                 <span><strong>Observações:</strong> {watchedObservacoesEmergencia}</span>
               </div>
             )}
@@ -251,7 +251,7 @@ export function EmergenciaStep() {
 
       {/* Alerta sobre campos obrigatórios */}
       <Alert>
-        <AlertTriangle className="h-4 w-4" />
+        <AlertTriangle className="size-4" />
         <AlertDescription>
           <strong>Campos opcionais:</strong> Todas as informações de contato de emergência são opcionais, mas recomendadas para situações de emergência.
         </AlertDescription>

@@ -218,14 +218,14 @@ export default function PatientsPage() {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-900">Pacientes</h1>
                     <p className="text-gray-600">Gerencie os pacientes da sua clínica</p>
                 </div>
                 <Button asChild>
                     <Link href="/dashboard/patients/new">
-                        <Plus className="h-4 w-4 mr-2" />
+                        <Plus className="mr-2 size-4" />
                         Novo Paciente
                     </Link>
                 </Button>
@@ -233,11 +233,11 @@ export default function PatientsPage() {
 
             {/* Busca Avançada */}
             <Card>
-                <CardContent className="p-6 space-y-4">
+                <CardContent className="space-y-4 p-6">
                     {/* Busca Principal */}
                     <div className="flex gap-2">
                         <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-gray-400" />
                             <Input
                                 placeholder="Buscar pacientes por nome, telefone celular ou email..."
                                 className="pl-10"
@@ -248,14 +248,14 @@ export default function PatientsPage() {
                         <Button
                             variant="outline"
                             onClick={() => setShowFilters(!showFilters)}
-                            className={showFilters ? 'bg-blue-50 border-blue-200' : ''}
+                            className={showFilters ? 'border-blue-200 bg-blue-50' : ''}
                         >
-                            <Filter className="h-4 w-4 mr-2" />
+                            <Filter className="mr-2 size-4" />
                             Filtros
                         </Button>
                         {hasActiveFilters && (
                             <Button variant="ghost" onClick={clearFilters}>
-                                <X className="h-4 w-4 mr-2" />
+                                <X className="mr-2 size-4" />
                                 Limpar
                             </Button>
                         )}
@@ -263,9 +263,9 @@ export default function PatientsPage() {
 
                     {/* Filtros Avançados */}
                     {showFilters && (
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t">
+                        <div className="grid grid-cols-1 gap-4 border-t pt-4 md:grid-cols-4">
                             <div>
-                                <label className="text-sm font-medium text-gray-700 mb-2 block">Status</label>
+                                <label className="mb-2 block text-sm font-medium text-gray-700">Status</label>
                                 <Select value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
                                     <SelectTrigger>
                                         <SelectValue />
@@ -280,7 +280,7 @@ export default function PatientsPage() {
                             </div>
 
                             <div>
-                                <label className="text-sm font-medium text-gray-700 mb-2 block">Gênero</label>
+                                <label className="mb-2 block text-sm font-medium text-gray-700">Gênero</label>
                                 <Select value={filters.genero} onValueChange={(value) => setFilters(prev => ({ ...prev, genero: value }))}>
                                     <SelectTrigger>
                                         <SelectValue />
@@ -295,7 +295,7 @@ export default function PatientsPage() {
                             </div>
 
                             <div>
-                                <label className="text-sm font-medium text-gray-700 mb-2 block">Idade Mínima</label>
+                                <label className="mb-2 block text-sm font-medium text-gray-700">Idade Mínima</label>
                                 <Input
                                     type="number"
                                     placeholder="Ex: 18"
@@ -305,7 +305,7 @@ export default function PatientsPage() {
                             </div>
 
                             <div>
-                                <label className="text-sm font-medium text-gray-700 mb-2 block">Idade Máxima</label>
+                                <label className="mb-2 block text-sm font-medium text-gray-700">Idade Máxima</label>
                                 <Input
                                     type="number"
                                     placeholder="Ex: 65"
@@ -340,36 +340,36 @@ export default function PatientsPage() {
                             {filteredPatients.map((patient: any) => (
                                 <div
                                     key={patient.id}
-                                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors space-y-3 sm:space-y-0 cursor-pointer"
+                                    className="flex cursor-pointer flex-col space-y-3 rounded-lg border p-4 transition-colors hover:bg-gray-50 sm:flex-row sm:items-center sm:justify-between sm:space-y-0"
                                     onDoubleClick={() => window.location.href = `/dashboard/patients/${patient.id}`}
                                 >
                                     <div className="flex items-center space-x-4">
-                                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                            <span className="text-blue-600 font-semibold">
+                                        <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-blue-100">
+                                            <span className="font-semibold text-blue-600">
                                                 {patient.nome_completo.charAt(0).toUpperCase()}
                                             </span>
                                         </div>
 
                                         <div className="min-w-0 flex-1">
-                                            <h3 className="font-semibold text-gray-900 truncate">
+                                            <h3 className="truncate font-semibold text-gray-900">
                                                 {patient.nome_completo}
                                             </h3>
-                                            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-1 sm:space-y-0 text-sm text-gray-500">
+                                            <div className="flex flex-col space-y-1 text-sm text-gray-500 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
                                                 {patient.telefone_celular && (
                                                     <div className="flex items-center">
-                                                        <Phone className="h-3 w-3 mr-1 flex-shrink-0" />
+                                                        <Phone className="mr-1 size-3 shrink-0" />
                                                         <span className="truncate">{patient.telefone_celular}</span>
                                                     </div>
                                                 )}
                                                 {patient.email && (
                                                     <div className="flex items-center">
-                                                        <Mail className="h-3 w-3 mr-1 flex-shrink-0" />
+                                                        <Mail className="mr-1 size-3 shrink-0" />
                                                         <span className="truncate">{patient.email}</span>
                                                     </div>
                                                 )}
                                                 {patient.data_nascimento && (
                                                     <div className="flex items-center">
-                                                        <User className="h-3 w-3 mr-1 flex-shrink-0" />
+                                                        <User className="mr-1 size-3 shrink-0" />
                                                         <span className="truncate">{calculateAge(patient.data_nascimento)} anos</span>
                                                     </div>
                                                 )}
@@ -377,13 +377,13 @@ export default function PatientsPage() {
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center justify-between sm:justify-end space-x-2">
+                                    <div className="flex items-center justify-between space-x-2 sm:justify-end">
                                         <Badge variant={patient.status === 'ativo' ? 'default' : patient.status === 'inativo' ? 'secondary' : 'destructive'}>
                                             {patient.status === 'ativo' ? 'Ativo' : patient.status === 'inativo' ? 'Inativo' : 'Bloqueado'}
                                         </Badge>
 
                                         <div className="flex items-center space-x-2">
-                                            <Button variant="outline" size="sm" asChild className="flex-shrink-0">
+                                            <Button variant="outline" size="sm" asChild className="shrink-0">
                                                 <Link href={`/dashboard/patients/${patient.id}`}>
                                                     <span className="hidden sm:inline">Ver Detalhes</span>
                                                     <span className="sm:hidden">Ver</span>
@@ -392,15 +392,15 @@ export default function PatientsPage() {
 
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
-                                                    <Button variant="outline" size="sm" className="flex-shrink-0">
-                                                        <MoreVertical className="h-4 w-4" />
+                                                    <Button variant="outline" size="sm" className="shrink-0">
+                                                        <MoreVertical className="size-4" />
                                                     </Button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
                                                     <AlertDialog>
                                                         <AlertDialogTrigger asChild>
                                                             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                                <Trash2 className="h-4 w-4 mr-2" />
+                                                                <Trash2 className="mr-2 size-4" />
                                                                 Excluir Paciente
                                                             </DropdownMenuItem>
                                                         </AlertDialogTrigger>
@@ -431,8 +431,8 @@ export default function PatientsPage() {
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-12">
-                            <Users className="mx-auto h-12 w-12 text-gray-400" />
+                        <div className="py-12 text-center">
+                            <Users className="mx-auto size-12 text-gray-400" />
                             <h3 className="mt-2 text-sm font-semibold text-gray-900">
                                 {filters.search || hasActiveFilters ? 'Nenhum paciente encontrado' : 'Nenhum paciente cadastrado'}
                             </h3>
@@ -442,13 +442,13 @@ export default function PatientsPage() {
                             <div className="mt-6">
                                 {filters.search || hasActiveFilters ? (
                                     <Button variant="outline" onClick={clearFilters}>
-                                        <X className="h-4 w-4 mr-2" />
+                                        <X className="mr-2 size-4" />
                                         Limpar Filtros
                                     </Button>
                                 ) : (
                                     <Button asChild>
                                         <Link href="/dashboard/patients/new">
-                                            <Plus className="h-4 w-4 mr-2" />
+                                            <Plus className="mr-2 size-4" />
                                             Novo Paciente
                                         </Link>
                                     </Button>

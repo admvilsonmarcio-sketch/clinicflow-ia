@@ -25,21 +25,21 @@ export default async function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="flex min-h-screen">
       {/* Left side - Register Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 md:px-8 bg-white">
-        <div className="max-w-md w-full space-y-6 sm:space-y-8">
+      <div className="flex flex-1 items-center justify-center bg-white px-4 sm:px-6 md:px-8">
+        <div className="w-full max-w-md space-y-6 sm:space-y-8">
           {/* Logo */}
           <div className="text-center">
             <img 
               src="/logo.svg" 
               alt="MediFlow" 
-              className="mx-auto h-12 sm:h-16 w-auto mb-4 sm:mb-6"
+              className="mx-auto mb-4 h-12 w-auto sm:mb-6 sm:h-16"
             />
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="mb-2 text-2xl font-bold text-gray-900 sm:text-3xl">
               Crie sua conta
             </h2>
-            <p className="text-sm sm:text-base text-gray-600">
+            <p className="text-sm text-gray-600 sm:text-base">
               Comece a transformar sua prática médica hoje
             </p>
           </div>
@@ -47,11 +47,11 @@ export default async function RegisterPage() {
           <RegisterForm />
           
           <div className="text-center">
-            <p className="text-xs sm:text-sm text-gray-600">
+            <p className="text-xs text-gray-600 sm:text-sm">
               Já tem uma conta?{' '}
               <Link 
                 href="/auth/login" 
-                className="font-semibold text-green-600 hover:text-green-500 transition-colors"
+                className="font-semibold text-green-600 transition-colors hover:text-green-500"
               >
                 Fazer login
               </Link>
@@ -59,17 +59,17 @@ export default async function RegisterPage() {
           </div>
           
           {/* Footer */}
-          <div className="text-center pt-6 sm:pt-8">
+          <div className="pt-6 text-center sm:pt-8">
             <p className="text-xs text-gray-500">
               © 2025 MediFlow. Todos os direitos reservados.
             </p>
-            <p className="text-xs text-gray-400 mt-2">
+            <p className="mt-2 text-xs text-gray-400">
               Desenvolvimento por{' '}
               <a 
                 href="https://www.linkedin.com/in/marshallpaiva/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-green-600 hover:text-green-500 transition-colors font-medium"
+                className="font-medium text-green-600 transition-colors hover:text-green-500"
               >
                 Marshall Paiva
               </a>
@@ -79,35 +79,35 @@ export default async function RegisterPage() {
       </div>
       
       {/* Right side - Illustration */}
-      <div className="hidden md:flex flex-1 items-center justify-center bg-gradient-to-br from-green-600 via-emerald-600 to-teal-700">
-        <div className="max-w-lg w-full px-6 lg:px-8">
+      <div className="hidden flex-1 items-center justify-center bg-gradient-to-br from-green-600 via-emerald-600 to-teal-700 md:flex">
+        <div className="w-full max-w-lg px-6 lg:px-8">
           <img 
             src="/login-illustration.svg" 
             alt="MediFlow Illustration" 
-            className="w-full h-auto"
+            className="h-auto w-full"
           />
           
-          <div className="text-center mt-6 lg:mt-8">
-            <h3 className="text-xl lg:text-2xl font-bold text-white mb-3 lg:mb-4">
+          <div className="mt-6 text-center lg:mt-8">
+            <h3 className="mb-3 text-xl font-bold text-white lg:mb-4 lg:text-2xl">
               Junte-se a milhares de profissionais
             </h3>
-            <p className="text-green-100 text-base lg:text-lg leading-relaxed">
+            <p className="text-base leading-relaxed text-green-100 lg:text-lg">
               Transforme sua prática médica com nossa plataforma completa. 
               Gestão de pacientes, agendamentos e muito mais em um só lugar.
             </p>
             
-            <div className="flex items-center justify-center space-x-4 lg:space-x-8 mt-6 lg:mt-8">
+            <div className="mt-6 flex items-center justify-center space-x-4 lg:mt-8 lg:space-x-8">
               <div className="text-center">
-                <div className="text-2xl lg:text-3xl font-bold text-white">5K+</div>
-                <div className="text-green-200 text-xs lg:text-sm">Médicos</div>
+                <div className="text-2xl font-bold text-white lg:text-3xl">5K+</div>
+                <div className="text-xs text-green-200 lg:text-sm">Médicos</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl lg:text-3xl font-bold text-white">50K+</div>
-                <div className="text-green-200 text-xs lg:text-sm">Pacientes</div>
+                <div className="text-2xl font-bold text-white lg:text-3xl">50K+</div>
+                <div className="text-xs text-green-200 lg:text-sm">Pacientes</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl lg:text-3xl font-bold text-white">1M+</div>
-                <div className="text-green-200 text-xs lg:text-sm">Consultas</div>
+                <div className="text-2xl font-bold text-white lg:text-3xl">1M+</div>
+                <div className="text-xs text-green-200 lg:text-sm">Consultas</div>
               </div>
             </div>
           </div>

@@ -141,7 +141,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <label className="text-sm font-medium">Nome Completo</label>
           <Input
@@ -159,7 +159,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
             disabled
             className="bg-gray-50"
           />
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="mt-1 text-xs text-gray-500">
             Email não pode ser alterado
           </p>
         </div>
@@ -175,7 +175,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         <div>
           <label className="text-sm font-medium">Cargo</label>
           <div className="mt-2">
-            <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+            <span className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-800">
               {profile?.cargo === 'medico' ? 'Médico' :
                 profile?.cargo === 'assistente' ? 'Assistente' :
                   profile?.cargo === 'recepcionista' ? 'Recepcionista' :
@@ -188,7 +188,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         <Button type="submit" disabled={loading}>
           {loading ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="mr-2 size-4 animate-spin" />
               Salvando...
             </>
           ) : (

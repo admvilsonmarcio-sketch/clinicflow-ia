@@ -107,13 +107,13 @@ export function RegisterForm() {
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">Nome Completo</label>
           <div className="relative">
-            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <User className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
             <Input
               type="text"
               placeholder="Seu nome completo"
               value={formData.nomeCompleto}
               onChange={(e) => handleInputChange('nomeCompleto', e.target.value)}
-              className="pl-11 h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+              className="h-12 border-gray-300 pl-11 focus:border-green-500 focus:ring-green-500"
               required
             />
           </div>
@@ -122,13 +122,13 @@ export function RegisterForm() {
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">Email</label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Mail className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
             <Input
               type="email"
               placeholder="seu@email.com"
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
-              className="pl-11 h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+              className="h-12 border-gray-300 pl-11 focus:border-green-500 focus:ring-green-500"
               required
             />
           </div>
@@ -137,13 +137,13 @@ export function RegisterForm() {
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">Senha</label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
             <Input
               type="password"
               placeholder="Mínimo 6 caracteres"
               value={formData.password}
               onChange={(e) => handleInputChange('password', e.target.value)}
-              className="pl-11 h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+              className="h-12 border-gray-300 pl-11 focus:border-green-500 focus:ring-green-500"
               required
             />
           </div>
@@ -152,13 +152,13 @@ export function RegisterForm() {
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">Confirmar Senha</label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
             <Input
               type="password"
               placeholder="Digite a senha novamente"
               value={formData.confirmPassword}
               onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-              className="pl-11 h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+              className="h-12 border-gray-300 pl-11 focus:border-green-500 focus:ring-green-500"
               required
             />
           </div>
@@ -167,27 +167,27 @@ export function RegisterForm() {
         <div className="space-y-4">
           <Button 
             type="submit" 
-            className="w-full h-12 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors" 
+            className="h-12 w-full rounded-lg bg-green-600 font-semibold text-white transition-colors hover:bg-green-700" 
             disabled={loading}
           >
             {loading ? (
               <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                <Loader2 className="mr-2 size-5 animate-spin" />
                 Criando conta...
               </>
             ) : (
               <>
-                <CheckCircle className="mr-2 h-5 w-5" />
+                <CheckCircle className="mr-2 size-5" />
                 Criar minha conta gratuita
               </>
             )}
           </Button>
           
-          <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+          <div className="rounded-lg border border-green-200 bg-green-50 p-4">
             <div className="flex items-start space-x-3">
-              <Mail className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+              <Mail className="mt-0.5 size-5 shrink-0 text-green-600" />
               <div className="text-sm text-green-800">
-                <p className="font-semibold mb-1">Confirmação por Email</p>
+                <p className="mb-1 font-semibold">Confirmação por Email</p>
                 <p className="text-green-700">Após criar sua conta, você receberá um email de confirmação. Clique no link para ativar sua conta e começar a usar o MediFlow.</p>
               </div>
             </div>

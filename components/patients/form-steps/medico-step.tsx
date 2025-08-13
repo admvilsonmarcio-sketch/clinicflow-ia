@@ -25,13 +25,13 @@ export function MedicoStep() {
     <div className="space-y-6">
       {/* Título da Seção */}
       <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-        <Stethoscope className="h-5 w-5 text-blue-600" />
+        <Stethoscope className="size-5 text-blue-600" />
         Informações Médicas
       </div>
 
       {/* Alerta de Privacidade */}
       <Alert className="border-blue-200 bg-blue-50">
-        <Shield className="h-4 w-4 text-blue-600" />
+        <Shield className="size-4 text-blue-600" />
         <AlertDescription className="text-blue-800">
           <strong>Privacidade:</strong> Todas as informações médicas são confidenciais e protegidas pela LGPD.
           Estes dados ajudam a oferecer um atendimento mais seguro e personalizado.
@@ -40,14 +40,14 @@ export function MedicoStep() {
 
       {/* Convênio Médico */}
       <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <FormField
             control={control}
             name="convenio_medico"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="flex items-center gap-2">
-                  <Heart className="h-4 w-4" />
+                  <Heart className="size-4" />
                   Convênio Médico
                 </FormLabel>
                 <FormControl>
@@ -89,7 +89,7 @@ export function MedicoStep() {
         render={({ field }) => (
           <FormItem>
             <FormLabel className="flex items-center gap-2">
-              <Heart className="h-4 w-4" />
+              <Heart className="size-4" />
               Tipo Sanguíneo
             </FormLabel>
             <FormControl>
@@ -111,7 +111,7 @@ export function MedicoStep() {
         render={({ field }) => (
           <FormItem>
             <FormLabel className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
+              <FileText className="size-4" />
               Histórico Médico Detalhado
             </FormLabel>
             <FormControl>
@@ -134,7 +134,7 @@ export function MedicoStep() {
         render={({ field }) => (
           <FormItem>
             <FormLabel className="flex items-center gap-2">
-              <AlertCircle className="h-4 w-4" />
+              <AlertCircle className="size-4" />
               Alergias Conhecidas
             </FormLabel>
             <FormControl>
@@ -157,7 +157,7 @@ export function MedicoStep() {
         render={({ field }) => (
           <FormItem>
             <FormLabel className="flex items-center gap-2">
-              <Pill className="h-4 w-4" />
+              <Pill className="size-4" />
               Medicamentos em Uso
             </FormLabel>
             <FormControl>
@@ -195,15 +195,15 @@ export function MedicoStep() {
 
       {/* Resumo das Informações Médicas */}
       {(watchedConvenio || watchedHistorico || watchedAlergias || watchedMedicamentos || watchedObservacoes) && (
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-          <h4 className="font-medium text-green-900 mb-2 flex items-center gap-2">
-            <Stethoscope className="h-4 w-4" />
+        <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+          <h4 className="mb-2 flex items-center gap-2 font-medium text-green-900">
+            <Stethoscope className="size-4" />
             Resumo das Informações Médicas:
           </h4>
           <div className="space-y-1 text-sm text-green-800">
             {watchedConvenio && (
               <div className="flex items-center gap-2">
-                <Heart className="h-3 w-3" />
+                <Heart className="size-3" />
                 <span><strong>Convênio:</strong> {watchedConvenio}</span>
               </div>
             )}
@@ -214,19 +214,19 @@ export function MedicoStep() {
             )}
             {watchedAlergias && (
               <div className="flex items-center gap-2">
-                <AlertCircle className="h-3 w-3" />
+                <AlertCircle className="size-3" />
                 <span><strong>Possui alergias:</strong> Sim</span>
               </div>
             )}
             {watchedMedicamentos && (
               <div className="flex items-center gap-2">
-                <Pill className="h-3 w-3" />
+                <Pill className="size-3" />
                 <span><strong>Medicamentos contínuos:</strong> Sim</span>
               </div>
             )}
             {watchedObservacoes && (
               <div className="flex items-center gap-2">
-                <FileText className="h-3 w-3" />
+                <FileText className="size-3" />
                 <span><strong>Observações Gerais:</strong> Sim</span>
               </div>
             )}
@@ -236,7 +236,7 @@ export function MedicoStep() {
 
       {/* Alerta sobre campos opcionais */}
       <Alert>
-        <AlertCircle className="h-4 w-4" />
+        <AlertCircle className="size-4" />
         <AlertDescription>
           <strong>Campos opcionais:</strong> Todas as informações médicas são opcionais, mas ajudam a oferecer um atendimento mais seguro e personalizado.
         </AlertDescription>

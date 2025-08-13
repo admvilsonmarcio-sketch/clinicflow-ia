@@ -1,0 +1,43 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "customSyntax": "postcss-html",
+  "rules": {
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "tailwind",
+          "apply",
+          "variants",
+          "responsive",
+          "screen",
+          "layer"
+        ]
+      }
+    ],
+    "declaration-block-trailing-semicolon": null,
+    "no-descending-specificity": null,
+    "function-no-unknown": [
+      true,
+      {
+        "ignoreFunctions": ["theme", "screen"]
+      }
+    ],
+    "selector-class-pattern": null,
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": ["@apply"]
+      }
+    ]
+  },
+  "ignoreFiles": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "node_modules/**/*",
+    ".next/**/*",
+    "out/**/*"
+  ]
+}

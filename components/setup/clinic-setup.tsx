@@ -160,9 +160,9 @@ export function ClinicSetup({ onComplete }: ClinicSetupProps) {
 
     if (checking) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="flex min-h-screen items-center justify-center bg-gray-50">
                 <div className="text-center">
-                    <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+                    <Loader2 className="mx-auto mb-4 size-8 animate-spin" />
                     <p className="text-gray-600">Verificando configuração...</p>
                 </div>
             </div>
@@ -174,10 +174,10 @@ export function ClinicSetup({ onComplete }: ClinicSetupProps) {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+        <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
             <Card className="w-full max-w-md">
                 <CardHeader className="text-center">
-                    <Building2 className="h-12 w-12 mx-auto mb-4 text-blue-600" />
+                    <Building2 className="mx-auto mb-4 size-12 text-blue-600" />
                     <CardTitle>Configuração Inicial</CardTitle>
                     <CardDescription>
                         Vamos configurar sua clínica para começar a usar o MediFlow
@@ -201,18 +201,18 @@ export function ClinicSetup({ onComplete }: ClinicSetupProps) {
                     >
                         {loading ? (
                             <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                <Loader2 className="mr-2 size-4 animate-spin" />
                                 Criando...
                             </>
                         ) : (
                             <>
-                                <CheckCircle className="mr-2 h-4 w-4" />
+                                <CheckCircle className="mr-2 size-4" />
                                 Criar Clínica
                             </>
                         )}
                     </Button>
 
-                    <p className="text-xs text-gray-500 text-center">
+                    <p className="text-center text-xs text-gray-500">
                         Você poderá alterar essas informações depois nas configurações
                     </p>
                 </CardContent>

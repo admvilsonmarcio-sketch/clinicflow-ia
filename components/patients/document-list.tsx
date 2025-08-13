@@ -144,21 +144,21 @@ export function DocumentList({
 
   const getFileIcon = (tipoArquivo: string) => {
     if (tipoArquivo.includes('pdf')) {
-      return <FileText className="h-5 w-5 text-red-500" />
+      return <FileText className="size-5 text-red-500" />
     }
     if (tipoArquivo.includes('image')) {
-      return <FileText className="h-5 w-5 text-green-500" />
+      return <FileText className="size-5 text-green-500" />
     }
     if (tipoArquivo.includes('word') || tipoArquivo.includes('document')) {
-      return <FileText className="h-5 w-5 text-blue-500" />
+      return <FileText className="size-5 text-blue-500" />
     }
-    return <FileText className="h-5 w-5 text-gray-500" />
+    return <FileText className="size-5 text-gray-500" />
   }
 
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <Loader2 className="h-6 w-6 animate-spin" />
+        <Loader2 className="size-6 animate-spin" />
         <span className="ml-2">Carregando documentos...</span>
       </div>
     )
@@ -166,8 +166,8 @@ export function DocumentList({
 
   if (documentos.length === 0) {
     return (
-      <div className="text-center p-8 text-gray-500">
-        <FileText className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+      <div className="p-8 text-center text-gray-500">
+        <FileText className="mx-auto mb-4 size-12 text-gray-300" />
         <p>Nenhum documento encontrado para este paciente.</p>
       </div>
     )
@@ -177,45 +177,45 @@ export function DocumentList({
     <div className="space-y-4">
       {!compact && (
         <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-          <FileText className="h-5 w-5" />
+          <FileText className="size-5" />
           Documentos ({documentos.length})
         </div>
       )}
 
       <div className={compact ? "space-y-2" : "space-y-3"}>
         {documentos.map((documento) => (
-          <div key={documento.id} className={`border rounded-lg ${compact ? 'p-3' : 'p-4'} bg-white hover:bg-gray-50 transition-colors`}>
+          <div key={documento.id} className={`rounded-lg border ${compact ? 'p-3' : 'p-4'} bg-white transition-colors hover:bg-gray-50`}>
             <div className="flex items-start justify-between">
-              <div className="flex items-start gap-3 flex-1">
+              <div className="flex flex-1 items-start gap-3">
                 {getFileIcon(documento.tipo_arquivo)}
-                <div className="flex-1 min-w-0">
-                  <h4 className={`font-medium text-gray-900 truncate ${compact ? 'text-sm' : ''}`}>
+                <div className="min-w-0 flex-1">
+                  <h4 className={`truncate font-medium text-gray-900 ${compact ? 'text-sm' : ''}`}>
                     {documento.nome_arquivo}
                   </h4>
-                  <div className={`flex flex-wrap items-center gap-4 mt-1 ${compact ? 'text-xs' : 'text-sm'} text-gray-500`}>
-                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
+                  <div className={`mt-1 flex flex-wrap items-center gap-4 ${compact ? 'text-xs' : 'text-sm'} text-gray-500`}>
+                    <span className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-800">
                       {getCategoriaLabel(documento.categoria)}
                     </span>
                     <span>{formatFileSize(documento.tamanho_arquivo)}</span>
                     {!compact && (
                       <div className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
+                        <Calendar className="size-3" />
                         {format(new Date(documento.criado_em), 'dd/MM/yyyy HH:mm', { locale: ptBR })}
                       </div>
                     )}
                   </div>
                   {!compact && documento.descricao && (
-                    <p className="text-sm text-gray-600 mt-2">{documento.descricao}</p>
+                    <p className="mt-2 text-sm text-gray-600">{documento.descricao}</p>
                   )}
                   {!compact && documento.data_documento && (
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="mt-1 text-sm text-gray-500">
                       Data do documento: {format(new Date(documento.data_documento), 'dd/MM/yyyy', { locale: ptBR })}
                     </p>
                   )}
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 ml-4">
+              <div className="ml-4 flex items-center gap-2">
                 {showDownload && (
                   <Button
                     type="button"
@@ -224,7 +224,7 @@ export function DocumentList({
                     onClick={() => handleDownload(documento)}
                     title="Visualizar/Baixar"
                   >
-                    {compact ? <Download className="h-3 w-3" /> : <Eye className="h-4 w-4" />}
+                    {compact ? <Download className="size-3" /> : <Eye className="size-4" />}
                   </Button>
                 )}
                 {showUpload && (
@@ -235,12 +235,12 @@ export function DocumentList({
                     onClick={() => handleDelete(documento)}
                     disabled={deletingId === documento.id}
                     title="Excluir"
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                    className="text-red-600 hover:bg-red-50 hover:text-red-700"
                   >
                     {deletingId === documento.id ? (
-                      <Loader2 className={`${compact ? "h-3 w-3" : "h-4 w-4"} animate-spin`} />
+                      <Loader2 className={`${compact ? "size-3" : "size-4"} animate-spin`} />
                     ) : (
-                      <Trash2 className={compact ? "h-3 w-3" : "h-4 w-4"} />
+                      <Trash2 className={compact ? "size-3" : "size-4"} />
                     )}
                   </Button>
                 )}

@@ -15,7 +15,7 @@ const ToastViewport = React.forwardRef<
   <ToastPrimitives.Viewport
     ref={ref}
     className={cn(
-      "fixed top-4 right-4 left-4 sm:left-auto sm:top-6 sm:right-6 z-[100] flex max-h-screen w-auto sm:w-full flex-col gap-2 sm:gap-3 sm:max-w-[420px]",
+      "fixed inset-x-4 top-4 z-[100] flex max-h-screen w-auto flex-col gap-2 sm:left-auto sm:right-6 sm:top-6 sm:w-full sm:max-w-[420px] sm:gap-3",
       className
     )}
     {...props}
@@ -24,7 +24,7 @@ const ToastViewport = React.forwardRef<
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName
 
 const toastVariants = cva(
-  "group pointer-events-auto relative flex w-full items-start space-x-3 sm:space-x-4 overflow-hidden rounded-lg sm:rounded-xl border p-3 sm:p-5 pr-8 sm:pr-10 shadow-lg sm:shadow-xl backdrop-blur-sm transition-all duration-300 data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=start]:translate-x-[var(--radix-toast-swipe-start-x)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-right-full",
+  "group pointer-events-auto relative flex w-full items-start space-x-3 overflow-hidden rounded-lg border p-3 pr-8 shadow-lg backdrop-blur-sm transition-all duration-300 data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=start]:translate-x-[var(--radix-toast-swipe-start-x)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-right-full sm:space-x-4 sm:rounded-xl sm:p-5 sm:pr-10 sm:shadow-xl",
   {
     variants: {
       variant: {
@@ -78,13 +78,13 @@ const ToastClose = React.forwardRef<
   <ToastPrimitives.Close
     ref={ref}
     className={cn(
-      "absolute right-2 top-2 sm:right-3 sm:top-3 rounded-full p-1 sm:p-1.5 text-gray-400 opacity-70 transition-all hover:opacity-100 hover:bg-gray-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-gray-300 group-hover:opacity-100 group-[.destructive]:text-red-400 group-[.destructive]:hover:bg-red-100 group-[.destructive]:focus:ring-red-300 group-[.success]:text-green-400 group-[.success]:hover:bg-green-100 group-[.success]:focus:ring-green-300 group-[.warning]:text-yellow-400 group-[.warning]:hover:bg-yellow-100 group-[.warning]:focus:ring-yellow-300",
+      "absolute right-2 top-2 rounded-full p-1 text-gray-400 opacity-70 transition-all hover:bg-gray-100 hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-gray-300 group-hover:opacity-100 group-[.destructive]:text-red-400 group-[.success]:text-green-400 group-[.warning]:text-yellow-400 group-[.destructive]:hover:bg-red-100 group-[.success]:hover:bg-green-100 group-[.warning]:hover:bg-yellow-100 group-[.destructive]:focus:ring-red-300 group-[.success]:focus:ring-green-300 group-[.warning]:focus:ring-yellow-300 sm:right-3 sm:top-3 sm:p-1.5",
       className
     )}
     toast-close=""
     {...props}
   >
-    <X className="h-3 w-3 sm:h-4 sm:w-4" />
+    <X className="size-3 sm:size-4" />
   </ToastPrimitives.Close>
 ))
 ToastClose.displayName = ToastPrimitives.Close.displayName
@@ -95,7 +95,7 @@ const ToastTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Title
     ref={ref}
-    className={cn("text-sm sm:text-base font-semibold leading-tight", className)}
+    className={cn("text-sm font-semibold leading-tight sm:text-base", className)}
     {...props}
   />
 ))
@@ -107,7 +107,7 @@ const ToastDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Description
     ref={ref}
-    className={cn("text-xs sm:text-sm opacity-80 leading-relaxed mt-0.5 sm:mt-1", className)}
+    className={cn("mt-0.5 text-xs leading-relaxed opacity-80 sm:mt-1 sm:text-sm", className)}
     {...props}
   />
 ))

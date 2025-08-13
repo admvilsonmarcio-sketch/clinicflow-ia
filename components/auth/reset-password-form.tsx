@@ -93,10 +93,10 @@ export function ResetPasswordForm({}: ResetPasswordFormProps) {
 
   if (success) {
     return (
-      <div className="w-full text-center space-y-6">
+      <div className="w-full space-y-6 text-center">
         <div className="flex justify-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-            <CheckCircle className="w-8 h-8 text-green-600" />
+          <div className="flex size-16 items-center justify-center rounded-full bg-green-100">
+            <CheckCircle className="size-8 text-green-600" />
           </div>
         </div>
         
@@ -110,7 +110,7 @@ export function ResetPasswordForm({}: ResetPasswordFormProps) {
         </div>
 
         <div className="flex justify-center">
-          <Loader2 className="h-6 w-6 animate-spin text-green-600" />
+          <Loader2 className="size-6 animate-spin text-green-600" />
         </div>
       </div>
     )
@@ -124,21 +124,21 @@ export function ResetPasswordForm({}: ResetPasswordFormProps) {
             Nova senha
           </label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
             <Input
               type={showPassword ? "text" : "password"}
               placeholder="Mínimo 6 caracteres"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="pl-11 pr-11 h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+              className="h-12 border-gray-300 px-11 focus:border-green-500 focus:ring-green-500"
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
-              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
             </button>
           </div>
         </div>
@@ -148,21 +148,21 @@ export function ResetPasswordForm({}: ResetPasswordFormProps) {
             Confirmar nova senha
           </label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
             <Input
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Digite a senha novamente"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="pl-11 pr-11 h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+              className="h-12 border-gray-300 px-11 focus:border-green-500 focus:ring-green-500"
               required
             />
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
-              {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              {showConfirmPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
             </button>
           </div>
         </div>
@@ -190,12 +190,12 @@ export function ResetPasswordForm({}: ResetPasswordFormProps) {
 
         <Button 
           type="submit" 
-          className="w-full h-12 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors" 
+          className="h-12 w-full rounded-lg bg-green-600 font-semibold text-white transition-colors hover:bg-green-700" 
           disabled={loading}
         >
           {loading ? (
             <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              <Loader2 className="mr-2 size-5 animate-spin" />
               Redefinindo...
             </>
           ) : (
@@ -204,11 +204,11 @@ export function ResetPasswordForm({}: ResetPasswordFormProps) {
         </Button>
       </form>
 
-      <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h4 className="text-sm font-medium text-blue-900 mb-2">
+      <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
+        <h4 className="mb-2 text-sm font-medium text-blue-900">
           Dicas para uma senha segura:
         </h4>
-        <ul className="text-xs text-blue-800 space-y-1">
+        <ul className="space-y-1 text-xs text-blue-800">
           <li>• Use pelo menos 8 caracteres</li>
           <li>• Inclua letras maiúsculas e minúsculas</li>
           <li>• Adicione números e símbolos</li>

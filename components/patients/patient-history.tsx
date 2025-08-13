@@ -112,10 +112,10 @@ export default function PatientHistory({ patientId }: PatientHistoryProps) {
 
     const getConsultationTypeIcon = (tipo: string) => {
         switch (tipo) {
-            case 'consulta': return <Stethoscope className="h-4 w-4" />
-            case 'retorno': return <Activity className="h-4 w-4" />
-            case 'emergencia': return <Clock className="h-4 w-4" />
-            default: return <FileText className="h-4 w-4" />
+            case 'consulta': return <Stethoscope className="size-4" />
+            case 'retorno': return <Activity className="size-4" />
+            case 'emergencia': return <Clock className="size-4" />
+            default: return <FileText className="size-4" />
         }
     }
 
@@ -140,14 +140,14 @@ export default function PatientHistory({ patientId }: PatientHistoryProps) {
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                        <Activity className="h-5 w-5" />
+                        <Activity className="size-5" />
                         Histórico Médico
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-center py-8">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                        <p className="text-sm text-gray-500 mt-2">Carregando histórico...</p>
+                    <div className="py-8 text-center">
+                        <div className="mx-auto size-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+                        <p className="mt-2 text-sm text-gray-500">Carregando histórico...</p>
                     </div>
                 </CardContent>
             </Card>
@@ -158,7 +158,7 @@ export default function PatientHistory({ patientId }: PatientHistoryProps) {
         <Card>
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                    <Activity className="h-5 w-5" />
+                    <Activity className="size-5" />
                     Histórico Médico
                 </CardTitle>
                 <CardDescription>
@@ -169,23 +169,23 @@ export default function PatientHistory({ patientId }: PatientHistoryProps) {
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="consultas" className="flex items-center gap-2">
-                            <Stethoscope className="h-4 w-4" />
+                            <Stethoscope className="size-4" />
                             Consultas ({consultations.length})
                         </TabsTrigger>
                         <TabsTrigger value="conversas" className="flex items-center gap-2">
-                            <MessageSquare className="h-4 w-4" />
+                            <MessageSquare className="size-4" />
                             Conversas ({conversations.length})
                         </TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="consultas" className="space-y-4 mt-4">
-                        <div className="flex justify-between items-center">
+                    <TabsContent value="consultas" className="mt-4 space-y-4">
+                        <div className="flex items-center justify-between">
                             <h3 className="text-sm font-medium text-gray-700">
                                 Últimas Consultas
                             </h3>
                             <Button size="sm" variant="outline" asChild>
                                 <Link href={`/dashboard/consultations/new?patient=${patientId}`}>
-                                    <Plus className="h-4 w-4 mr-2" />
+                                    <Plus className="mr-2 size-4" />
                                     Nova Consulta
                                 </Link>
                             </Button>
@@ -196,15 +196,15 @@ export default function PatientHistory({ patientId }: PatientHistoryProps) {
                                 {consultations.map((consultation) => (
                                     <div
                                         key={consultation.id}
-                                        className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors"
+                                        className="flex items-center justify-between rounded-lg border p-3 transition-colors hover:bg-gray-50"
                                     >
                                         <div className="flex items-center gap-3">
-                                            <div className="p-2 bg-blue-100 rounded-lg">
+                                            <div className="rounded-lg bg-blue-100 p-2">
                                                 {getConsultationTypeIcon(consultation.tipo)}
                                             </div>
                                             <div>
                                                 <div className="flex items-center gap-2">
-                                                    <h4 className="font-medium text-sm">
+                                                    <h4 className="text-sm font-medium">
                                                         {consultation.motivo || 'Consulta médica'}
                                                     </h4>
                                                     <Badge 
@@ -214,9 +214,9 @@ export default function PatientHistory({ patientId }: PatientHistoryProps) {
                                                         {consultation.status}
                                                     </Badge>
                                                 </div>
-                                                <div className="flex items-center gap-4 text-xs text-gray-500 mt-1">
+                                                <div className="mt-1 flex items-center gap-4 text-xs text-gray-500">
                                                     <span className="flex items-center gap-1">
-                                                        <Calendar className="h-3 w-3" />
+                                                        <Calendar className="size-3" />
                                                         {new Date(consultation.data_consulta).toLocaleDateString('pt-BR')}
                                                     </span>
                                                     <span>{formatDate(consultation.criado_em)}</span>
@@ -225,21 +225,21 @@ export default function PatientHistory({ patientId }: PatientHistoryProps) {
                                         </div>
                                         <Button size="sm" variant="ghost" asChild>
                                             <Link href={`/dashboard/consultations/${consultation.id}`}>
-                                                <ChevronRight className="h-4 w-4" />
+                                                <ChevronRight className="size-4" />
                                             </Link>
                                         </Button>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <div className="text-center py-8">
-                                <Stethoscope className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                                <p className="text-sm text-gray-500 mb-4">
+                            <div className="py-8 text-center">
+                                <Stethoscope className="mx-auto mb-2 size-8 text-gray-400" />
+                                <p className="mb-4 text-sm text-gray-500">
                                     Nenhuma consulta registrada
                                 </p>
                                 <Button size="sm" asChild>
                                     <Link href={`/dashboard/consultations/new?patient=${patientId}`}>
-                                        <Plus className="h-4 w-4 mr-2" />
+                                        <Plus className="mr-2 size-4" />
                                         Agendar Primeira Consulta
                                     </Link>
                                 </Button>
@@ -247,14 +247,14 @@ export default function PatientHistory({ patientId }: PatientHistoryProps) {
                         )}
                     </TabsContent>
 
-                    <TabsContent value="conversas" className="space-y-4 mt-4">
-                        <div className="flex justify-between items-center">
+                    <TabsContent value="conversas" className="mt-4 space-y-4">
+                        <div className="flex items-center justify-between">
                             <h3 className="text-sm font-medium text-gray-700">
                                 Conversas Recentes
                             </h3>
                             <Button size="sm" variant="outline" asChild>
                                 <Link href={`/dashboard/conversations/new?patient=${patientId}`}>
-                                    <Plus className="h-4 w-4 mr-2" />
+                                    <Plus className="mr-2 size-4" />
                                     Nova Conversa
                                 </Link>
                             </Button>
@@ -265,15 +265,15 @@ export default function PatientHistory({ patientId }: PatientHistoryProps) {
                                 {conversations.map((conversation) => (
                                     <div
                                         key={conversation.id}
-                                        className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors"
+                                        className="flex items-center justify-between rounded-lg border p-3 transition-colors hover:bg-gray-50"
                                     >
                                         <div className="flex items-center gap-3">
-                                            <div className="p-2 bg-green-100 rounded-lg">
-                                                <MessageSquare className="h-4 w-4" />
+                                            <div className="rounded-lg bg-green-100 p-2">
+                                                <MessageSquare className="size-4" />
                                             </div>
                                             <div>
                                                 <div className="flex items-center gap-2">
-                                                    <h4 className="font-medium text-sm">
+                                                    <h4 className="text-sm font-medium">
                                                         {conversation.titulo}
                                                     </h4>
                                                     <Badge 
@@ -283,7 +283,7 @@ export default function PatientHistory({ patientId }: PatientHistoryProps) {
                                                         {conversation.status}
                                                     </Badge>
                                                 </div>
-                                                <div className="flex items-center gap-4 text-xs text-gray-500 mt-1">
+                                                <div className="mt-1 flex items-center gap-4 text-xs text-gray-500">
                                                     <span className="capitalize">
                                                         {conversation.plataforma}
                                                     </span>
@@ -296,21 +296,21 @@ export default function PatientHistory({ patientId }: PatientHistoryProps) {
                                         </div>
                                         <Button size="sm" variant="ghost" asChild>
                                             <Link href={`/dashboard/conversations/${conversation.id}`}>
-                                                <ChevronRight className="h-4 w-4" />
+                                                <ChevronRight className="size-4" />
                                             </Link>
                                         </Button>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <div className="text-center py-8">
-                                <MessageSquare className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                                <p className="text-sm text-gray-500 mb-4">
+                            <div className="py-8 text-center">
+                                <MessageSquare className="mx-auto mb-2 size-8 text-gray-400" />
+                                <p className="mb-4 text-sm text-gray-500">
                                     Nenhuma conversa registrada
                                 </p>
                                 <Button size="sm" asChild>
                                     <Link href={`/dashboard/conversations/new?patient=${patientId}`}>
-                                        <Plus className="h-4 w-4 mr-2" />
+                                        <Plus className="mr-2 size-4" />
                                         Iniciar Conversa
                                     </Link>
                                 </Button>

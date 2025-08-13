@@ -119,7 +119,7 @@ export function EnderecoStep() {
     <div className="space-y-6">
       {/* Título da Seção */}
       <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-        <MapPin className="h-5 w-5" />
+        <MapPin className="size-5" />
         Endereço Residencial
       </div>
 
@@ -153,13 +153,13 @@ export function EnderecoStep() {
                       )}
                     />
                     {loading && (
-                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                        <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <Loader2 className="size-4 animate-spin text-blue-500" />
                       </div>
                     )}
                     {cepSearched && !loading && !error && (
-                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                        <CheckCircle2 className="h-4 w-4 text-green-500" />
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <CheckCircle2 className="size-4 text-green-500" />
                       </div>
                     )}
                   </div>
@@ -171,9 +171,9 @@ export function EnderecoStep() {
                     className="shrink-0"
                   >
                     {loading ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <Loader2 className="size-4 animate-spin" />
                     ) : (
-                      <Search className="h-4 w-4" />
+                      <Search className="size-4" />
                     )}
                   </Button>
                 </div>
@@ -196,13 +196,13 @@ export function EnderecoStep() {
         {/* Alerta sobre preenchimento automático */}
         {cepSearched && !manualEdit && (
           <Alert>
-            <CheckCircle2 className="h-4 w-4" />
+            <CheckCircle2 className="size-4" />
             <AlertDescription>
               Endereço preenchido automaticamente. 
               <Button
                 type="button"
                 variant="link"
-                className="p-0 h-auto font-normal underline"
+                className="h-auto p-0 font-normal underline"
                 onClick={handleManualEdit}
               >
                 Clique aqui para editar manualmente
@@ -213,7 +213,7 @@ export function EnderecoStep() {
       </div>
 
       {/* Campos de Endereço */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {/* Logradouro */}
         <FormField
           control={control}
@@ -383,8 +383,8 @@ export function EnderecoStep() {
 
       {/* Resumo do Endereço */}
       {(watchedLogradouro || watchedBairro || watchedCidade) && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h4 className="font-medium text-blue-900 mb-2">Endereço Completo:</h4>
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+          <h4 className="mb-2 font-medium text-blue-900">Endereço Completo:</h4>
           <p className="text-sm text-blue-800">
             {[
               watchedLogradouro && watchedNumero ? `${watchedLogradouro}, ${watchedNumero}` : watchedLogradouro,
@@ -402,11 +402,11 @@ export function EnderecoStep() {
 
       {/* Alerta sobre campos obrigatórios */}
       <Alert>
-        <AlertCircle className="h-4 w-4" />
+        <AlertCircle className="size-4" />
         <AlertDescription>
           <strong>Dica:</strong> Digite o CEP para preenchimento automático do endereço.
           <br />
-          <span className="text-sm text-muted-foreground mt-1 block">
+          <span className="mt-1 block text-sm text-muted-foreground">
             Campos obrigatórios: CEP, Logradouro, Número, Bairro, Cidade e Estado.
           </span>
         </AlertDescription>

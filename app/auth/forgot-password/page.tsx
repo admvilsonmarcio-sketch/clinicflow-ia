@@ -25,21 +25,21 @@ export default async function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="flex min-h-screen">
       {/* Left side - Forgot Password Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 md:px-8 bg-white">
-        <div className="max-w-md w-full space-y-6 sm:space-y-8">
+      <div className="flex flex-1 items-center justify-center bg-white px-4 sm:px-6 md:px-8">
+        <div className="w-full max-w-md space-y-6 sm:space-y-8">
           {/* Logo */}
           <div className="text-center">
             <img 
               src="/logo.svg" 
               alt="MediFlow" 
-              className="mx-auto h-12 sm:h-16 w-auto mb-4 sm:mb-6"
+              className="mx-auto mb-4 h-12 w-auto sm:mb-6 sm:h-16"
             />
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="mb-2 text-2xl font-bold text-gray-900 sm:text-3xl">
               Esqueceu sua senha?
             </h2>
-            <p className="text-sm sm:text-base text-gray-600">
+            <p className="text-sm text-gray-600 sm:text-base">
               Digite seu email para receber as instruções de recuperação
             </p>
           </div>
@@ -47,11 +47,11 @@ export default async function ForgotPasswordPage() {
           <ForgotPasswordForm />
           
           <div className="text-center">
-            <p className="text-xs sm:text-sm text-gray-600">
+            <p className="text-xs text-gray-600 sm:text-sm">
               Lembrou da senha?{' '}
               <Link 
                 href="/auth/login" 
-                className="font-medium text-green-600 hover:text-green-500 transition-colors"
+                className="font-medium text-green-600 transition-colors hover:text-green-500"
               >
                 Fazer login
               </Link>
@@ -61,14 +61,14 @@ export default async function ForgotPasswordPage() {
       </div>
       
       {/* Right side - Illustration */}
-      <div className="hidden lg:flex lg:flex-1 bg-gradient-to-br from-green-50 to-green-100 items-center justify-center p-8">
+      <div className="hidden items-center justify-center bg-gradient-to-br from-green-50 to-green-100 p-8 lg:flex lg:flex-1">
         <div className="max-w-md text-center">
           <img 
             src="/login-illustration.svg" 
             alt="Recuperação de senha" 
-            className="w-full h-auto mb-8"
+            className="mb-8 h-auto w-full"
           />
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">
+          <h3 className="mb-4 text-xl font-semibold text-gray-900">
             Recupere o acesso à sua conta
           </h3>
           <p className="text-gray-600">
