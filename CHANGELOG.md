@@ -13,7 +13,34 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
-## [0.6.0-beta] - 2025-01-03
+## [0.6.1-beta] - 2025-08-13
+
+### 🔧 Melhorado
+- **Sistema de Autenticação:** Otimização completa das rotas de autenticação
+  - Correção de propriedades duplicadas (`id` e `email`) em `userData` objects
+  - Estruturas de dados consistentes em `/api/auth/login`, `/api/auth/refresh`, `/api/auth/me`
+  - Validação robusta com Zod schemas
+  - Gerenciamento de sessão aprimorado
+  - Sanitização de dados de resposta
+  - Tratamento de erros padronizado
+
+### 🐛 Corrigido
+- **Erros de TypeScript:** Resolução de 6 erros críticos de tipo
+  - Correção de acessos incorretos a propriedades de arrays (`conversas.consulta_id` → `conversas[0].consulta_id`)
+  - Remoção de propriedades duplicadas em objetos `userData`
+  - Adição de `consulta_id` ao `conversaCreateSchema`
+  - Build limpo sem erros de tipo
+  - Código DRY (Don't Repeat Yourself) implementado
+
+### ⚡ Performance
+- **Otimização de APIs:** Melhor performance nas rotas de autenticação
+- **Manutenibilidade:** Código mais limpo e fácil de manter
+- **Segurança:** Validação aprimorada e sanitização de dados
+- **Experiência do Usuário:** Respostas mais rápidas e consistentes
+
+---
+
+## [0.6.0-beta] - 2025-08-07
 
 ### ✨ Adicionado
 - **Recuperação de senha:** Funcionalidade completa de "Esqueceu a senha" com Supabase Auth

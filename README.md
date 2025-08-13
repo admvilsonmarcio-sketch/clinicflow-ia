@@ -13,7 +13,7 @@
   </div>
   
   <div style="margin-top: 10px;">
-    <img src="https://img.shields.io/badge/Versão-0.6.0--beta-blue?style=flat-square" alt="Versão" />
+    <img src="https://img.shields.io/badge/Versão-0.6.1--beta-blue?style=flat-square" alt="Versão" />
     <img src="https://img.shields.io/badge/Status-Recuperação%20de%20Senha%20Implementada-success?style=flat-square" alt="Status" />
     <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License" />
     <img src="https://img.shields.io/badge/LGPD-Compliant-purple?style=flat-square" alt="LGPD" />
@@ -230,6 +230,46 @@ npm run dev
 - **📱 Mensageria**: N8N + EvolutionAPI
 - **🔄 Automação**: N8N workflows
 - **📅 Calendário**: Google Calendar API
+
+## 🔌 API Routes
+
+### ✅ **Implementado** (v0.6.0-beta) - Sistema Completo de API
+
+O MediFlow possui um sistema robusto de **API Routes** com validação server-side, autenticação e controle de permissões granular.
+
+**🔐 Autenticação & Segurança**
+- **Login/Logout** com validação Zod
+- **Refresh tokens** automático
+- **Middleware de autenticação** médica
+- **Rate limiting** por IP e usuário
+- **Controle de permissões** por cargo
+- **Sanitização** de dados sensíveis
+
+**👥 Gestão de Entidades**
+- **Pacientes** - CRUD completo com busca e filtros
+- **Consultas** - Agendamento e gestão de consultas
+- **Clínicas** - Gestão multi-clínica
+- **Perfis** - Usuários e permissões
+- **Conversas** - Sistema de mensagens
+- **Mensagens** - Chat em tempo real
+
+**🛡️ Recursos de Segurança**
+- **Validação server-side** com Zod schemas
+- **Verificação de integridade** referencial
+- **Controle de acesso** por clínica e médico
+- **Auditoria completa** de operações
+- **Tratamento de erros** padronizado
+- **Paginação** e otimização de queries
+
+**📋 Funcionalidades Avançadas**
+- **Busca textual** em múltiplos campos
+- **Filtros dinâmicos** por status, data, etc.
+- **Ordenação** customizável
+- **Verificação de conflitos** (emails, CRMs)
+- **Soft delete** para auditoria
+- **Estatísticas** em tempo real
+
+> 📚 **Documentação completa** disponível em [`docs/API_ROUTES.md`](./docs/API_ROUTES.md)
 
 ## 📊 Scripts Disponíveis
 
