@@ -18,8 +18,12 @@
     "test:responsive": "playwright test tests/responsive --reporter=html",
     "test:responsive:headed": "playwright test tests/responsive --headed",
     "lighthouse": "node scripts/lighthouse-audit.mjs",
+    "lighthouse:prod": "node scripts/lighthouse-audit.mjs --url=https://mediflow-tau.vercel.app",
+    "lighthouse:dev": "node scripts/lighthouse-audit.mjs --url=http://localhost:3000",
     "audit:full": "npm run lint && npm run test:responsive && npm run lighthouse",
-    "ci:responsive": "npm run lint && npm run test:responsive && npm run lighthouse"
+    "audit:prod": "npm run lint && npm run test:responsive && npm run lighthouse:prod",
+    "ci:responsive": "npm run lint && npm run test:responsive && npm run lighthouse",
+    "ci:prod": "npm run lint && npm run test:responsive && npm run lighthouse:prod"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",

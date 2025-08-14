@@ -27,11 +27,31 @@ const config = {
   },
 };
 
+// Obter URL base dos argumentos da linha de comando ou variável de ambiente
+const getBaseUrl = () => {
+  // Verificar argumentos da linha de comando
+  const urlArg = process.argv.find(arg => arg.startsWith('--url='));
+  if (urlArg) {
+    return urlArg.split('=')[1];
+  }
+  
+  // Verificar variável de ambiente
+  if (process.env.LIGHTHOUSE_BASE_URL) {
+    return process.env.LIGHTHOUSE_BASE_URL;
+  }
+  
+  // Padrão para desenvolvimento local
+  return 'http://localhost:3000';
+};
+
+const BASE_URL = getBaseUrl();
+console.log(`🌐 URL base para testes: ${BASE_URL}`);
+
 // URLs para testar
 const urlsToTest = [
-  { url: 'http://localhost:3000/', name: 'home' },
-  { url: 'http://localhost:3000/auth/login', name: 'login' },
-  { url: 'http://localhost:3000/auth/register', name: 'register' }
+  { url: `${BASE_URL}/`, name: 'home' },
+  { url: `${BASE_URL}/auth/login`, name: 'login' },
+  { url: `${BASE_URL}/auth/register`, name: 'register' }
 ];
 
 // Função para executar auditoria Lighthouse
@@ -256,22 +276,30 @@ async function main() {
 async function checkServer() {
   console.log('🔍 Verificando se o servidor está rodando...');
   try {
-    const response = await fetch('http://localhost:3000');
+    const response = await fetch(BASE_URL);
     if (!response.ok) {
-      throw new Error('Servidor não está respondendo');
+      throw new Error(`Servidor não está respondendo (Status: ${response.status})`);
     }
     console.log('✅ Servidor está rodando!');
   } catch (error) {
-    console.error('❌ Erro: O servidor deve estar rodando em http://localhost:3000');
-    console.log('   Execute: npm run dev');
+    if (BASE_URL.includes('localhost')) {
+      console.error(`❌ Erro: O servidor deve estar rodando em ${BASE_URL}`);
+      console.log('   Execute: npm run dev');
+    } else {
+      console.error(`❌ Erro: Não foi possível acessar ${BASE_URL}`);
+      console.log('   Verifique se a URL está correta e acessível');
+    }
     process.exit(1);
   }
 }
 
 // Executar
-if (import.meta.url === `file://${process.argv[1]}` || import.meta.url.endsWith('lighthouse-audit.js')) {
-  console.log('🎯 Iniciando script lighthouse-audit.js');
-  checkServer().then(() => main());
+if (import.meta.url === `file://${process.argv[1]}` || import.meta.url.endsWith('lighthouse-audit.js') || import.meta.url.endsWith('lighthouse-audit.mjs')) {
+  console.log('🎯 Iniciando script lighthouse-audit.mjs');
+  checkServer().then(() => main()).catch(error => {
+    console.error('❌ Erro fatal:', error.message);
+    process.exit(1);
+  });
 }
 
 export { runLighthouseAudit, generateConsolidatedReport };
