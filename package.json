@@ -2,6 +2,7 @@
   "name": "mediflow",
   "version": "0.7.0-beta",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -16,7 +17,7 @@
     "test": "playwright test",
     "test:responsive": "playwright test tests/responsive --reporter=html",
     "test:responsive:headed": "playwright test tests/responsive --headed",
-    "lighthouse": "node scripts/lighthouse-audit.js",
+    "lighthouse": "node scripts/lighthouse-audit.mjs",
     "audit:full": "npm run lint && npm run test:responsive && npm run lighthouse",
     "ci:responsive": "npm run lint && npm run test:responsive && npm run lighthouse"
   },
