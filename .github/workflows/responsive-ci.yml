@@ -36,8 +36,8 @@ jobs:
     - name: 🎭 Testes de Responsividade
       run: npm run test:responsive
 
-    - name: 💡 Auditoria Lighthouse
-      run: npm run lighthouse
+    - name: 💡 Auditoria Lighthouse (Produção)
+      run: npm run lighthouse:prod
 
     - name: 📊 Upload dos relatórios
       uses: actions/upload-artifact@v4

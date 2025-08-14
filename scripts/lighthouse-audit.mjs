@@ -40,6 +40,11 @@ const getBaseUrl = () => {
     return process.env.LIGHTHOUSE_BASE_URL;
   }
   
+  // Se estiver no GitHub Actions, usar URL de produção por padrão
+  if (process.env.GITHUB_ACTIONS) {
+    return 'https://mediflow-tau.vercel.app';
+  }
+  
   // Padrão para desenvolvimento local
   return 'http://localhost:3000';
 };
