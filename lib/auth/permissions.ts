@@ -1,6 +1,5 @@
 import { createRouteHandlerSupabaseClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
-import type { Database } from '@/types/database'
 
 // Tipos de cargo disponíveis
 export type UserRole = 'super_admin' | 'admin' | 'medico' | 'enfermeiro' | 'recepcionista' | 'assistente'

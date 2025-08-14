@@ -107,7 +107,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                         <div className="space-y-3 sm:space-y-4">
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
-                                    <Phone className="size-3 sm:size-4 flex-shrink-0" />
+                                    <Phone className="size-3 sm:size-4 shrink-0" />
                                     Telefone
                                 </div>
                                 <p className="break-words text-sm font-medium sm:text-base">{patient.telefone_celular ? formatTelefone(patient.telefone_celular, 'celular') : 'Não informado'}</p>
@@ -115,7 +115,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
-                                    <Mail className="size-3 sm:size-4 flex-shrink-0" />
+                                    <Mail className="size-3 sm:size-4 shrink-0" />
                                     Email
                                 </div>
                                 <p className="break-words text-sm font-medium sm:text-base">{patient.email || 'Não informado'}</p>
@@ -123,7 +123,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
-                                    <Calendar className="size-3 sm:size-4 flex-shrink-0" />
+                                    <Calendar className="size-3 sm:size-4 shrink-0" />
                                     Data de Nascimento
                                 </div>
                                 <p className="text-sm font-medium sm:text-base">{patient.data_nascimento ? formatDate(patient.data_nascimento) : 'Não informado'}</p>
@@ -131,7 +131,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
-                                    <User className="size-3 sm:size-4 flex-shrink-0" />
+                                    <User className="size-3 sm:size-4 shrink-0" />
                                     Gênero
                                 </div>
                                 <p className="text-sm font-medium sm:text-base">
@@ -142,7 +142,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 
                             <div className="space-y-2 sm:col-span-2">
                                 <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
-                                    <MapPin className="size-3 sm:size-4 flex-shrink-0" />
+                                    <MapPin className="size-3 sm:size-4 shrink-0" />
                                     Endereço
                                 </div>
                                 <p className="break-words text-sm font-medium sm:text-base">{formatEnderecoCompleto()}</p>

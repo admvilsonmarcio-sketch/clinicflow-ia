@@ -187,7 +187,7 @@ export function DocumentList({
           <div key={documento.id} className={`rounded-lg border ${compact ? 'p-3' : 'p-4'} bg-white transition-colors hover:bg-gray-50`}>
             <div className="flex items-start justify-between gap-2">
               <div className="flex flex-1 items-start gap-2 min-w-0">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   {getFileIcon(documento.tipo_arquivo)}
                 </div>
                 <div className="min-w-0 flex-1">
@@ -218,7 +218,7 @@ export function DocumentList({
                 </div>
               </div>
 
-              <div className="flex items-center gap-1 flex-shrink-0">
+              <div className="flex items-center gap-1 shrink-0">
                 {showDownload && (
                   <Button
                     type="button"
