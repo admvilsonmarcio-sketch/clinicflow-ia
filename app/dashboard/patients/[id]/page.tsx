@@ -50,7 +50,8 @@ export default async function PatientPage({ params }: PatientPageProps) {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                {/* Botão Voltar e Informações do Paciente */}
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="sm" asChild>
                         <Link href="/dashboard/patients">
@@ -73,31 +74,34 @@ export default async function PatientPage({ params }: PatientPageProps) {
                 </div>
 
                 {/* Botões de ação - Layout responsivo */}
-                <div className="flex flex-col gap-2 sm:flex-row">
+                <div className="flex flex-col gap-2 sm:flex-row lg:gap-3">
                     <Button 
                         size="sm"
-                        className="w-full bg-blue-600 text-white hover:bg-blue-700 sm:w-auto"
+                        className="w-full bg-blue-600 text-white hover:bg-blue-700 sm:w-auto px-3 py-2 text-sm"
                     >
                         <MessageCircle className="mr-2 size-4" />
-                        Conversar
+                        <span className="block sm:hidden">Chat</span>
+                        <span className="hidden sm:block">Conversar</span>
                     </Button>
                     <Button 
                         variant="outline" 
                         size="sm"
-                        className="w-full border-green-600 text-green-600 hover:bg-green-50 sm:w-auto"
+                        className="w-full border-green-600 text-green-600 hover:bg-green-50 sm:w-auto px-3 py-2 text-sm"
                     >
                         <Calendar className="mr-2 size-4" />
-                        Agendar
+                        <span className="block sm:hidden">Agenda</span>
+                        <span className="hidden sm:block">Agendar</span>
                     </Button>
                     <Button 
                         size="sm" 
                         variant="outline"
-                        className="w-full border-gray-300 hover:border-blue-400 sm:w-auto"
+                        className="w-full border-gray-300 hover:border-blue-400 sm:w-auto px-3 py-2 text-sm"
                         asChild
                     >
                         <Link href={`/dashboard/patients/${patient.id}/edit`}>
                             <Edit className="mr-2 size-4" />
-                            Editar
+                            <span className="block sm:hidden">Editar</span>
+                            <span className="hidden sm:block">Editar</span>
                         </Link>
                     </Button>
                 </div>

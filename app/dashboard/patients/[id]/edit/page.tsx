@@ -65,7 +65,7 @@ export default async function EditPatientPage({ params }: EditPatientPageProps) 
             {/* Header Section */}
             <Card>
                 <CardHeader>
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <div className="flex items-center gap-4">
                             <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
                                 <User className="size-6 text-primary" />
@@ -80,10 +80,11 @@ export default async function EditPatientPage({ params }: EditPatientPageProps) 
                                 </p>
                             </div>
                         </div>
-                        <Button variant="outline" size="sm" asChild>
+                        <Button variant="outline" size="sm" className="w-full lg:w-auto px-3 py-2 text-sm" asChild>
                             <Link href="/dashboard/patients">
                                 <ArrowLeft className="mr-2 size-4" />
-                                Voltar para Lista
+                                <span className="block sm:hidden">Voltar</span>
+                                <span className="hidden sm:block">Voltar para Lista</span>
                             </Link>
                         </Button>
                     </div>

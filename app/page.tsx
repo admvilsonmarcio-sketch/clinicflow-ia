@@ -53,15 +53,17 @@ export default function Home() {
           <div className="flex items-center space-x-2">
             <span className="text-2xl font-bold text-white">MediFlow</span>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <Link href="/auth/login">
-              <Button variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white/20">
-                Entrar
+              <Button variant="outline" className="border-white/20 bg-white/10 px-3 py-2 text-sm text-white hover:bg-white/20 sm:px-4 sm:text-base">
+                <span className="block sm:hidden">Login</span>
+                <span className="hidden sm:block">Entrar</span>
               </Button>
             </Link>
             <Link href="/auth/register">
-              <Button className="bg-white text-blue-600 hover:bg-gray-100">
-                Começar Grátis
+              <Button className="bg-white px-3 py-2 text-sm text-blue-600 hover:bg-gray-100 sm:px-4 sm:text-base">
+                <span className="block sm:hidden">Grátis</span>
+                <span className="hidden sm:block">Começar Grátis</span>
               </Button>
             </Link>
           </div>
@@ -106,13 +108,15 @@ export default function Home() {
             {/* CTA Buttons */}
              <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:gap-4">
                <Link href="/auth/register" className="w-full sm:w-auto">
-                 <Button size="lg" className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-3 text-base font-bold text-blue-900 shadow-lg transition-all duration-200 hover:scale-105 hover:from-yellow-300 hover:to-yellow-400 hover:shadow-xl sm:px-8 sm:py-4 sm:text-lg">
-                   🚀 COMEÇAR TESTE GRÁTIS AGORA
+                 <Button size="lg" className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 px-4 py-3 text-sm font-bold text-blue-900 shadow-lg transition-all duration-200 hover:scale-105 hover:from-yellow-300 hover:to-yellow-400 hover:shadow-xl sm:px-8 sm:py-4 sm:text-base lg:text-lg">
+                   <span className="block sm:hidden">🚀 TESTE GRÁTIS</span>
+                   <span className="hidden sm:block">🚀 COMEÇAR TESTE GRÁTIS AGORA</span>
                  </Button>
                </Link>
                <Link href="/auth/login" className="w-full sm:w-auto">
-                 <Button size="lg" variant="outline" className="w-full border-2 border-white/60 px-6 py-3 text-base font-semibold text-blue-600 transition-all duration-200 hover:border-white hover:bg-white hover:text-blue-900 sm:px-8 sm:py-4 sm:text-lg">
-                   Entrar na Conta
+                 <Button size="lg" variant="outline" className="w-full border-2 border-white/60 px-4 py-3 text-sm font-semibold text-blue-600 transition-all duration-200 hover:border-white hover:bg-white hover:text-blue-900 sm:px-8 sm:py-4 sm:text-base lg:text-lg">
+                   <span className="block sm:hidden">Entrar</span>
+                   <span className="hidden sm:block">Entrar na Conta</span>
                  </Button>
                </Link>
              </div>
@@ -263,8 +267,9 @@ export default function Home() {
                </div>
              </div>
              <Link href="/auth/register">
-               <Button size="lg" className="w-full border-2 border-blue-500 bg-blue-600 px-8 py-3 text-lg font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-blue-500/25 sm:w-auto sm:px-12 sm:py-4 sm:text-xl">
-                 🎯 GARANTIR MINHA VAGA AGORA
+               <Button size="lg" className="w-full border-2 border-blue-500 bg-blue-600 px-4 py-3 text-sm font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-blue-500/25 sm:w-auto sm:px-8 sm:py-4 sm:text-base lg:px-12 lg:text-lg xl:text-xl">
+                 <span className="block sm:hidden">🎯 GARANTIR VAGA</span>
+                 <span className="hidden sm:block">🎯 GARANTIR MINHA VAGA AGORA</span>
                </Button>
              </Link>
              <p className="mt-3 text-xs opacity-80 sm:mt-4 sm:text-sm">
