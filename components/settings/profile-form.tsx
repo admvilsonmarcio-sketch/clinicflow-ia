@@ -140,42 +140,44 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div>
-          <label className="text-sm font-medium">Nome Completo</label>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">Nome Completo</label>
           <Input
             value={formData.nome_completo}
             onChange={(e) => handleChange('nome_completo', e.target.value)}
             placeholder="Seu nome completo"
             required
+            className="w-full"
           />
         </div>
-        <div>
-          <label className="text-sm font-medium">Email</label>
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">Email</label>
           <Input
             value={profile?.email || ''}
             placeholder="seu@email.com"
             disabled
-            className="bg-gray-50"
+            className="w-full bg-gray-50"
           />
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="text-xs text-gray-500">
             Email não pode ser alterado
           </p>
         </div>
-        <div>
-          <label className="text-sm font-medium">Telefone</label>
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">Telefone</label>
           <InputWithMask
             mask="(99) 99999-9999"
             value={formData.telefone}
             onChange={(e) => handleChange('telefone', e.target.value)}
             placeholder="(11) 99999-9999"
+            className="w-full"
           />
         </div>
-        <div>
-          <label className="text-sm font-medium">Cargo</label>
-          <div className="mt-2">
-            <span className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-800">
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">Cargo</label>
+          <div className="flex items-center h-10">
+            <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800">
               {profile?.cargo === 'medico' ? 'Médico' :
                 profile?.cargo === 'assistente' ? 'Assistente' :
                   profile?.cargo === 'recepcionista' ? 'Recepcionista' :
@@ -184,8 +186,12 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           </div>
         </div>
       </div>
-      <div className="flex justify-end">
-        <Button type="submit" disabled={loading}>
+      <div className="flex justify-end pt-4 border-t">
+        <Button 
+          type="submit" 
+          disabled={loading}
+          className="w-full sm:w-auto min-w-[140px] h-10"
+        >
           {loading ? (
             <>
               <Loader2 className="mr-2 size-4 animate-spin" />

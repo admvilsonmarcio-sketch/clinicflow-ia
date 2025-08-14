@@ -94,3 +94,10 @@ temp/
 
 # Test files
 test-tailwind.html
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+screenshots/
+reports/

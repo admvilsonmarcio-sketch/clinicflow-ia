@@ -98,44 +98,40 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
                 {/* Informações Básicas */}
                 <Card>
                     <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <User className="size-5" />
+                        <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                            <User className="size-4 sm:size-5" />
                             Informações Básicas
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3 lg:space-y-4">
-                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:gap-4">
+                        <div className="space-y-3 sm:space-y-4">
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
-                                    <Phone className="size-3 sm:size-4" />
+                                    <Phone className="size-3 sm:size-4 flex-shrink-0" />
                                     Telefone
                                 </div>
-                                <p className="break-all text-sm font-medium sm:text-base">{patient.telefone_celular ? formatTelefone(patient.telefone_celular, 'celular') : 'Não informado'}</p>
+                                <p className="break-words text-sm font-medium sm:text-base">{patient.telefone_celular ? formatTelefone(patient.telefone_celular, 'celular') : 'Não informado'}</p>
                             </div>
-
-                            {patient.email && (
-                                <div className="space-y-2">
-                                    <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
-                                        <Mail className="size-3 sm:size-4" />
-                                        Email
-                                    </div>
-                                    <p className="break-all text-sm font-medium sm:text-base">{patient.email}</p>
-                                </div>
-                            )}
-
-                            {patient.data_nascimento && (
-                                <div className="space-y-2">
-                                    <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
-                                        <Calendar className="size-3 sm:size-4" />
-                                        Data de Nascimento
-                                    </div>
-                                    <p className="text-sm font-medium sm:text-base">{formatDate(patient.data_nascimento)}</p>
-                                </div>
-                            )}
 
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
-                                    <User className="size-3 sm:size-4" />
+                                    <Mail className="size-3 sm:size-4 flex-shrink-0" />
+                                    Email
+                                </div>
+                                <p className="break-words text-sm font-medium sm:text-base">{patient.email || 'Não informado'}</p>
+                            </div>
+
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
+                                    <Calendar className="size-3 sm:size-4 flex-shrink-0" />
+                                    Data de Nascimento
+                                </div>
+                                <p className="text-sm font-medium sm:text-base">{patient.data_nascimento ? formatDate(patient.data_nascimento) : 'Não informado'}</p>
+                            </div>
+
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
+                                    <User className="size-3 sm:size-4 flex-shrink-0" />
                                     Gênero
                                 </div>
                                 <p className="text-sm font-medium sm:text-base">
@@ -146,7 +142,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 
                             <div className="space-y-2 sm:col-span-2">
                                 <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
-                                    <MapPin className="size-3 sm:size-4" />
+                                    <MapPin className="size-3 sm:size-4 flex-shrink-0" />
                                     Endereço
                                 </div>
                                 <p className="break-words text-sm font-medium sm:text-base">{formatEnderecoCompleto()}</p>

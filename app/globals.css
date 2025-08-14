@@ -50,11 +50,26 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
   body {
     @apply bg-background text-foreground;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  @media (min-width: 640px) {
+    body {
+      font-size: 16px;
+    }
+  }
+  
+  /* Prevenir overflow horizontal */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
+  * {
+    box-sizing: border-box;
   }
 }
 
@@ -88,5 +103,40 @@
   
   .animate-slide-out-to-right {
     animation: slide-out-to-right-full 0.2s ease-in;
+  }
+}
+
+/* Utilitários de responsividade */
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .break-words {
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .text-responsive {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+  }
+  
+  .button-responsive {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  @media (max-width: 640px) {
+    .mobile-text-sm {
+      font-size: 0.875rem !important;
+    }
+    
+    .mobile-p-2 {
+      padding: 0.5rem !important;
+    }
   }
 }

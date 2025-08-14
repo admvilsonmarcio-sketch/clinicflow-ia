@@ -14,7 +14,7 @@
     "validate-schema": "npx tsx scripts/validate-schema-types.ts",
     "init-storage": "npx tsx scripts/init-storage.ts",
     "test": "playwright test",
-    "test:responsive": "playwright test tests/responsive --reporter=html --output-dir=reports/playwright",
+    "test:responsive": "playwright test tests/responsive --reporter=html",
     "test:responsive:headed": "playwright test tests/responsive --headed",
     "lighthouse": "node scripts/lighthouse-audit.js",
     "audit:full": "npm run lint && npm run test:responsive && npm run lighthouse",

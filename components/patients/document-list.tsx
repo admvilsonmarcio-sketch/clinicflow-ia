@@ -185,37 +185,40 @@ export function DocumentList({
       <div className={compact ? "space-y-2" : "space-y-3"}>
         {documentos.map((documento) => (
           <div key={documento.id} className={`rounded-lg border ${compact ? 'p-3' : 'p-4'} bg-white transition-colors hover:bg-gray-50`}>
-            <div className="flex items-start justify-between">
-              <div className="flex flex-1 items-start gap-3">
-                {getFileIcon(documento.tipo_arquivo)}
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex flex-1 items-start gap-2 min-w-0">
+                <div className="flex-shrink-0">
+                  {getFileIcon(documento.tipo_arquivo)}
+                </div>
                 <div className="min-w-0 flex-1">
-                  <h4 className={`truncate font-medium text-gray-900 ${compact ? 'text-sm' : ''}`}>
+                  <h4 className={`truncate font-medium text-gray-900 break-words ${compact ? 'text-sm' : ''}`}>
                     {documento.nome_arquivo}
                   </h4>
-                  <div className={`mt-1 flex flex-wrap items-center gap-4 ${compact ? 'text-xs' : 'text-sm'} text-gray-500`}>
-                    <span className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-800">
+                  <div className={`mt-1 flex flex-wrap items-center gap-2 ${compact ? 'text-xs' : 'text-sm'} text-gray-500`}>
+                    <span className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-800 whitespace-nowrap">
                       {getCategoriaLabel(documento.categoria)}
                     </span>
-                    <span>{formatFileSize(documento.tamanho_arquivo)}</span>
+                    <span className="whitespace-nowrap">{formatFileSize(documento.tamanho_arquivo)}</span>
                     {!compact && (
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 whitespace-nowrap">
                         <Calendar className="size-3" />
-                        {format(new Date(documento.criado_em), 'dd/MM/yyyy HH:mm', { locale: ptBR })}
+                        <span className="hidden sm:inline">{format(new Date(documento.criado_em), 'dd/MM/yyyy HH:mm', { locale: ptBR })}</span>
+                        <span className="sm:hidden">{format(new Date(documento.criado_em), 'dd/MM/yy', { locale: ptBR })}</span>
                       </div>
                     )}
                   </div>
                   {!compact && documento.descricao && (
-                    <p className="mt-2 text-sm text-gray-600">{documento.descricao}</p>
+                    <p className="mt-2 text-sm text-gray-600 break-words line-clamp-2">{documento.descricao}</p>
                   )}
                   {!compact && documento.data_documento && (
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-1 text-sm text-gray-500 break-words">
                       Data do documento: {format(new Date(documento.data_documento), 'dd/MM/yyyy', { locale: ptBR })}
                     </p>
                   )}
                 </div>
               </div>
 
-              <div className="ml-4 flex items-center gap-2">
+              <div className="flex items-center gap-1 flex-shrink-0">
                 {showDownload && (
                   <Button
                     type="button"
@@ -223,8 +226,10 @@ export function DocumentList({
                     size={compact ? "sm" : "sm"}
                     onClick={() => handleDownload(documento)}
                     title="Visualizar/Baixar"
+                    className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3"
                   >
                     {compact ? <Download className="size-3" /> : <Eye className="size-4" />}
+                    <span className="sr-only sm:not-sr-only sm:ml-2">{compact ? "Download" : "Ver"}</span>
                   </Button>
                 )}
                 {showUpload && (
@@ -235,13 +240,14 @@ export function DocumentList({
                     onClick={() => handleDelete(documento)}
                     disabled={deletingId === documento.id}
                     title="Excluir"
-                    className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                    className="h-8 w-8 p-0 text-red-600 hover:bg-red-50 hover:text-red-700 sm:h-9 sm:w-auto sm:px-3"
                   >
                     {deletingId === documento.id ? (
                       <Loader2 className={`${compact ? "size-3" : "size-4"} animate-spin`} />
                     ) : (
                       <Trash2 className={compact ? "size-3" : "size-4"} />
                     )}
+                    <span className="sr-only sm:not-sr-only sm:ml-2">Excluir</span>
                   </Button>
                 )}
               </div>

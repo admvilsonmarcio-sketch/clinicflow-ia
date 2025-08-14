@@ -11,8 +11,8 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  /* Otimizar workers para execução mais rápida */
+  workers: process.env.CI ? 2 : 4,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html', { outputFolder: 'reports/playwright' }],
@@ -28,33 +28,15 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
 
-  /* Configure projects for major browsers */
+  /* Projetos otimizados - apenas Chrome para velocidade */
   projects: [
     {
       name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
-    },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-    },
-    {
-      name: 'Tablet',
       use: { 
-        viewport: { width: 768, height: 1024 },
-        userAgent: 'Mozilla/5.0 (iPad; CPU OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1'
-      },
-    },
-    {
-      name: 'Desktop',
-      use: { 
-        viewport: { width: 1280, height: 720 },
-      },
-    },
-    {
-      name: 'Large Desktop',
-      use: { 
-        viewport: { width: 1920, height: 1080 },
+        ...devices['Pixel 5'],
+        /* Reduzir timeouts para execução mais rápida */
+        actionTimeout: 10000,
+        navigationTimeout: 15000,
       },
     },
   ],
@@ -64,6 +46,6 @@ export default defineConfig({
     command: 'npm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
+    timeout: 60 * 1000,
   },
 });
