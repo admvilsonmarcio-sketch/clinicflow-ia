@@ -197,8 +197,9 @@ export function ClinicForm({ clinic, clinicId }: ClinicFormProps) {
           />
         </div>
       </div>
+      {/* Botão de ação - Layout responsivo */}
       <div className="flex justify-end">
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading} className="w-full sm:w-auto">
           {loading ? (
             <>
               <Loader2 className="mr-2 size-4 animate-spin" />

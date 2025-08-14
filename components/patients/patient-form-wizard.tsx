@@ -677,15 +677,17 @@ export function PatientFormWizard({
 
           {/* Navigation */}
           <div className="rounded-xl border-0 bg-white p-6 shadow-lg">
-            <div className="flex items-center justify-between">
-              <div className="flex gap-3">
+            {/* Botões de navegação - Layout responsivo */}
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              {/* Botões da esquerda */}
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <Button
                   type="button"
                   variant="outline"
                   size="lg"
                   onClick={prevStep}
                   disabled={currentStepIndex === 0}
-                  className="border-gray-300 hover:border-blue-400"
+                  className="w-full border-gray-300 hover:border-blue-400 sm:w-auto"
                 >
                   <ArrowLeft className="mr-2 size-4" />
                   Anterior
@@ -697,15 +699,15 @@ export function PatientFormWizard({
                     variant="ghost"
                     size="lg"
                     onClick={onCancel}
-                    className="text-gray-600 hover:text-gray-800"
+                    className="w-full text-gray-600 hover:text-gray-800 sm:w-auto"
                   >
                     Cancelar
                   </Button>
                 )}
               </div>
 
-              <div className="flex gap-3">
-                
+              {/* Botões da direita */}
+              <div className="flex flex-col gap-3 sm:flex-row">
                 {currentStepIndex < STEPS.length - 1 ? (
                   <Button
                     type="button"
@@ -716,7 +718,7 @@ export function PatientFormWizard({
                       nextStep()
                     }}
                     disabled={!isCurrentStepValid()}
-                    className="bg-blue-600 px-8 text-white hover:bg-blue-700"
+                    className="w-full bg-blue-600 px-8 text-white hover:bg-blue-700 sm:w-auto"
                   >
                     Próximo
                     <ArrowRight className="ml-2 size-4" />
@@ -749,7 +751,7 @@ export function PatientFormWizard({
                       }
                       console.log('Campos obrigatórios:', requiredFields)
                     }}
-                    className="bg-green-600 px-8 text-white hover:bg-green-700"
+                    className="w-full bg-green-600 px-8 text-white hover:bg-green-700 sm:w-auto"
                   >
                     {isSubmitting ? 'Salvando...' : (mode === 'create' ? 'Cadastrar Paciente' : 'Atualizar Paciente')}
                   </Button>

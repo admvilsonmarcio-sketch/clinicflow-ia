@@ -72,16 +72,29 @@ export default async function PatientPage({ params }: PatientPageProps) {
                     </div>
                 </div>
 
-                <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
+                {/* Botões de ação - Layout responsivo */}
+                <div className="flex flex-col gap-2 sm:flex-row">
+                    <Button 
+                        size="sm"
+                        className="w-full bg-blue-600 text-white hover:bg-blue-700 sm:w-auto"
+                    >
                         <MessageCircle className="mr-2 size-4" />
                         Conversar
                     </Button>
-                    <Button variant="outline" size="sm">
+                    <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="w-full border-green-600 text-green-600 hover:bg-green-50 sm:w-auto"
+                    >
                         <Calendar className="mr-2 size-4" />
                         Agendar
                     </Button>
-                    <Button size="sm" asChild>
+                    <Button 
+                        size="sm" 
+                        variant="outline"
+                        className="w-full border-gray-300 hover:border-blue-400 sm:w-auto"
+                        asChild
+                    >
                         <Link href={`/dashboard/patients/${patient.id}/edit`}>
                             <Edit className="mr-2 size-4" />
                             Editar

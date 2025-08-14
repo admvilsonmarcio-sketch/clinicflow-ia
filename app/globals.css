@@ -128,6 +128,22 @@
   .button-responsive {
     min-height: 44px;
     min-width: 44px;
+    @apply w-full sm:w-auto;
+  }
+
+  /* Classe para grupos de botões responsivos */
+  .button-group-responsive {
+    @apply flex flex-col gap-2 sm:flex-row sm:gap-3;
+  }
+
+  /* Classe para botões que devem quebrar linha em mobile */
+  .button-wrap-mobile {
+    @apply flex flex-wrap gap-2;
+  }
+
+  /* Classe para container de botões com espaçamento adequado */
+  .button-container-responsive {
+    @apply flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between;
   }
   
   @media (max-width: 640px) {
