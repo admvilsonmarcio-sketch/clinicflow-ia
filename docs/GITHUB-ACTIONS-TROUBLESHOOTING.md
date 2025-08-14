@@ -22,6 +22,36 @@ if (process.env.GITHUB_ACTIONS) {
 }
 ```
 
+### 1.1. Erros de Auditorias Não Implementadas no Lantern
+
+**Problema**: 
+- `FCP All Frames not implemented in lantern`
+- `LCP All Frames not implemented in lantern`
+
+**Solução**: ✅ **RESOLVIDO**
+- Removidas auditorias específicas que causam problemas: `first-contentful-paint-all-frames` e `largest-contentful-paint-all-frames`
+- Configuração atualizada para usar `onlyCategories` em vez de `onlyAudits`
+- Adicionado `skipAudits` para evitar auditorias problemáticas
+
+### 1.2. Erro de Emulação Mobile/Desktop
+
+**Problema**: `Screen emulation mobile setting (true) does not match formFactor setting (desktop)`
+
+**Solução**: ✅ **RESOLVIDO**
+- Adicionada configuração explícita de `screenEmulation` para cada formFactor
+- Configuração correta de dimensões e deviceScaleFactor
+- Mobile: 375x667, deviceScaleFactor: 2
+- Desktop: 1350x940, deviceScaleFactor: 1
+
+### 1.3. Melhor Tratamento de Erros
+
+**Problema**: Script parando na primeira falha de limpeza do Chrome
+
+**Solução**: ✅ **RESOLVIDO**
+- Tratamento específico para erros de permissão (`EPERM`)
+- Continuação da execução mesmo com erros de limpeza
+- Logs mais detalhados para debugging
+
 ### 2. Falha no Build por Variáveis de Ambiente
 
 **Problema**: Build falha por falta de secrets do Supabase.
