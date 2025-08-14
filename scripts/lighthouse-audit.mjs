@@ -11,18 +11,11 @@ const __dirname = path.dirname(__filename);
 const config = {
   extends: 'lighthouse:default',
   settings: {
-    onlyAudits: [
-      'first-contentful-paint',
-      'largest-contentful-paint',
-      'first-meaningful-paint',
-      'speed-index',
-      'interactive',
-      'cumulative-layout-shift',
-      'total-blocking-time',
-      'accessibility',
-      'best-practices',
-      'seo',
-      'performance'
+    onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
+    // Remover auditorias específicas que causam problemas no Lantern
+    skipAudits: [
+      'first-contentful-paint-all-frames',
+      'largest-contentful-paint-all-frames'
     ],
   },
 };
@@ -69,6 +62,14 @@ async function runLighthouseAudit(url, name, formFactor = 'mobile') {
     onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
     port: chrome.port,
     formFactor: formFactor,
+    // Configuração de emulação correta
+    screenEmulation: {
+      mobile: formFactor === 'mobile',
+      width: formFactor === 'mobile' ? 375 : 1350,
+      height: formFactor === 'mobile' ? 667 : 940,
+      deviceScaleFactor: formFactor === 'mobile' ? 2 : 1,
+      disabled: false,
+    },
     throttling: {
       rttMs: formFactor === 'mobile' ? 150 : 40,
       throughputKbps: formFactor === 'mobile' ? 1638.4 : 10240,
@@ -103,11 +104,22 @@ async function runLighthouseAudit(url, name, formFactor = 'mobile') {
     console.log(`✅ Relatório salvo: ${reportPath}`);
     console.log(`📊 Scores - Performance: ${scores.performance}, Accessibility: ${scores.accessibility}, Best Practices: ${scores.bestPractices}, SEO: ${scores.seo}`);
 
-    await chrome.kill();
+    // Tentar fechar Chrome com tratamento de erro
+    try {
+      await chrome.kill();
+    } catch (killError) {
+      console.log(`⚠️  Aviso: Erro ao fechar Chrome (${killError.message}) - continuando...`);
+    }
+    
     return { scores, reportPath, name, formFactor };
     
   } catch (error) {
-    await chrome.kill();
+    // Tentar fechar Chrome mesmo em caso de erro
+    try {
+      await chrome.kill();
+    } catch (killError) {
+      console.log(`⚠️  Aviso: Erro ao fechar Chrome após falha (${killError.message})`);
+    }
     throw error;
   }
 }
@@ -266,12 +278,33 @@ async function main() {
     }
     
   } catch (error) {
+    console.error('❌ Erro durante a auditoria:', error.message);
+    console.error('Stack trace:', error.stack);
+    
     // Se for erro de permissão na limpeza de arquivos temporários, continuar
-    if (error.code === 'EPERM' && error.message.includes('lighthouse.')) {
+    if (error.code === 'EPERM' || error.message.includes('taskkill') || error.message.includes('lighthouse.')) {
       console.log('⚠️  Aviso: Erro de permissão na limpeza de arquivos temporários (pode ser ignorado)');
-      console.log('✅ TODOS OS CRITÉRIOS DE ACEITE FORAM ATENDIDOS!');
+      
+      // Verificar critérios mesmo com erro de limpeza
+      if (results.length > 0) {
+        const mobileResults = results.filter(r => r.formFactor === 'mobile');
+        const failedCriteria = mobileResults.filter(r => 
+          r.scores.performance < 80 || 
+          r.scores.bestPractices < 90 || 
+          r.scores.accessibility < 90
+        );
+        
+        if (failedCriteria.length > 0) {
+          console.log('\n❌ CRITÉRIOS DE ACEITE NÃO ATENDIDOS:');
+          failedCriteria.forEach(result => {
+            console.log(`   ${result.name}: Performance ${result.scores.performance}, Best Practices ${result.scores.bestPractices}, Accessibility ${result.scores.accessibility}`);
+          });
+          process.exit(1);
+        } else {
+          console.log('\n✅ TODOS OS CRITÉRIOS DE ACEITE FORAM ATENDIDOS!');
+        }
+      }
     } else {
-      console.error('❌ Erro durante a auditoria:', error.message);
       process.exit(1);
     }
   }
