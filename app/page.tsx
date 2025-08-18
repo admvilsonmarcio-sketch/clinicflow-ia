@@ -1,12 +1,10 @@
-import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import { HeroSection } from '@/components/home/hero-section'
-import { LazySections } from '@/components/home/lazy-sections'
-import { Footer } from '@/components/home/footer'
+import HomePage from '@/components/home/home-page'
 
 export const metadata: Metadata = {
   title: 'MediFlow - Aumente sua Receita Médica em até 300% | CRM + IA + Automação',
-  description: 'Mais de 2.500 médicos já aumentaram seus lucros com nossa plataforma. CRM médico com atendimento automatizado 24/7, IA que converte leads em pacientes e sistema completo de gestão. Teste grátis por 30 dias!',
+  description:
+    'Mais de 2.500 médicos já aumentaram seus lucros com nossa plataforma. CRM médico com atendimento automatizado 24/7, IA que converte leads em pacientes e sistema completo de gestão. Teste grátis por 30 dias!',
   keywords: [
     'CRM médico',
     'aumentar receita médica',
@@ -19,11 +17,12 @@ export const metadata: Metadata = {
     'marketing médico',
     'captação de pacientes',
     'retenção de pacientes',
-    'sistema médico'
+    'sistema médico',
   ],
   openGraph: {
     title: 'MediFlow - Aumente sua Receita Médica em até 300% em 90 dias',
-    description: 'Mais de 2.500 médicos já aumentaram seus lucros. Atendimento automatizado 24/7 + IA que converte leads + CRM completo. 30 dias grátis!',
+    description:
+      'Mais de 2.500 médicos já aumentaram seus lucros. Atendimento automatizado 24/7 + IA que converte leads + CRM completo. 30 dias grátis!',
     type: 'website',
     images: [
       {
@@ -46,18 +45,5 @@ export const metadata: Metadata = {
 }
 
 export default function Home() {
-  return (
-    <>
-      <main className="min-h-screen">
-        <HeroSection priority />
-        
-        {/* Lazy loaded sections */}
-        <Suspense fallback={<div className="h-96 animate-pulse bg-gray-100" />}>
-          <LazySections />
-        </Suspense>
-      </main>
-      
-      <Footer />
-    </>
-  )
+  return <HomePage />
 }
