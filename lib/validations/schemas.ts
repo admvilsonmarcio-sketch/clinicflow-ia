@@ -7,8 +7,8 @@ const cepRegex = /^\d{5}-\d{3}$/
 
 // Schema base para auditoria
 const auditSchema = {
-  created_at: z.string().datetime().optional(),
-  updated_at: z.string().datetime().optional()
+  criado_em: z.string().datetime().optional(),
+  atualizado_em: z.string().datetime().optional()
 }
 
 // Schema para Pacientes
@@ -169,9 +169,7 @@ export const perfilCreateSchema = z.object({
     .max(20, 'CRM deve ter no máximo 20 caracteres')
     .optional(),
   
-  especialidade: z.string()
-    .max(100, 'Especialidade deve ter no máximo 100 caracteres')
-    .optional(),
+
   
   ativo: z.boolean().default(true)
 })
@@ -182,14 +180,18 @@ export const perfilUpdateSchema = perfilCreateSchema.partial().extend({
 
 // Schema para Conversas
 export const conversaCreateSchema = z.object({
-  consulta_id: z.string().uuid('ID da consulta inválido'),
   paciente_id: z.string().uuid('ID do paciente inválido'),
-  medico_id: z.string().uuid('ID do médico inválido'),
   clinica_id: z.string().uuid('ID da clínica inválido'),
   
-  tipo: z.enum(['whatsapp', 'sms', 'email', 'chat_interno'], {
-    errorMap: () => ({ message: 'Tipo de conversa inválido' })
+  plataforma: z.enum(['whatsapp', 'sms', 'email', 'chat_interno'], {
+    errorMap: () => ({ message: 'Plataforma de conversa inválida' })
   }),
+  
+  id_conversa_plataforma: z.string()
+    .min(1, 'ID da conversa na plataforma é obrigatório')
+    .max(255, 'ID da conversa deve ter no máximo 255 caracteres'),
+  
+  atribuida_para: z.string().uuid('ID do profissional inválido').optional(),
   
   status: z.enum(['ativa', 'pausada', 'finalizada'], {
     errorMap: () => ({ message: 'Status da conversa inválido' })
@@ -212,7 +214,7 @@ export const conversaUpdateSchema = conversaCreateSchema.partial().extend({
 export const mensagemCreateSchema = z.object({
   conversa_id: z.string().uuid('ID da conversa inválido'),
   
-  remetente_tipo: z.enum(['paciente', 'medico', 'ia', 'sistema'], {
+  tipo_remetente: z.enum(['paciente', 'medico', 'ia', 'sistema'], {
     errorMap: () => ({ message: 'Tipo de remetente inválido' })
   }),
   

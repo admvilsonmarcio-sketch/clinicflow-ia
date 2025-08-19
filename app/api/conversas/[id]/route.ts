@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { withMedicalAuth, canAccessConsulta } from '@/lib/auth/permissions'
+import { withMedicalAuth } from '@/lib/auth/permissions'
 import { conversaUpdateSchema, idParamSchema } from '@/lib/validations/schemas'
 import { createRouteHandlerSupabaseClient } from '@/lib/supabase/server'
 import { z } from 'zod'
@@ -35,33 +35,24 @@ export async function GET(
       .from('conversas')
       .select(`
         id,
-        consulta_id,
+        clinica_id,
         paciente_id,
-        medico_id,
-        titulo,
-        ativa,
-        created_at,
-        updated_at,
-        consultas!inner(
-          id,
-          data_consulta,
-          tipo,
-          status,
-          clinica_id,
-          observacoes
-        ),
+        plataforma,
+        status,
+        atribuida_para,
+        ultima_mensagem_em,
+        criado_em,
+        atualizado_em,
         pacientes!inner(
           id,
           nome_completo,
           email,
-          telefone,
+          telefone_celular,
           data_nascimento
         ),
-        perfis!medico_id(
+        perfis!atribuida_para(
           id,
-          nome_completo,
-          especialidade,
-          crm
+          nome_completo
         )
       `)
       .eq('id', conversaId)
@@ -78,7 +69,13 @@ export async function GET(
     }
     
     // Verificar se o usuário pode acessar esta conversa
-    if (!await canAccessConsulta(user, conversa.consulta_id)) {
+    const canAccess = (
+      user.role === 'admin' ||
+      (user.role === 'medico' && user.clinica_id === conversa.clinica_id) ||
+      (user.role === 'paciente' && user.id === conversa.paciente_id)
+    )
+    
+    if (!canAccess) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -95,14 +92,14 @@ export async function GET(
         id,
         conversa_id,
         conteudo,
-        remetente_tipo,
+        tipo_remetente,
         remetente_id,
         lida,
-        created_at,
-        updated_at
+        criado_em,
+        atualizado_em
       `)
       .eq('conversa_id', conversaId)
-      .order('created_at', { ascending: true })
+      .order('criado_em', { ascending: true })
     
     if (mensagensError) {
       console.error('Erro ao buscar mensagens:', mensagensError)
@@ -120,8 +117,8 @@ export async function GET(
       const mensagensNaoLidas = mensagens.filter(msg => 
         !msg.lida && 
         (
-          (msg.remetente_tipo === 'paciente' && user.role === 'medico' && user.id === conversa.medico_id) ||
-          (msg.remetente_tipo === 'medico' && user.role !== 'medico')
+          (msg.tipo_remetente === 'paciente' && user.role === 'medico' && user.id === conversa.atribuida_para) ||
+        (msg.tipo_remetente === 'medico' && user.role !== 'medico')
         )
       )
       
@@ -202,14 +199,7 @@ export async function PUT(
     const { data: existingConversa, error: fetchError } = await supabase
       .from('conversas')
       .select(`
-        *,
-        consultas!inner(
-          id,
-          paciente_id,
-          medico_id,
-          clinica_id,
-          status
-        )
+        *
       `)
       .eq('id', conversaId)
       .single()
@@ -225,7 +215,13 @@ export async function PUT(
     }
     
     // Verificar se o usuário pode acessar esta conversa
-    if (!await canAccessConsulta(user, existingConversa.consulta_id)) {
+    const canAccess = (
+      user.role === 'admin' ||
+      (user.role === 'medico' && user.clinica_id === existingConversa.clinica_id) ||
+      (user.role === 'paciente' && user.id === existingConversa.paciente_id)
+    )
+    
+    if (!canAccess) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -240,34 +236,27 @@ export async function PUT(
       .from('conversas')
       .update({
         ...updateData,
-        updated_at: new Date().toISOString()
+        atualizado_em: new Date().toISOString()
       })
       .eq('id', conversaId)
       .select(`
         id,
-        consulta_id,
         paciente_id,
-        medico_id,
-        titulo,
-        ativa,
-        created_at,
-        updated_at,
-        consultas!inner(
-          id,
-          data_consulta,
-          tipo,
-          status
-        ),
+        plataforma,
+        status,
+        atribuida_para,
+        ultima_mensagem_em,
+        criado_em,
+        atualizado_em,
         pacientes!inner(
           id,
           nome_completo,
           email,
-          telefone
+          telefone_celular
         ),
-        perfis!medico_id(
+        perfis!atribuida_para(
           id,
-          nome_completo,
-          especialidade
+          nome_completo
         )
       `)
       .single()
@@ -342,14 +331,7 @@ export async function DELETE(
     const { data: existingConversa, error: fetchError } = await supabase
       .from('conversas')
       .select(`
-        *,
-        consultas!inner(
-          id,
-          paciente_id,
-          medico_id,
-          clinica_id,
-          status
-        )
+        *
       `)
       .eq('id', conversaId)
       .single()
@@ -364,8 +346,8 @@ export async function DELETE(
       )
     }
     
-    // Verificar se o usuário pode acessar esta conversa
-    if (!await canAccessConsulta(user, existingConversa.consulta_id)) {
+    // Verificar se o usuário pode acessar esta conversa através da clínica
+    if (user.role !== 'admin' && existingConversa.clinica_id !== user.clinica_id) {
       return NextResponse.json(
         { 
           error: 'Forbidden',

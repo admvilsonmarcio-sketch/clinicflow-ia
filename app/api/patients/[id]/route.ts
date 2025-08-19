@@ -55,7 +55,7 @@ export async function GET(
         id,
         nome_completo,
         email,
-        telefone,
+        telefone_celular,
         cpf,
         data_nascimento,
         endereco,
@@ -64,9 +64,9 @@ export async function GET(
         estado,
         observacoes,
         clinica_id,
-        created_at,
-        updated_at,
-        clinicas!inner(id, nome, endereco, telefone)
+        criado_em,
+        atualizado_em,
+        clinicas!inner(id, nome, endereco, telefone_celular)
       `)
       .eq('id', id)
       .single()
@@ -238,14 +238,14 @@ export async function PUT(
       .from('pacientes')
       .update({
         ...updateData,
-        updated_at: new Date().toISOString()
+        atualizado_em: new Date().toISOString()
       })
       .eq('id', id)
       .select(`
         id,
         nome_completo,
         email,
-        telefone,
+        telefone_celular,
         cpf,
         data_nascimento,
         endereco,
@@ -254,8 +254,8 @@ export async function PUT(
         estado,
         observacoes,
         clinica_id,
-        created_at,
-        updated_at
+        criado_em,
+        atualizado_em
       `)
       .single()
     

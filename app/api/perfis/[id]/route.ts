@@ -37,15 +37,13 @@ export async function GET(
         id,
         nome_completo,
         email,
-        telefone,
+        telefone_celular,
         cargo,
-        especialidade,
-        crm,
         clinica_id,
         ativo,
-        created_at,
-        updated_at,
-        clinicas!inner(id, nome, endereco, telefone)
+        criado_em,
+        atualizado_em,
+        clinicas!inner(id, nome, endereco, telefone_celular)
       `)
       .eq('id', perfilId)
       .single()
@@ -205,7 +203,7 @@ export async function PUT(
     
     // Usuários comuns só podem editar dados básicos do próprio perfil
     if (isSelfEdit && !isAdmin) {
-      const allowedFields = ['nome_completo', 'telefone', 'especialidade']
+      const allowedFields = ['nome_completo', 'telefone_celular']
       const restrictedFields = Object.keys(updateData).filter(field => !allowedFields.includes(field))
       
       if (restrictedFields.length > 0) {
@@ -286,57 +284,26 @@ export async function PUT(
       }
     }
     
-    // Verificar conflitos de CRM se estiver sendo alterado
-    if (updateData.crm && updateData.crm !== existingPerfil.crm) {
-      const { data: conflictCrm, error: crmCheckError } = await supabase
-        .from('perfis')
-        .select('id, crm')
-        .eq('crm', updateData.crm)
-        .neq('id', perfilId)
-        .single()
-      
-      if (crmCheckError && crmCheckError.code !== 'PGRST116') {
-        console.error('Erro ao verificar CRM:', crmCheckError)
-        return NextResponse.json(
-          { 
-            error: 'Database error',
-            message: 'Erro ao verificar dados do médico.'
-          },
-          { status: 500 }
-        )
-      }
-      
-      if (conflictCrm) {
-        return NextResponse.json(
-          { 
-            error: 'Conflict',
-            message: 'Já existe um médico cadastrado com este CRM.'
-          },
-          { status: 409 }
-        )
-      }
-    }
+    // CRM removido - campo não existe na tabela perfis
     
     // Atualizar perfil
     const { data: updatedPerfil, error: updateError } = await supabase
       .from('perfis')
       .update({
         ...updateData,
-        updated_at: new Date().toISOString()
+        atualizado_em: new Date().toISOString()
       })
       .eq('id', perfilId)
       .select(`
         id,
         nome_completo,
         email,
-        telefone,
+        telefone_celular,
         cargo,
-        especialidade,
-        crm,
         clinica_id,
         ativo,
-        created_at,
-        updated_at,
+        criado_em,
+        atualizado_em,
         clinicas!inner(id, nome)
       `)
       .single()

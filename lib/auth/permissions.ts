@@ -257,42 +257,7 @@ export async function canAccessPatient(
   }
 }
 
-// Função para verificar se o usuário pode acessar uma consulta específica
-export async function canAccessConsulta(
-  user: AuthenticatedUser, 
-  consultaId: string
-): Promise<boolean> {
-  try {
-    const supabase = createRouteHandlerSupabaseClient()
-    
-    // Buscar dados da consulta
-    const { data: consulta, error } = await supabase
-      .from('consultas')
-      .select('clinica_id, medico_id')
-      .eq('id', consultaId)
-      .single()
-    
-    if (error || !consulta) {
-      return false
-    }
-    
-    // Verificar acesso à clínica
-    if (!canAccessClinica(user, consulta.clinica_id)) {
-      return false
-    }
-    
-    // Médicos só podem acessar suas próprias consultas (exceto admins)
-    if (user.role === 'medico' && consulta.medico_id !== user.id) {
-      return false
-    }
-    
-    return true
-    
-  } catch (error) {
-    console.error('Erro ao verificar acesso à consulta:', error)
-    return false
-  }
-}
+
 
 // Helper para criar resposta de erro de permissão
 export function createPermissionError(message: string = 'Acesso negado'): NextResponse {

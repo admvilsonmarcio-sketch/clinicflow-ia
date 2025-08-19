@@ -40,17 +40,15 @@ export async function GET(request: NextRequest) {
         role,
         clinica_id,
         ativo,
-        crm,
-        especialidade,
-        telefone,
+        telefone_celular,
         ultimo_login,
-        created_at,
+        criado_em,
         clinicas(
           id,
           nome,
           ativa,
           cnpj,
-          telefone,
+          telefone_celular,
           endereco
         )
       `)

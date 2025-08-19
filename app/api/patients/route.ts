@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
         id,
         nome_completo,
         email,
-        telefone,
+        telefone_celular,
         cpf,
         data_nascimento,
         endereco,
@@ -53,8 +53,8 @@ export async function GET(request: NextRequest) {
         estado,
         observacoes,
         clinica_id,
-        created_at,
-        updated_at,
+        criado_em,
+        atualizado_em,
         clinicas!inner(nome)
       `, { count: 'exact' })
     
@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
     }
     
     // Aplicar ordenação
-    const sortField = sort || 'created_at'
+    const sortField = sort || 'criado_em'
     query = query.order(sortField, { ascending: order === 'asc' })
     
     // Aplicar paginação
@@ -205,7 +205,7 @@ export async function POST(request: NextRequest) {
         id,
         nome_completo,
         email,
-        telefone,
+        telefone_celular,
         cpf,
         data_nascimento,
         endereco,
@@ -214,8 +214,8 @@ export async function POST(request: NextRequest) {
         estado,
         observacoes,
         clinica_id,
-        created_at,
-        updated_at
+        criado_em,
+        atualizado_em
       `)
       .single()
     

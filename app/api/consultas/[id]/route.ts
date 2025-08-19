@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { withMedicalAuth, canAccessConsulta } from '@/lib/auth/permissions'
+import { withMedicalAuth } from '@/lib/auth/permissions'
 import { consultaUpdateSchema, idParamSchema } from '@/lib/validations/schemas'
 import { createRouteHandlerSupabaseClient } from '@/lib/supabase/server'
 import { z } from 'zod'
@@ -45,11 +45,11 @@ export async function GET(
         google_calendar_event_id,
         valor,
         duracao_minutos,
-        created_at,
-        updated_at,
-        pacientes!inner(id, nome_completo, email, telefone, cpf, data_nascimento),
-        perfis!medico_id(id, nome_completo, cargo, especialidade, email),
-        clinicas!inner(id, nome, endereco, telefone)
+        criado_em,
+        atualizado_em,
+        pacientes(id, nome_completo, email, telefone_celular, cpf, data_nascimento),
+        perfis!medico_id(id, nome_completo, cargo, email),
+        clinicas(id, nome, endereco, telefone)
       `)
       .eq('id', consultaId)
       .single()
@@ -65,7 +65,11 @@ export async function GET(
     }
     
     // Verificar se o usuário pode acessar esta consulta
-    if (!await canAccessConsulta(user, consulta.id)) {
+    const canAccess = user.role === 'admin' || 
+                     (user.role === 'medico' && consulta.medico_id === user.id) ||
+                     (user.role === 'paciente' && consulta.paciente_id === user.id)
+    
+    if (!canAccess) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -149,7 +153,11 @@ export async function PUT(
     }
     
     // Verificar se o usuário pode acessar esta consulta
-    if (!await canAccessConsulta(user, existingConsulta.id)) {
+    const canAccess = user.role === 'admin' || 
+                     (user.role === 'medico' && existingConsulta.medico_id === user.id) ||
+                     (user.role === 'paciente' && existingConsulta.paciente_id === user.id)
+    
+    if (!canAccess) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -243,7 +251,7 @@ export async function PUT(
       .from('consultas')
       .update({
         ...updateData,
-        updated_at: new Date().toISOString()
+        atualizado_em: new Date().toISOString()
       })
       .eq('id', consultaId)
       .select(`
@@ -258,10 +266,10 @@ export async function PUT(
         google_calendar_event_id,
         valor,
         duracao_minutos,
-        created_at,
-        updated_at,
-        pacientes!inner(id, nome_completo, email, telefone),
-        perfis!medico_id(id, nome_completo, cargo, especialidade)
+        criado_em,
+        atualizado_em,
+        pacientes(id, nome_completo, email, telefone_celular),
+        perfis!medico_id(id, nome_completo, cargo)
       `)
       .single()
     
@@ -349,7 +357,11 @@ export async function DELETE(
     }
     
     // Verificar se o usuário pode acessar esta consulta
-    if (!await canAccessConsulta(user, existingConsulta.id)) {
+    const canAccess = user.role === 'admin' || 
+                     (user.role === 'medico' && existingConsulta.medico_id === user.id) ||
+                     (user.role === 'paciente' && existingConsulta.paciente_id === user.id)
+    
+    if (!canAccess) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -370,33 +382,8 @@ export async function DELETE(
       )
     }
     
-    // Verificar se existem conversas associadas
-    const { data: conversas, error: conversasError } = await supabase
-      .from('conversas')
-      .select('id')
-      .eq('consulta_id', consultaId)
-      .limit(1)
-    
-    if (conversasError) {
-      console.error('Erro ao verificar conversas associadas:', conversasError)
-      return NextResponse.json(
-        { 
-          error: 'Database error',
-          message: 'Erro ao verificar dependências da consulta.'
-        },
-        { status: 500 }
-      )
-    }
-    
-    if (conversas && conversas.length > 0) {
-      return NextResponse.json(
-        { 
-          error: 'Conflict',
-          message: 'Não é possível deletar consulta com conversas associadas. Delete as conversas primeiro.'
-        },
-        { status: 409 }
-      )
-    }
+    // Nota: Conversas não estão mais diretamente associadas a consultas
+    // A verificação de dependências foi removida pois a relação foi alterada
     
     // Deletar consulta
     const { error: deleteError } = await supabase

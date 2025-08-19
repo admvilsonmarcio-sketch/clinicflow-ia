@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { withMedicalAuth, canAccessConsulta } from '@/lib/auth/permissions'
+import { withMedicalAuth } from '@/lib/auth/permissions'
 import { conversaCreateSchema, queryParamsSchema } from '@/lib/validations/schemas'
 import { createRouteHandlerSupabaseClient } from '@/lib/supabase/server'
 import { z } from 'zod'
@@ -35,7 +35,6 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * limit
     
     // Parâmetros adicionais específicos para conversas
-    const consulta_id = searchParams.get('consulta_id')
     const paciente_id = searchParams.get('paciente_id')
     const medico_id = searchParams.get('medico_id')
     const ativa = searchParams.get('ativa')
@@ -47,54 +46,43 @@ export async function GET(request: NextRequest) {
       .from('conversas')
       .select(`
         id,
-        consulta_id,
         paciente_id,
-        medico_id,
-        titulo,
-        ativa,
-        created_at,
-        updated_at,
-        consultas!inner(
-          id,
-          data_consulta,
-          tipo,
-          status,
-          clinica_id
-        ),
+        plataforma,
+        status,
+        atribuida_para,
+        ultima_mensagem_em,
+        criado_em,
+        atualizado_em,
         pacientes!inner(
           id,
           nome_completo,
           email,
-          telefone
+          telefone_celular
         ),
-        perfis!medico_id(
+        perfis!atribuida_para(
           id,
-          nome_completo,
-          especialidade
+          nome_completo
         )
       `, { count: 'exact' })
     
-    // Filtrar por clínica do usuário (através da consulta)
+    // Filtrar por clínica do usuário
     if (user.role !== 'super_admin') {
-      query = query.eq('consultas.clinica_id', user.clinica_id)
+      query = query.eq('clinica_id', user.clinica_id)
     }
     
     // Médicos só veem suas próprias conversas
     if (user.role === 'medico') {
-      query = query.eq('medico_id', user.id)
+      query = query.eq('atribuida_para', user.id)
     }
     
     // Aplicar filtros específicos
-    if (consulta_id) {
-      query = query.eq('consulta_id', consulta_id)
-    }
     
     if (paciente_id) {
       query = query.eq('paciente_id', paciente_id)
     }
     
     if (medico_id && user.role !== 'medico') {
-      query = query.eq('medico_id', medico_id)
+      query = query.eq('atribuida_para', medico_id)
     }
     
     if (ativa !== null) {
@@ -107,7 +95,7 @@ export async function GET(request: NextRequest) {
     }
     
     // Aplicar ordenação
-    const sortField = sort || 'updated_at'
+    const sortField = sort || 'atualizado_em'
     query = query.order(sortField, { ascending: order === 'asc' })
     
     // Aplicar paginação
@@ -136,9 +124,9 @@ export async function GET(request: NextRequest) {
         
         const { data: ultimaMensagem } = await supabase
           .from('mensagens')
-          .select('conteudo, created_at, remetente_tipo')
+          .select('conteudo, criado_em, tipo_remetente')
           .eq('conversa_id', conversa.id)
-          .order('created_at', { ascending: false })
+          .order('criado_em', { ascending: false })
           .limit(1)
           .single()
         
@@ -200,33 +188,14 @@ export async function POST(request: NextRequest) {
     const conversaData = validation.data
     const supabase = createRouteHandlerSupabaseClient()
     
-    // Buscar consulta para validação
-    const { data: consulta, error: consultaError } = await supabase
-      .from('consultas')
-      .select(`
-        id,
-        paciente_id,
-        medico_id,
-        clinica_id,
-        status,
-        pacientes!inner(id, nome_completo, clinica_id),
-        perfis!medico_id(id, nome_completo, clinica_id)
-      `)
-      .eq('id', conversaData.consulta_id)
-      .single()
+    // Verificar se o usuário pode criar conversas para esta clínica/paciente
+    const canCreate = (
+      user.role === 'admin' ||
+      (user.role === 'medico' && user.clinica_id === conversaData.clinica_id) ||
+      (user.role === 'paciente' && user.id === conversaData.paciente_id)
+    )
     
-    if (consultaError || !consulta) {
-      return NextResponse.json(
-        { 
-          error: 'Not found',
-          message: 'Consulta não encontrada.'
-        },
-        { status: 404 }
-      )
-    }
-    
-    // Verificar se o usuário pode acessar esta consulta
-    if (!await canAccessConsulta(user, consulta.id)) {
+    if (!canCreate) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -257,33 +226,7 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Verificar se já existe uma conversa para esta consulta
-    const { data: existingConversa, error: existingError } = await supabase
-      .from('conversas')
-      .select('id')
-      .eq('consulta_id', conversaData.consulta_id)
-      .single()
-    
-    if (existingError && existingError.code !== 'PGRST116') {
-      console.error('Erro ao verificar conversa existente:', existingError)
-      return NextResponse.json(
-        { 
-          error: 'Database error',
-          message: 'Erro ao verificar dados da conversa.'
-        },
-        { status: 500 }
-      )
-    }
-    
-    if (existingConversa) {
-      return NextResponse.json(
-        { 
-          error: 'Conflict',
-          message: 'Já existe uma conversa para esta consulta.'
-        },
-        { status: 409 }
-      )
-    }
+    // Nota: Verificação de conversa existente removida pois não há mais relação direta com consultas
     
     // Criar conversa
     const { data: newConversa, error: createError } = await supabase
@@ -291,29 +234,24 @@ export async function POST(request: NextRequest) {
       .insert([conversaData])
       .select(`
         id,
-        consulta_id,
         paciente_id,
-        medico_id,
+        clinica_id,
         titulo,
-        ativa,
-        created_at,
-        updated_at,
-        consultas!inner(
-          id,
-          data_consulta,
-          tipo,
-          status
-        ),
+        plataforma,
+        status,
+        atribuida_para,
+        ultima_mensagem_em,
+        criado_em,
+        atualizado_em,
         pacientes!inner(
           id,
           nome_completo,
           email,
-          telefone
+          telefone_celular
         ),
-        perfis!medico_id(
+        perfis!atribuida_para(
           id,
-          nome_completo,
-          especialidade
+          nome_completo
         )
       `)
       .single()

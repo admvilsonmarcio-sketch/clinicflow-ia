@@ -28,7 +28,7 @@ const navigation = [
   },
   {
     name: 'Agenda',
-    href: '/dashboard/appointments',
+    href: '/dashboard/agendamentos',
     icon: Calendar,
   },
   {

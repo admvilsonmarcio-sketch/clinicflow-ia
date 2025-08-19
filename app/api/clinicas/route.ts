@@ -44,14 +44,14 @@ export async function GET(request: NextRequest) {
         nome,
         cnpj,
         endereco,
-        telefone,
+        telefone_celular,
         email,
         site,
         especialidades,
         horario_funcionamento,
         ativa,
-        created_at,
-        updated_at
+        criado_em,
+        atualizado_em
       `, { count: 'exact' })
     
     // Super admins podem ver todas as clínicas, outros usuários só a sua própria
@@ -210,14 +210,14 @@ export async function POST(request: NextRequest) {
         nome,
         cnpj,
         endereco,
-        telefone,
+        telefone_celular,
         email,
         site,
         especialidades,
         horario_funcionamento,
         ativa,
-        created_at,
-        updated_at
+        criado_em,
+        atualizado_em
       `)
       .single()
     

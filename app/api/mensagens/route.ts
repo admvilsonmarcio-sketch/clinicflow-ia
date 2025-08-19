@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { withMedicalAuth, canAccessConsulta } from '@/lib/auth/permissions'
+import { withMedicalAuth } from '@/lib/auth/permissions'
 import { mensagemCreateSchema, queryParamsSchema } from '@/lib/validations/schemas'
 import { createRouteHandlerSupabaseClient } from '@/lib/supabase/server'
 import { z } from 'zod'
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     }
     
     // Parâmetros adicionais específicos para mensagens
-    const remetente_tipo = searchParams.get('remetente_tipo')
+    const tipo_remetente = searchParams.get('tipo_remetente')
     const lida = searchParams.get('lida')
     
     const supabase = createRouteHandlerSupabaseClient()
@@ -57,16 +57,10 @@ export async function GET(request: NextRequest) {
       .from('conversas')
       .select(`
         id,
-        consulta_id,
         paciente_id,
         medico_id,
-        consultas!inner(
-          id,
-          paciente_id,
-          medico_id,
-          clinica_id,
-          status
-        )
+        criado_em,
+        atualizado_em
       `)
       .eq('id', conversa_id)
       .single()
@@ -82,7 +76,13 @@ export async function GET(request: NextRequest) {
     }
     
     // Verificar se o usuário pode acessar esta conversa
-    if (!await canAccessConsulta(user, conversa.consulta_id)) {
+    const canAccess = (
+      user.role === 'admin' ||
+      (user.role === 'medico' && user.clinica_id === conversa.clinica_id) ||
+      (user.role === 'paciente' && user.id === conversa.paciente_id)
+    )
+    
+    if (!canAccess) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -99,17 +99,17 @@ export async function GET(request: NextRequest) {
         id,
         conversa_id,
         conteudo,
-        remetente_tipo,
+        tipo_remetente,
         remetente_id,
         lida,
-        created_at,
-        updated_at
+        criado_em,
+        atualizado_em
       `, { count: 'exact' })
       .eq('conversa_id', conversa_id)
     
     // Aplicar filtros específicos
-    if (remetente_tipo) {
-      query = query.eq('remetente_tipo', remetente_tipo)
+    if (tipo_remetente) {
+      query = query.eq('tipo_remetente', tipo_remetente)
     }
     
     if (lida !== null) {
@@ -122,7 +122,7 @@ export async function GET(request: NextRequest) {
     }
     
     // Aplicar ordenação
-    const sortField = sort || 'created_at'
+    const sortField = sort || 'criado_em'
     query = query.order(sortField, { ascending: order === 'asc' })
     
     // Aplicar paginação
@@ -194,17 +194,12 @@ export async function POST(request: NextRequest) {
       .from('conversas')
       .select(`
         id,
-        consulta_id,
         paciente_id,
-        medico_id,
-        ativa,
-        consultas!inner(
-          id,
-          paciente_id,
-          medico_id,
-          clinica_id,
-          status
-        )
+        plataforma,
+        status,
+        atribuida_para,
+        clinica_id,
+        ativa
       `)
       .eq('id', mensagemData.conversa_id)
       .single()
@@ -220,7 +215,13 @@ export async function POST(request: NextRequest) {
     }
     
     // Verificar se o usuário pode acessar esta conversa
-    if (!await canAccessConsulta(user, conversa.consulta_id)) {
+    const canAccess = (
+      user.role === 'admin' ||
+      (user.role === 'medico' && user.clinica_id === conversa.clinica_id) ||
+      (user.role === 'paciente' && user.id === conversa.paciente_id)
+    )
+    
+    if (!canAccess) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -244,11 +245,11 @@ export async function POST(request: NextRequest) {
     // Validar remetente baseado no tipo
     let remetenteValido = false
     
-    if (mensagemData.remetente_tipo === 'medico') {
+    if (mensagemData.tipo_remetente === 'medico') {
       // Verificar se o usuário é médico e é o médico da conversa
       remetenteValido = user.role === 'medico' && user.id === conversa.medico_id
       mensagemData.remetente_id = user.id
-    } else if (mensagemData.remetente_tipo === 'paciente') {
+    } else if (mensagemData.tipo_remetente === 'paciente') {
       // Para mensagens de paciente, verificar se o usuário tem permissão de representar o paciente
       // (admin/médico podem enviar mensagens em nome do paciente)
       if (user.role === 'admin' || user.role === 'super_admin' || 
@@ -256,7 +257,7 @@ export async function POST(request: NextRequest) {
         remetenteValido = true
         mensagemData.remetente_id = conversa.paciente_id
       }
-    } else if (mensagemData.remetente_tipo === 'sistema') {
+    } else if (mensagemData.tipo_remetente === 'sistema') {
       // Apenas admins podem enviar mensagens do sistema
       remetenteValido = user.role === 'admin' || user.role === 'super_admin'
       mensagemData.remetente_id = user.id
@@ -283,8 +284,8 @@ export async function POST(request: NextRequest) {
         remetente_tipo,
         remetente_id,
         lida,
-        created_at,
-        updated_at
+        criado_em,
+        atualizado_em
       `)
       .single()
     
@@ -302,7 +303,7 @@ export async function POST(request: NextRequest) {
     // Atualizar timestamp da conversa
     const { error: updateConversaError } = await supabase
       .from('conversas')
-      .update({ updated_at: new Date().toISOString() })
+      .update({ atualizado_em: new Date().toISOString() })
       .eq('id', mensagemData.conversa_id)
     
     if (updateConversaError) {

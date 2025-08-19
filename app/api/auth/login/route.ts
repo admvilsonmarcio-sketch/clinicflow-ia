@@ -78,9 +78,7 @@ export async function POST(request: NextRequest) {
         role,
         clinica_id,
         ativo,
-        crm,
-        especialidade,
-        telefone,
+        telefone_celular,
         clinicas(
           id,
           nome,

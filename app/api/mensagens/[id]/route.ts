@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { withMedicalAuth, canAccessConsulta } from '@/lib/auth/permissions'
+import { withMedicalAuth } from '@/lib/auth/permissions'
 import { mensagemUpdateSchema, idParamSchema } from '@/lib/validations/schemas'
 import { createRouteHandlerSupabaseClient } from '@/lib/supabase/server'
 import { z } from 'zod'
@@ -30,31 +30,25 @@ export async function GET(
     const { id } = idValidation.data
     const supabase = createRouteHandlerSupabaseClient()
     
-    // Buscar mensagem com dados da conversa e consulta
+    // Buscar mensagem com dados da conversa
     const { data: mensagem, error } = await supabase
       .from('mensagens')
       .select(`
         id,
         conversa_id,
         conteudo,
-        remetente_tipo,
+        tipo_remetente,
         remetente_id,
         lida,
-        created_at,
-        updated_at,
+        criado_em,
+        atualizado_em,
         conversas!inner(
           id,
-          consulta_id,
           paciente_id,
           medico_id,
           ativa,
-          consultas!inner(
-            id,
-            paciente_id,
-            medico_id,
-            clinica_id,
-            status
-          )
+          criado_em,
+          atualizado_em
         )
       `)
       .eq('id', id)
@@ -71,7 +65,14 @@ export async function GET(
     }
     
     // Verificar se o usuário pode acessar esta mensagem
-    if (!await canAccessConsulta(user, mensagem.conversas[0].consulta_id)) {
+    const conversa = mensagem.conversas[0]
+    const canAccess = (
+      user.role === 'admin' ||
+      (user.role === 'medico' && user.clinica_id === conversa.clinica_id) ||
+      (user.role === 'paciente' && user.id === conversa.paciente_id)
+    )
+    
+    if (!canAccess) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -85,10 +86,10 @@ export async function GET(
     if (!mensagem.lida) {
       let shouldMarkAsRead = false
       
-      if (mensagem.remetente_tipo === 'paciente' && user.role === 'medico' && 
+      if (mensagem.tipo_remetente === 'paciente' && user.role === 'medico' && 
           user.id === mensagem.conversas[0].medico_id) {
         shouldMarkAsRead = true
-      } else if (mensagem.remetente_tipo === 'medico' && 
+      } else if (mensagem.tipo_remetente === 'medico' && 
                  user.role === 'admin' || user.role === 'super_admin') {
         shouldMarkAsRead = true
       }
@@ -168,23 +169,18 @@ export async function PUT(
         id,
         conversa_id,
         conteudo,
-        remetente_tipo,
+        tipo_remetente,
         remetente_id,
         lida,
-        created_at,
+        criado_em,
         conversas!inner(
           id,
-          consulta_id,
           paciente_id,
-          medico_id,
-          ativa,
-          consultas!inner(
-            id,
-            paciente_id,
-            medico_id,
-            clinica_id,
-            status
-          )
+          plataforma,
+          status,
+          atribuida_para,
+          clinica_id,
+          ativa
         )
       `)
       .eq('id', id)
@@ -201,7 +197,14 @@ export async function PUT(
     }
     
     // Verificar se o usuário pode acessar esta mensagem
-    if (!await canAccessConsulta(user, mensagem.conversas[0].consulta_id)) {
+    const conversa = mensagem.conversas[0]
+    const canAccess = (
+      user.role === 'admin' ||
+      (user.role === 'medico' && user.clinica_id === conversa.clinica_id) ||
+      (user.role === 'paciente' && user.id === conversa.paciente_id)
+    )
+    
+    if (!canAccess) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -217,7 +220,7 @@ export async function PUT(
     // Apenas o remetente original ou admins podem editar
     if (user.role === 'admin' || user.role === 'super_admin') {
       canEdit = true
-    } else if (mensagem.remetente_tipo === 'medico' && 
+    } else if (mensagem.tipo_remetente === 'medico' && 
                user.role === 'medico' && 
                user.id === mensagem.remetente_id) {
       canEdit = true
@@ -253,11 +256,11 @@ export async function PUT(
         id,
         conversa_id,
         conteudo,
-        remetente_tipo,
+        tipo_remetente,
         remetente_id,
         lida,
-        created_at,
-        updated_at
+        criado_em,
+        atualizado_em
       `)
       .single()
     
@@ -333,22 +336,17 @@ export async function DELETE(
       .select(`
         id,
         conversa_id,
-        remetente_tipo,
+        tipo_remetente,
         remetente_id,
-        created_at,
+        criado_em,
         conversas!inner(
           id,
-          consulta_id,
           paciente_id,
-          medico_id,
-          ativa,
-          consultas!inner(
-            id,
-            paciente_id,
-            medico_id,
-            clinica_id,
-            status
-          )
+          plataforma,
+          status,
+          atribuida_para,
+          clinica_id,
+          ativa
         )
       `)
       .eq('id', id)
@@ -365,7 +363,14 @@ export async function DELETE(
     }
     
     // Verificar se o usuário pode acessar esta mensagem
-    if (!await canAccessConsulta(user, mensagem.conversas[0].consulta_id)) {
+    const conversa = mensagem.conversas[0]
+    const canAccess = (
+      user.role === 'admin' ||
+      (user.role === 'medico' && user.clinica_id === conversa.clinica_id) ||
+      (user.role === 'paciente' && user.id === conversa.paciente_id)
+    )
+    
+    if (!canAccess) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -381,7 +386,7 @@ export async function DELETE(
     // Apenas o remetente original ou admins podem deletar
     if (user.role === 'admin' || user.role === 'super_admin') {
       canDelete = true
-    } else if (mensagem.remetente_tipo === 'medico' && 
+    } else if (mensagem.tipo_remetente === 'medico' && 
                user.role === 'medico' && 
                user.id === mensagem.remetente_id) {
       canDelete = true
@@ -398,7 +403,7 @@ export async function DELETE(
     }
     
     // Verificar se a mensagem pode ser deletada (não muito antiga)
-    const messageAge = Date.now() - new Date(mensagem.created_at).getTime()
+    const messageAge = Date.now() - new Date(mensagem.criado_em).getTime()
     const maxEditTime = 24 * 60 * 60 * 1000 // 24 horas
     
     if (messageAge > maxEditTime && user.role !== 'admin' && user.role !== 'super_admin') {

@@ -48,14 +48,12 @@ export async function GET(request: NextRequest) {
         id,
         nome_completo,
         email,
-        telefone,
+        telefone_celular,
         cargo,
-        especialidade,
-        crm,
         clinica_id,
         ativo,
-        created_at,
-        updated_at,
+        criado_em,
+        atualizado_em,
         clinicas!inner(id, nome)
       `, { count: 'exact' })
     
@@ -91,7 +89,7 @@ export async function GET(request: NextRequest) {
     
     // Aplicar busca se especificada
     if (search) {
-      query = query.or(`nome_completo.ilike.%${search}%,email.ilike.%${search}%,crm.ilike.%${search}%,especialidade.ilike.%${search}%`)
+      query = query.or(`nome_completo.ilike.%${search}%,email.ilike.%${search}%`)
     }
     
     // Aplicar ordenação
@@ -224,35 +222,7 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Verificar se já existe médico com o mesmo CRM (se aplicável)
-    if (perfilData.crm) {
-      const { data: existingCrm, error: crmCheckError } = await supabase
-        .from('perfis')
-        .select('id, crm')
-        .eq('crm', perfilData.crm)
-        .single()
-      
-      if (crmCheckError && crmCheckError.code !== 'PGRST116') {
-        console.error('Erro ao verificar CRM existente:', crmCheckError)
-        return NextResponse.json(
-          { 
-            error: 'Database error',
-            message: 'Erro ao verificar dados do médico.'
-          },
-          { status: 500 }
-        )
-      }
-      
-      if (existingCrm) {
-        return NextResponse.json(
-          { 
-            error: 'Conflict',
-            message: 'Já existe um médico cadastrado com este CRM.'
-          },
-          { status: 409 }
-        )
-      }
-    }
+    // CRM removido - campo não existe na tabela perfis
     
     // Verificar se a clínica existe
     const { data: clinica, error: clinicaError } = await supabase
@@ -289,14 +259,12 @@ export async function POST(request: NextRequest) {
         id,
         nome_completo,
         email,
-        telefone,
+        telefone_celular,
         cargo,
-        especialidade,
-        crm,
         clinica_id,
         ativo,
-        created_at,
-        updated_at,
+        criado_em,
+        atualizado_em,
         clinicas!inner(id, nome)
       `)
       .single()

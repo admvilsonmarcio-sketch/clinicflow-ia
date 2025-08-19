@@ -59,11 +59,11 @@ export async function GET(request: NextRequest) {
         google_calendar_event_id,
         valor,
         duracao_minutos,
-        created_at,
-        updated_at,
-        pacientes!inner(id, nome_completo, email, telefone),
-        perfis!medico_id(id, nome_completo, cargo, especialidade),
-        clinicas!inner(id, nome)
+        criado_em,
+        atualizado_em,
+        pacientes(id, nome_completo, email, telefone_celular),
+        perfis!medico_id(id, nome_completo, cargo),
+        clinicas(id, nome)
       `, { count: 'exact' })
     
     // Filtrar por clínica
@@ -307,10 +307,10 @@ export async function POST(request: NextRequest) {
         google_calendar_event_id,
         valor,
         duracao_minutos,
-        created_at,
-        updated_at,
-        pacientes!inner(id, nome_completo, email, telefone),
-        perfis!medico_id(id, nome_completo, cargo, especialidade)
+        criado_em,
+        atualizado_em,
+        pacientes(id, nome_completo, email, telefone_celular),
+        perfis!medico_id(id, nome_completo, cargo)
       `)
       .single()
     
