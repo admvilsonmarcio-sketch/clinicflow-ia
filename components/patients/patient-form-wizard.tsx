@@ -417,7 +417,7 @@ export function PatientFormWizard({
         console.log('Dados originais:', pacienteData)
         console.log('Dados sanitizados:', sanitizedData)
 
-        let result
+        let result: any
         if (mode === 'create') {
           // Verificar se já existe um paciente com o mesmo CPF ou email
           const { data: existingPatient, error: checkError } = await supabase

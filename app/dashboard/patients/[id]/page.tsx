@@ -77,7 +77,7 @@ export default async function PatientPage({ params }: PatientPageProps) {
                 <div className="flex flex-col gap-2 sm:flex-row lg:gap-3">
                     <Button 
                         size="sm"
-                        className="w-full bg-blue-600 text-white hover:bg-blue-700 sm:w-auto px-3 py-2 text-sm"
+                        className="w-full bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700 sm:w-auto"
                     >
                         <MessageCircle className="mr-2 size-4" />
                         <span className="block sm:hidden">Chat</span>
@@ -86,7 +86,7 @@ export default async function PatientPage({ params }: PatientPageProps) {
                     <Button 
                         variant="outline" 
                         size="sm"
-                        className="w-full border-green-600 text-green-600 hover:bg-green-50 sm:w-auto px-3 py-2 text-sm"
+                        className="w-full border-green-600 px-3 py-2 text-sm text-green-600 hover:bg-green-50 sm:w-auto"
                     >
                         <Calendar className="mr-2 size-4" />
                         <span className="block sm:hidden">Agenda</span>
@@ -95,7 +95,7 @@ export default async function PatientPage({ params }: PatientPageProps) {
                     <Button 
                         size="sm" 
                         variant="outline"
-                        className="w-full border-gray-300 hover:border-blue-400 sm:w-auto px-3 py-2 text-sm"
+                        className="w-full border-gray-300 px-3 py-2 text-sm hover:border-blue-400 sm:w-auto"
                         asChild
                     >
                         <Link href={`/dashboard/patients/${patient.id}/edit`}>

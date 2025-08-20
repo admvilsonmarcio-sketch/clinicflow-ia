@@ -80,7 +80,7 @@ export default async function EditPatientPage({ params }: EditPatientPageProps) 
                                 </p>
                             </div>
                         </div>
-                        <Button variant="outline" size="sm" className="w-full lg:w-auto px-3 py-2 text-sm" asChild>
+                        <Button variant="outline" size="sm" className="w-full px-3 py-2 text-sm lg:w-auto" asChild>
                             <Link href="/dashboard/patients">
                                 <ArrowLeft className="mr-2 size-4" />
                                 <span className="block sm:hidden">Voltar</span>

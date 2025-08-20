@@ -92,14 +92,14 @@ export default function HomePage() {
         <section className="relative overflow-hidden border-b border-white/5">
           {/* fundo discreto */}
           <div aria-hidden className="pointer-events-none absolute inset-0">
-            <div className="absolute -left-16 top-0 h-72 w-72 rounded-full bg-teal-500/10 blur-3xl" />
-            <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" />
+            <div className="absolute -left-16 top-0 size-72 rounded-full bg-teal-500/10 blur-3xl" />
+            <div className="absolute bottom-0 right-0 size-72 rounded-full bg-emerald-500/10 blur-3xl" />
           </div>
 
           <div className="container relative mx-auto grid gap-10 px-4 py-16 md:grid-cols-2 md:py-20">
             <div>
               <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-teal-400/30 bg-teal-400/10 px-3 py-1 text-xs text-teal-300">
-                <span className="h-2 w-2 rounded-full bg-teal-400" /> 30 dias grátis • Cancele quando quiser
+                <span className="size-2 rounded-full bg-teal-400" /> 30 dias grátis • Cancele quando quiser
               </span>
               <h1 className="mt-2 text-3xl font-semibold text-white md:text-5xl">
                 Aumente sua receita médica em até 300% com IA + Automação
@@ -218,7 +218,7 @@ export default function HomePage() {
                   className="rounded-xl border border-emerald-400/20 bg-white/5 p-6 shadow-sm hover:border-emerald-400/40"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-slate-800 text-sm font-medium">
+                    <div className="grid size-10 place-items-center rounded-full border border-white/10 bg-slate-800 text-sm font-medium">
                       {t.name.split(' ')[1]?.[0] ?? t.name[0]}
                     </div>
                     <figcaption className="flex flex-col">

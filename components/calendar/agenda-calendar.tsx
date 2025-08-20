@@ -41,8 +41,8 @@ function AgendaCalendar({
     })
 
     return (
-      <div className="relative w-full h-full flex flex-col items-center justify-start p-1">
-        <div className="text-center mb-1">
+      <div className="relative flex size-full flex-col items-center justify-start p-1">
+        <div className="mb-1 text-center">
           {date.getDate()}
         </div>
         {consultasDoDia.length > 0 && (
@@ -53,7 +53,7 @@ function AgendaCalendar({
                 <div
                   key={consulta.id}
                   className={cn(
-                    "text-[0.6rem] sm:text-xs px-0.5 sm:px-1 py-0.5 rounded truncate cursor-pointer hover:opacity-80 transition-opacity",
+                    "cursor-pointer truncate rounded p-0.5 text-[0.6rem] transition-opacity hover:opacity-80 sm:px-1 sm:text-xs",
                     {
                       'bg-green-100 text-green-800': consulta.status === 'confirmada',
                       'bg-red-100 text-red-800': consulta.status === 'cancelada',
@@ -72,7 +72,7 @@ function AgendaCalendar({
               )
             })}
             {consultasDoDia.length > 2 && (
-              <div className="text-[0.6rem] sm:text-xs text-muted-foreground text-center py-0.5">
+              <div className="py-0.5 text-center text-[0.6rem] text-muted-foreground sm:text-xs">
                 +{consultasDoDia.length - 2}
               </div>
             )}
@@ -109,7 +109,7 @@ function AgendaCalendar({
         row: "flex w-full mt-1 sm:mt-2",
         cell: "h-16 w-12 sm:h-20 sm:w-16 text-center text-xs sm:text-sm p-0 relative border border-border/50 hover:bg-muted/50 transition-colors",
         day: cn(
-          "w-full h-full p-0 font-normal aria-selected:opacity-100 hover:bg-transparent"
+          "size-full p-0 font-normal hover:bg-transparent aria-selected:opacity-100"
         ),
         day_selected:
           "bg-primary/10 text-primary hover:bg-primary/20 focus:bg-primary/10",

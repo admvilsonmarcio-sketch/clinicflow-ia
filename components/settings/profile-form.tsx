@@ -176,7 +176,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         </div>
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">Cargo</label>
-          <div className="flex items-center h-10">
+          <div className="flex h-10 items-center">
             <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800">
               {profile?.cargo === 'medico' ? 'Médico' :
                 profile?.cargo === 'assistente' ? 'Assistente' :
@@ -186,11 +186,11 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           </div>
         </div>
       </div>
-      <div className="flex justify-end pt-4 border-t">
+      <div className="flex justify-end border-t pt-4">
         <Button 
           type="submit" 
           disabled={loading}
-          className="w-full sm:w-auto min-w-[140px] h-10"
+          className="h-10 w-full min-w-[140px] sm:w-auto"
         >
           {loading ? (
             <>

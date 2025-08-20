@@ -207,19 +207,19 @@ export default function AgendamentosPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Agendamentos</h1>
           <p className="text-muted-foreground">
             Gerencie consultas e visualize a agenda médica
           </p>
-          <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+          <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
-              <Users className="h-4 w-4" />
+              <Users className="size-4" />
               <span>{patients.length} pacientes</span>
             </div>
             <div className="flex items-center gap-1">
-              <Stethoscope className="h-4 w-4" />
+              <Stethoscope className="size-4" />
               <span>{medicos.length} médicos</span>
             </div>
           </div>
@@ -228,11 +228,11 @@ export default function AgendamentosPage() {
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={openCreateDialog} className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
+              <Plus className="size-4" />
               Nova Consulta
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
                 {editingConsulta ? 'Editar Consulta' : 'Nova Consulta'}
@@ -267,14 +267,14 @@ export default function AgendamentosPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
+            <Filter className="size-5" />
             Filtros
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder="Buscar consultas..."
                 value={searchTerm}
@@ -335,23 +335,23 @@ export default function AgendamentosPage() {
       <Tabs defaultValue="calendar" className="space-y-4">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="calendar" className="flex items-center gap-2">
-            <CalendarIcon className="h-4 w-4" />
+            <CalendarIcon className="size-4" />
             <span className="hidden sm:inline">Calendário</span>
             <span className="sm:hidden">Cal.</span>
           </TabsTrigger>
           <TabsTrigger value="list" className="flex items-center gap-2">
-            <Clock className="h-4 w-4" />
+            <Clock className="size-4" />
             Lista
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="calendar" className="space-y-4">
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
             {/* Calendário */}
             <div className="xl:col-span-2">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                  <CardTitle className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
                     <span className="text-lg sm:text-xl">Calendário - {format(currentDate, 'MMMM yyyy', { locale: ptBR })}</span>
                     <div className="flex gap-1 sm:gap-2">
                       <Button 
@@ -397,7 +397,7 @@ export default function AgendamentosPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Clock className="h-5 w-5" />
+                    <Clock className="size-5" />
                     {selectedDate 
                       ? `Consultas - ${format(selectedDate, 'dd/MM/yyyy')}` 
                       : 'Selecione uma data'
@@ -413,15 +413,15 @@ export default function AgendamentosPage() {
                           .map((consulta: Consulta) => (
                             <div 
                               key={consulta.id} 
-                              className="p-3 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
+                              className="cursor-pointer rounded-lg border p-3 transition-colors hover:bg-muted/50"
                               onClick={() => openEditDialog(consulta)}
                             >
                               <div className="flex items-start justify-between gap-2">
-                                <div className="flex-1 min-w-0">
-                                  <p className="font-medium text-sm truncate">
+                                <div className="min-w-0 flex-1">
+                                  <p className="truncate text-sm font-medium">
                                     {consulta.titulo}
                                   </p>
-                                  <p className="text-xs text-muted-foreground truncate">
+                                  <p className="truncate text-xs text-muted-foreground">
                     {consulta.pacientes[0]?.nome_completo}
                   </p>
                                   <p className="text-xs text-muted-foreground">
@@ -438,12 +438,12 @@ export default function AgendamentosPage() {
                         }
                       </div>
                     ) : (
-                      <p className="text-sm text-muted-foreground text-center py-4">
+                      <p className="py-4 text-center text-sm text-muted-foreground">
                         Nenhuma consulta agendada para este dia
                       </p>
                     )
                   ) : (
-                    <p className="text-sm text-muted-foreground text-center py-4">
+                    <p className="py-4 text-center text-sm text-muted-foreground">
                       Clique em uma data no calendário para ver as consultas
                     </p>
                   )}
@@ -468,33 +468,33 @@ export default function AgendamentosPage() {
                     .map((consulta) => (
                       <div 
                         key={consulta.id} 
-                        className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
+                        className="cursor-pointer rounded-lg border p-4 transition-colors hover:bg-muted/50"
                         onClick={() => openEditDialog(consulta)}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-2">
+                            <div className="mb-2 flex items-center gap-3">
                               <h3 className="font-medium">{consulta.titulo}</h3>
                               <Badge className={statusColors[consulta.status]}>
                                 {statusLabels[consulta.status]}
                               </Badge>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-muted-foreground">
+                            <div className="grid grid-cols-1 gap-2 text-sm text-muted-foreground md:grid-cols-3">
                               <div className="flex items-center gap-1">
-                                <User className="h-3 w-3" />
+                                <User className="size-3" />
                                 {consulta.pacientes[0]?.nome_completo}
                               </div>
                               <div className="flex items-center gap-1">
-                                <CalendarIcon className="h-3 w-3" />
+                                <CalendarIcon className="size-3" />
                                 {format(new Date(consulta.data_consulta), 'dd/MM/yyyy HH:mm')}
                               </div>
                               <div className="flex items-center gap-1">
-                                <Clock className="h-3 w-3" />
+                                <Clock className="size-3" />
                                 {consulta.duracao_minutos} minutos
                               </div>
                             </div>
                             {consulta.descricao && (
-                              <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+                              <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
                                 {consulta.descricao}
                               </p>
                             )}
@@ -505,7 +505,7 @@ export default function AgendamentosPage() {
                   }
                 </div>
               ) : (
-                <p className="text-center text-muted-foreground py-8">
+                <p className="py-8 text-center text-muted-foreground">
                   Nenhuma consulta encontrada com os filtros aplicados
                 </p>
               )}

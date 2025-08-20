@@ -306,10 +306,10 @@ export function ConsultaForm({
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <CalendarIcon className="h-5 w-5" />
+          <CalendarIcon className="size-5" />
           {mode === 'create' ? 'Nova Consulta' : 'Editar Consulta'}
         </CardTitle>
       </CardHeader>
@@ -335,14 +335,14 @@ export function ConsultaForm({
             />
 
             {/* Paciente e Médico */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
                 name="paciente_id"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel className="flex items-center gap-2">
-                      <User className="h-4 w-4" />
+                      <User className="size-4" />
                       Paciente
                     </FormLabel>
                     <Popover open={openPaciente} onOpenChange={setOpenPaciente}>
@@ -359,11 +359,11 @@ export function ConsultaForm({
                             {field.value
                               ? pacientes.find((paciente) => paciente.id === field.value)?.nome_completo
                               : "Selecione o paciente"}
-                            <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            <Search className="ml-2 size-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-[300px] sm:w-[400px] p-0">
+                      <PopoverContent className="w-[300px] p-0 sm:w-[400px]">
                         <Command>
                           <CommandInput placeholder="Buscar paciente..." />
                           <CommandEmpty>Nenhum paciente encontrado.</CommandEmpty>
@@ -405,7 +405,7 @@ export function ConsultaForm({
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4" />
+                      <MapPin className="size-4" />
                       Médico
                     </FormLabel>
                     <Popover open={openMedico} onOpenChange={setOpenMedico}>
@@ -422,11 +422,11 @@ export function ConsultaForm({
                             {field.value
                               ? medicos.find((medico) => medico.id === field.value)?.nome_completo
                               : "Selecione o médico"}
-                            <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            <Search className="ml-2 size-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-[300px] sm:w-[400px] p-0">
+                      <PopoverContent className="w-[300px] p-0 sm:w-[400px]">
                         <Command>
                           <CommandInput placeholder="Buscar médico..." />
                           <CommandEmpty>Nenhum médico encontrado.</CommandEmpty>
@@ -461,7 +461,7 @@ export function ConsultaForm({
             </div>
 
             {/* Data, Hora e Duração */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <FormField
                 control={form.control}
                 name="data_consulta"
@@ -483,7 +483,7 @@ export function ConsultaForm({
                             ) : (
                               <span>Selecione a data</span>
                             )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            <CalendarIcon className="ml-auto size-4 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
@@ -511,7 +511,7 @@ export function ConsultaForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center gap-2">
-                      <Clock className="h-4 w-4" />
+                      <Clock className="size-4" />
                       Hora
                     </FormLabel>
                     <FormControl>
@@ -624,7 +624,7 @@ export function ConsultaForm({
             {/* Alerta de conflitos */}
             {conflitos.length > 0 && (
               <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
+                <AlertCircle className="size-4" />
                 <AlertDescription>
                   <div className="space-y-2">
                     <p className="font-medium">Problemas detectados:</p>
@@ -640,7 +640,7 @@ export function ConsultaForm({
                         )}
                       </div>
                     ))}
-                    <p className="text-xs mt-2 opacity-75">
+                    <p className="mt-2 text-xs opacity-75">
                       Dica: Mantenha pelo menos 15 minutos de intervalo entre consultas.
                     </p>
                   </div>
