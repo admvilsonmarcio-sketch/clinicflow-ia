@@ -205,26 +205,7 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Verificar se os IDs de paciente e médico coincidem com a consulta
-    if (conversaData.paciente_id !== consulta.paciente_id) {
-      return NextResponse.json(
-        { 
-          error: 'Conflict',
-          message: 'ID do paciente não coincide com a consulta.'
-        },
-        { status: 409 }
-      )
-    }
-    
-    if (conversaData.medico_id !== consulta.medico_id) {
-      return NextResponse.json(
-        { 
-          error: 'Conflict',
-          message: 'ID do médico não coincide com a consulta.'
-        },
-        { status: 409 }
-      )
-    }
+    // Nota: Verificações de consulta removidas pois conversas não têm mais relação direta com consultas
     
     // Nota: Verificação de conversa existente removida pois não há mais relação direta com consultas
     

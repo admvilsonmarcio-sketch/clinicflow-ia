@@ -57,8 +57,10 @@ export async function GET(request: NextRequest) {
       .from('conversas')
       .select(`
         id,
+        clinica_id,
         paciente_id,
-        medico_id,
+        atribuida_para,
+        status,
         criado_em,
         atualizado_em
       `)
@@ -232,10 +234,10 @@ export async function POST(request: NextRequest) {
     }
     
     // Verificar se a conversa está ativa
-    if (!conversa.ativa) {
+    if (conversa.status !== 'ativa') {
       return NextResponse.json(
         { 
-          error: 'Conflict',
+          error: 'Bad Request',
           message: 'Não é possível enviar mensagens em conversas inativas.'
         },
         { status: 409 }
@@ -247,13 +249,13 @@ export async function POST(request: NextRequest) {
     
     if (mensagemData.tipo_remetente === 'medico') {
       // Verificar se o usuário é médico e é o médico da conversa
-      remetenteValido = user.role === 'medico' && user.id === conversa.medico_id
+      remetenteValido = user.role === 'medico' && user.id === conversa.atribuida_para
       mensagemData.remetente_id = user.id
     } else if (mensagemData.tipo_remetente === 'paciente') {
       // Para mensagens de paciente, verificar se o usuário tem permissão de representar o paciente
       // (admin/médico podem enviar mensagens em nome do paciente)
       if (user.role === 'admin' || user.role === 'super_admin' || 
-          (user.role === 'medico' && user.id === conversa.medico_id)) {
+          (user.role === 'medico' && user.id === conversa.atribuida_para)) {
         remetenteValido = true
         mensagemData.remetente_id = conversa.paciente_id
       }

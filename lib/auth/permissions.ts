@@ -2,7 +2,7 @@ import { createRouteHandlerSupabaseClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Tipos de cargo disponíveis
-export type UserRole = 'super_admin' | 'admin' | 'medico' | 'enfermeiro' | 'recepcionista' | 'assistente'
+export type UserRole = 'super_admin' | 'admin' | 'medico' | 'enfermeiro' | 'recepcionista' | 'assistente' | 'paciente'
 
 // Tipos de permissão
 export type Permission = 
@@ -88,6 +88,15 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     'conversas:read',
     // Mensagens (apenas leitura)
     'mensagens:read'
+  ],
+  
+  paciente: [
+    // Consultas (pode ver suas próprias consultas)
+    'consultas:read',
+    // Conversas (pode participar de conversas)
+    'conversas:read', 'conversas:write',
+    // Mensagens (pode enviar e receber mensagens)
+    'mensagens:read', 'mensagens:write'
   ]
 }
 

@@ -127,7 +127,7 @@ export interface Database {
           nome_completo: string
           foto_url: string | null
           telefone: string | null
-          cargo: 'admin' | 'medico' | 'assistente' | 'recepcionista'
+          cargo: 'super_admin' | 'admin' | 'medico' | 'enfermeiro' | 'recepcionista' | 'assistente'
           clinica_id: string | null
           criado_em: string
           atualizado_em: string
@@ -138,7 +138,7 @@ export interface Database {
           nome_completo: string
           foto_url?: string | null
           telefone?: string | null
-          cargo?: 'admin' | 'medico' | 'assistente' | 'recepcionista'
+          cargo?: 'super_admin' | 'admin' | 'medico' | 'enfermeiro' | 'recepcionista' | 'assistente'
           clinica_id?: string | null
           criado_em?: string
           atualizado_em?: string
@@ -149,7 +149,7 @@ export interface Database {
           nome_completo?: string
           foto_url?: string | null
           telefone?: string | null
-          cargo?: 'admin' | 'medico' | 'assistente' | 'recepcionista'
+          cargo?: 'super_admin' | 'admin' | 'medico' | 'enfermeiro' | 'recepcionista' | 'assistente'
           clinica_id?: string | null
           criado_em?: string
           atualizado_em?: string

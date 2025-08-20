@@ -44,9 +44,10 @@ export async function GET(
         atualizado_em,
         conversas!inner(
           id,
+          clinica_id,
           paciente_id,
-          medico_id,
-          ativa,
+          atribuida_para,
+          status,
           criado_em,
           atualizado_em
         )
@@ -87,7 +88,7 @@ export async function GET(
       let shouldMarkAsRead = false
       
       if (mensagem.tipo_remetente === 'paciente' && user.role === 'medico' && 
-          user.id === mensagem.conversas[0].medico_id) {
+          user.id === mensagem.conversas[0].atribuida_para) {
         shouldMarkAsRead = true
       } else if (mensagem.tipo_remetente === 'medico' && 
                  user.role === 'admin' || user.role === 'super_admin') {
@@ -237,7 +238,7 @@ export async function PUT(
     }
     
     // Verificar se a conversa ainda está ativa (para edições de conteúdo)
-    if (updateData.conteudo && !mensagem.conversas[0].ativa) {
+    if (updateData.conteudo && mensagem.conversas[0].status !== 'ativa') {
       return NextResponse.json(
         { 
           error: 'Conflict',
