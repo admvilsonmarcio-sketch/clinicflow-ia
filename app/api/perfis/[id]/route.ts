@@ -77,7 +77,7 @@ export async function GET(
     
     // Buscar estatísticas se for um médico e o usuário tiver permissão
     let stats = null
-    if (perfil.cargo === 'medico' && (user.cargo === 'admin' || user.id === perfilId)) {
+    if (perfil.cargo === 'medico' && (user.role === 'admin' || user.id === perfilId)) {
       const [consultasCount, consultasHoje, consultasSemana] = await Promise.all([
         supabase
           .from('consultas')
@@ -199,7 +199,7 @@ export async function PUT(
     
     // Verificar permissões específicas para campos sensíveis
     const isSelfEdit = user.id === perfilId
-    const isAdmin = user.cargo === 'admin'
+    const isAdmin = user.role === 'admin'
     
     // Usuários comuns só podem editar dados básicos do próprio perfil
     if (isSelfEdit && !isAdmin) {
