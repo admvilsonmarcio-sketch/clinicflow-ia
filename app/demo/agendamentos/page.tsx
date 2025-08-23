@@ -29,7 +29,7 @@ import MediflowFullCalendar from '@/components/calendar/full-calendar'
 import ConsultaDetailsModal from '@/components/calendar/consulta-details-modal'
 import QuickCreateModal from '@/components/calendar/quick-create-modal'
 import { ConsultaForm } from '@/components/forms/consulta-form'
-import { useConsultas } from '@/hooks/use-consultas'
+import { useConsultas } from '@/hooks/use-consultas-demo'
 import { usePatients } from '@/hooks/use-patients'
 import { useMedicos } from '@/hooks/use-medicos'
 import type { ConsultaFormData, Paciente, Medico, ConsultaExistente, Consulta, ConsultaDetalhada } from '@/types/consulta'
@@ -100,6 +100,7 @@ export default function AgendamentosPage() {
         duracao_minutos: data.duracao_minutos,
         status: data.status,
         observacoes: data.observacoes,
+        lembrete_enviado: false,
       })
       
       setConsultaFormOpen(false)
@@ -283,9 +284,9 @@ export default function AgendamentosPage() {
       {/* Header */}
       <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Agendamentos</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Agendamentos (Demo)</h1>
           <p className="text-muted-foreground">
-            Gerencie consultas e visualize a agenda médica
+            Demonstração do sistema de agendamentos
           </p>
           <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
@@ -345,7 +346,7 @@ export default function AgendamentosPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todos os profissionais</SelectItem>
-                {medicos?.map((medico) => (
+                {medicos?.map((medico: Medico) => (
                   <SelectItem key={medico.id} value={medico.id}>
                     {medico.nome_completo}
                   </SelectItem>

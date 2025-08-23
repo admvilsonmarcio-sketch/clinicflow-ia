@@ -247,7 +247,7 @@ export async function POST(request: NextRequest) {
     // Validar remetente baseado no tipo
     let remetenteValido = false
     
-    if (mensagemData.tipo_remetente === 'medico') {
+    if (mensagemData.tipo_remetente === 'humano') {
       // Verificar se o usuário é médico e é o médico da conversa
       remetenteValido = user.role === 'medico' && user.id === conversa.atribuida_para
       mensagemData.remetente_id = user.id

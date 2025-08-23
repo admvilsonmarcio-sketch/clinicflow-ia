@@ -63,7 +63,7 @@ export async function GET(
     const canAccess = 
       user.id === perfilId || // Próprio perfil
       canAccessClinica(user, perfil.clinica_id) || // Mesma clínica
-      user.role === 'super_admin' // Super admin vê tudo
+      user.role === 'admin' // Super admin vê tudo
     
     if (!canAccess) {
       return NextResponse.json(
@@ -77,7 +77,7 @@ export async function GET(
     
     // Buscar estatísticas se for um médico e o usuário tiver permissão
     let stats = null
-    if (perfil.cargo === 'medico' && (user.role === 'admin' || user.role === 'super_admin' || user.id === perfilId)) {
+    if (perfil.cargo === 'medico' && (user.cargo === 'admin' || user.id === perfilId)) {
       const [consultasCount, consultasHoje, consultasSemana] = await Promise.all([
         supabase
           .from('consultas')
@@ -185,7 +185,7 @@ export async function PUT(
     const canEdit = 
       user.id === perfilId || // Próprio perfil (dados básicos)
       canAccessClinica(user, existingPerfil.clinica_id) || // Admin da mesma clínica
-      user.role === 'super_admin' // Super admin edita tudo
+      user.role === 'admin' // Super admin edita tudo
     
     if (!canEdit) {
       return NextResponse.json(
@@ -199,7 +199,7 @@ export async function PUT(
     
     // Verificar permissões específicas para campos sensíveis
     const isSelfEdit = user.id === perfilId
-    const isAdmin = user.role === 'admin' || user.role === 'super_admin'
+    const isAdmin = user.cargo === 'admin'
     
     // Usuários comuns só podem editar dados básicos do próprio perfil
     if (isSelfEdit && !isAdmin) {
@@ -230,8 +230,8 @@ export async function PUT(
         )
       }
       
-      // Apenas super_admins podem criar/alterar para super_admin
-      if (updateData.cargo === 'super_admin' && user.role !== 'super_admin') {
+      // Apenas admins podem criar/alterar para admin
+      if (updateData.cargo === 'admin' && user.role !== 'admin') {
         return NextResponse.json(
           { 
             error: 'Forbidden',
@@ -406,7 +406,7 @@ export async function DELETE(
     // Verificar permissões
     const canDelete = 
       canAccessClinica(user, existingPerfil.clinica_id) || // Admin da mesma clínica
-      user.role === 'super_admin' // Super admin deleta tudo
+      user.role === 'admin' // Super admin deleta tudo
     
     if (!canDelete) {
       return NextResponse.json(
@@ -418,8 +418,8 @@ export async function DELETE(
       )
     }
     
-    // Apenas super_admins podem deletar outros super_admins
-    if (existingPerfil.cargo === 'super_admin' && user.role !== 'super_admin') {
+    // Apenas admins podem deletar outros admins
+    if (existingPerfil.cargo === 'admin' && user.role !== 'admin') {
       return NextResponse.json(
         { 
           error: 'Forbidden',

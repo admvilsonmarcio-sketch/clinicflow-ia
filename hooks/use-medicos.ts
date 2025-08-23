@@ -1,72 +1,63 @@
+
 'use client'
 
-import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { useToast } from '@/components/ui/use-toast'
+import { useState, useEffect, useCallback } from 'react'
+import { toast } from '@/components/ui/use-toast'
 
-interface Medico {
+export interface Medico {
   id: string
   nome_completo: string
   email?: string
+  cargo: string
+  clinica_id?: string
   telefone?: string
-
-  crm?: string
-  cargo: 'medico' | 'admin' | 'super_admin'
-  clinica_id: string
-  ativo: boolean
-  criado_em: string
-  atualizado_em: string
+  foto_url?: string
 }
 
-interface UseMedicos {
+interface UseMedicosOptions {
+  clinicaId?: string
+}
+
+interface UseMedicosReturn {
   medicos: Medico[]
   loading: boolean
   error: string | null
-  fetchMedicos: () => Promise<void>
-  searchMedicos: (query: string) => Medico[]
-  getMedicoById: (id: string) => Medico | undefined
-  getActiveMedicos: () => Medico[]
+  refetch: () => Promise<void>
 }
 
-export function useMedicos(): UseMedicos {
+export function useMedicos(options: UseMedicosOptions = {}): UseMedicosReturn {
   const [medicos, setMedicos] = useState<Medico[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { toast } = useToast()
-  const supabase = createClient()
 
-  const fetchMedicos = async () => {
+  const fetchMedicos = useCallback(async () => {
     try {
       setLoading(true)
       setError(null)
 
-      const { data, error: supabaseError } = await supabase
-        .from('perfis')
-        .select(`
-          id,
-          nome_completo,
-          email,
-          telefone,
+      // Construir URL da API com parâmetros
+      const searchParams = new URLSearchParams()
+      searchParams.append('cargo', 'medicos') // Buscar apenas médicos e admins
+      searchParams.append('limit', '100') // Buscar até 100 registros
       
-          crm,
-          cargo,
-          clinica_id,
-          ativo,
-          criado_em,
-          atualizado_em
-        `)
-        .in('cargo', ['medico', 'admin'])
-        .eq('ativo', true)
-        .order('nome_completo', { ascending: true })
-
-      if (supabaseError) {
-        throw new Error(supabaseError.message)
+      if (options.clinicaId) {
+        searchParams.append('clinica_id', options.clinicaId)
       }
 
-      setMedicos(data || [])
+      const response = await fetch(`/api/perfis?${searchParams.toString()}`)
+      
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || 'Erro ao buscar profissionais')
+      }
+      
+      const data = await response.json()
+      setMedicos(data.data || [])
+      
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Erro ao buscar médicos'
+      const errorMessage = err instanceof Error ? err.message : 'Erro ao carregar profissionais'
       setError(errorMessage)
+      console.error('Erro ao buscar profissionais:', err)
       toast({
         title: 'Erro',
         description: errorMessage,
@@ -75,39 +66,19 @@ export function useMedicos(): UseMedicos {
     } finally {
       setLoading(false)
     }
-  }
+  }, [JSON.stringify(options)])
 
-  const searchMedicos = (query: string): Medico[] => {
-    if (!query.trim()) return medicos
-
-    const searchTerm = query.toLowerCase().trim()
-    return medicos.filter(medico => 
-      medico.nome_completo.toLowerCase().includes(searchTerm) ||
-      medico.email?.toLowerCase().includes(searchTerm) ||
-      medico.cargo?.toLowerCase().includes(searchTerm) ||
-      medico.crm?.includes(searchTerm)
-    )
-  }
-
-  const getMedicoById = (id: string): Medico | undefined => {
-    return medicos.find(medico => medico.id === id)
-  }
-
-  const getActiveMedicos = (): Medico[] => {
-    return medicos.filter(medico => medico.ativo)
-  }
-
+  // Carregar médicos na inicialização
   useEffect(() => {
     fetchMedicos()
-  }, [])
+  }, [fetchMedicos])
 
   return {
     medicos,
     loading,
     error,
-    fetchMedicos,
-    searchMedicos,
-    getMedicoById,
-    getActiveMedicos
+    refetch: fetchMedicos
   }
 }
+
+export type { UseMedicosOptions, UseMedicosReturn }

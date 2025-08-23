@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
@@ -43,7 +44,7 @@ export function useConsultas(options: UseConsultasOptions = {}): UseConsultasRet
       setLoading(true)
       setError(null)
 
-      // Construir query
+      // Construir query - CAMPOS CORRIGIDOS conforme banco.sql
       let query = supabase
         .from('consultas')
         .select(`
@@ -110,7 +111,7 @@ export function useConsultas(options: UseConsultasOptions = {}): UseConsultasRet
     } finally {
       setLoading(false)
     }
-  }, [supabase, options])
+  }, [supabase, JSON.stringify(options)])
 
   const getConsultasForMonth = useCallback(async (date: Date) => {
     const startDate = startOfMonth(date)
@@ -172,7 +173,7 @@ export function useConsultas(options: UseConsultasOptions = {}): UseConsultasRet
     } finally {
       setLoading(false)
     }
-  }, [supabase, options])
+  }, [supabase, JSON.stringify(options)])
 
   const createConsulta = useCallback(async (data: CreateConsultaData): Promise<Consulta | null> => {
     try {
@@ -340,7 +341,7 @@ export function useConsultas(options: UseConsultasOptions = {}): UseConsultasRet
   // Carregar consultas na inicialização
   useEffect(() => {
     fetchConsultas()
-  }, [fetchConsultas])
+  }, []) // Remover fetchConsultas para evitar loops
 
   return {
     consultas,

@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -6,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { format, addMinutes, isBefore, isAfter, startOfDay, endOfDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { CalendarIcon, Clock, User, MapPin, AlertCircle, Search } from 'lucide-react'
+import { CalendarIcon, Clock, User, MapPin, AlertCircle, Search, UserCheck } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -49,7 +50,7 @@ import type {
   ConflitosUnion 
 } from '@/types/consulta'
 
-// Schema de validação usando Zod
+// Schema de validação usando Zod - CORRIGIDO para a estrutura real
 const consultaFormSchema = z.object({
   titulo: z.string()
     .min(3, 'Título deve ter pelo menos 3 caracteres')
@@ -63,7 +64,7 @@ const consultaFormSchema = z.object({
     .uuid('Selecione um paciente válido'),
   
   medico_id: z.string()
-    .uuid('Selecione um médico válido'),
+    .uuid('Selecione um profissional válido'),
   
   data_consulta: z.date({
     required_error: 'Data da consulta é obrigatória',
@@ -86,9 +87,6 @@ const consultaFormSchema = z.object({
     .max(1000, 'Observações devem ter no máximo 1000 caracteres')
     .optional(),
 })
-
-// Usar o tipo do arquivo de tipos compartilhados
-// type ConsultaFormData = z.infer<typeof consultaFormSchema>
 
 interface ConsultaFormProps {
   initialData?: Partial<ConsultaFormData & { id: string }>
@@ -260,7 +258,7 @@ export function ConsultaForm({
       console.error('Erro ao verificar conflitos:', error)
       setConflitos([])
     }
-  }, [watchedValues, consultasExistentes, mode, initialData?.id])
+  }, [JSON.stringify(watchedValues), consultasExistentes?.length, mode, initialData?.id])
 
   const handleSubmit = async (data: ConsultaFormData) => {
     try {
@@ -334,7 +332,7 @@ export function ConsultaForm({
               )}
             />
 
-            {/* Paciente e Médico */}
+            {/* Paciente e Profissional */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
@@ -384,8 +382,8 @@ export function ConsultaForm({
                                       <span className="text-xs text-muted-foreground">{paciente.email}</span>
                                     )}
                                     {paciente.telefone_celular && (
-                  <span className="text-xs text-muted-foreground">{paciente.telefone_celular}</span>
-                )}
+                                      <span className="text-xs text-muted-foreground">{paciente.telefone_celular}</span>
+                                    )}
                                   </div>
                                 </CommandItem>
                               ))}
@@ -405,8 +403,8 @@ export function ConsultaForm({
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel className="flex items-center gap-2">
-                      <MapPin className="size-4" />
-                      Médico
+                      <UserCheck className="size-4" />
+                      Profissional
                     </FormLabel>
                     <Popover open={openMedico} onOpenChange={setOpenMedico}>
                       <PopoverTrigger asChild>
@@ -421,15 +419,15 @@ export function ConsultaForm({
                           >
                             {field.value
                               ? medicos.find((medico) => medico.id === field.value)?.nome_completo
-                              : "Selecione o médico"}
+                              : "Selecione o profissional"}
                             <Search className="ml-2 size-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent className="w-[300px] p-0 sm:w-[400px]">
                         <Command>
-                          <CommandInput placeholder="Buscar médico..." />
-                          <CommandEmpty>Nenhum médico encontrado.</CommandEmpty>
+                          <CommandInput placeholder="Buscar profissional..." />
+                          <CommandEmpty>Nenhum profissional encontrado.</CommandEmpty>
                           <CommandGroup>
                             <CommandList>
                               {medicos.map((medico) => (
@@ -444,8 +442,8 @@ export function ConsultaForm({
                                   <div className="flex flex-col">
                                     <span>{medico.nome_completo}</span>
                                     {medico.cargo && (
-                          <span className="text-xs text-muted-foreground">{medico.cargo}</span>
-                        )}
+                                      <span className="text-xs text-muted-foreground capitalize">{medico.cargo}</span>
+                                    )}
                                   </div>
                                 </CommandItem>
                               ))}
@@ -676,5 +674,3 @@ export function ConsultaForm({
 }
 
 export default ConsultaForm
-// Tipos exportados do arquivo de tipos compartilhados
-// export type { ConsultaFormData, Paciente, Medico, ConsultaExistente }

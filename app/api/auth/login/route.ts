@@ -73,17 +73,14 @@ export async function POST(request: NextRequest) {
       .from('perfis')
       .select(`
         id,
-        nome,
+        nome_completo,
         email,
-        role,
+        cargo,
         clinica_id,
-        ativo,
-        telefone_celular,
-        clinicas(
-          id,
-          nome,
-          ativa
-        )
+        telefone,
+        foto_url,
+        criado_em,
+        atualizado_em
       `)
       .eq('id', authData.user.id)
       .single()
@@ -103,50 +100,26 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Verificar se o usuário está ativo
-    if (!perfil.ativo) {
-      // Fazer logout se usuário inativo
-      await supabase.auth.signOut()
+    // Usuário autenticado e perfil encontrado - prosseguir com login
+    
+    // Atualizar último login (opcional - remover se coluna não existir)
+    try {
+      const { error: updateError } = await supabase
+        .from('perfis')
+        .update({ atualizado_em: new Date().toISOString() })
+        .eq('id', authData.user.id)
       
-      return NextResponse.json(
-        { 
-          error: 'Account disabled',
-          message: 'Sua conta está desativada. Entre em contato com o administrador.'
-        },
-        { status: 403 }
-      )
+      if (updateError) {
+        console.error('Erro ao atualizar timestamp:', updateError)
+        // Não retornar erro, pois o login foi bem-sucedido
+      }
+    } catch (e) {
+      console.log('Não foi possível atualizar timestamp')
     }
     
-    // Verificar se a clínica está ativa (se aplicável)
-    if (perfil.clinica_id && perfil.clinicas && perfil.clinicas.length > 0 && !perfil.clinicas[0].ativa) {
-      // Fazer logout se clínica inativa
-      await supabase.auth.signOut()
-      
-      return NextResponse.json(
-        { 
-          error: 'Clinic disabled',
-          message: 'A clínica associada à sua conta está desativada.'
-        },
-        { status: 403 }
-      )
-    }
-    
-    // Atualizar último login
-    const { error: updateError } = await supabase
-      .from('perfis')
-      .update({ ultimo_login: new Date().toISOString() })
-      .eq('id', authData.user.id)
-    
-    if (updateError) {
-      console.error('Erro ao atualizar último login:', updateError)
-      // Não retornar erro, pois o login foi bem-sucedido
-    }
-    
-    // Remover dados sensíveis do perfil
-    const { clinicas, ...perfilSemClinicas } = perfil
+    // Perfil público (sem informações sensíveis)
     const perfilPublico = {
-      ...perfilSemClinicas,
-      clinica: clinicas
+      ...perfil
     }
     
     return NextResponse.json({

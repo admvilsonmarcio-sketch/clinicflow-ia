@@ -1,3 +1,4 @@
+
 import { z } from 'zod'
 
 // Validações brasileiras
@@ -11,7 +12,7 @@ const auditSchema = {
   atualizado_em: z.string().datetime().optional()
 }
 
-// Schema para Pacientes
+// Schema para Pacientes - CORRIGIDO para coincidir com banco.sql
 export const patientCreateSchema = z.object({
   nome_completo: z.string()
     .min(2, 'Nome deve ter pelo menos 2 caracteres')
@@ -23,7 +24,19 @@ export const patientCreateSchema = z.object({
     .max(255, 'Email deve ter no máximo 255 caracteres')
     .toLowerCase(),
   
-  telefone: z.string()
+  data_nascimento: z.string()
+    .refine((date) => !isNaN(Date.parse(date)), 'Data de nascimento inválida')
+    .transform((date) => new Date(date).toISOString().split('T')[0]),
+  
+  genero: z.enum(['masculino', 'feminino', 'outro'], {
+    errorMap: () => ({ message: 'Gênero inválido' })
+  }),
+  
+  telefone_celular: z.string()
+    .regex(phoneRegex, 'Telefone deve estar no formato (XX) XXXXX-XXXX')
+    .optional(),
+  
+  telefone_fixo: z.string()
     .regex(phoneRegex, 'Telefone deve estar no formato (XX) XXXXX-XXXX')
     .optional(),
   
@@ -31,28 +44,92 @@ export const patientCreateSchema = z.object({
     .regex(cpfRegex, 'CPF deve estar no formato XXX.XXX.XXX-XX')
     .optional(),
   
-  data_nascimento: z.string()
-    .datetime('Data de nascimento inválida')
+  rg: z.string()
+    .max(20, 'RG deve ter no máximo 20 caracteres')
     .optional(),
   
-  endereco: z.string()
-    .max(255, 'Endereço deve ter no máximo 255 caracteres')
+  orgao_emissor: z.string()
+    .max(20, 'Órgão emissor deve ter no máximo 20 caracteres')
+    .optional(),
+  
+  uf_rg: z.string()
+    .length(2, 'UF deve ter 2 caracteres')
+    .optional(),
+  
+  estado_civil: z.string()
+    .max(20, 'Estado civil deve ter no máximo 20 caracteres')
+    .optional(),
+  
+  profissao: z.string()
+    .max(100, 'Profissão deve ter no máximo 100 caracteres')
     .optional(),
   
   cep: z.string()
     .regex(cepRegex, 'CEP deve estar no formato XXXXX-XXX')
     .optional(),
   
+  logradouro: z.string()
+    .max(255, 'Logradouro deve ter no máximo 255 caracteres')
+    .optional(),
+  
+  numero: z.string()
+    .max(20, 'Número deve ter no máximo 20 caracteres')
+    .optional(),
+  
+  complemento: z.string()
+    .max(100, 'Complemento deve ter no máximo 100 caracteres')
+    .optional(),
+  
+  bairro: z.string()
+    .max(100, 'Bairro deve ter no máximo 100 caracteres')
+    .optional(),
+  
   cidade: z.string()
     .max(100, 'Cidade deve ter no máximo 100 caracteres')
     .optional(),
   
-  estado: z.string()
-    .length(2, 'Estado deve ter 2 caracteres')
+  uf: z.string()
+    .length(2, 'UF deve ter 2 caracteres')
     .optional(),
   
-  observacoes: z.string()
-    .max(1000, 'Observações devem ter no máximo 1000 caracteres')
+  nome_emergencia: z.string()
+    .max(100, 'Nome de emergência deve ter no máximo 100 caracteres')
+    .optional(),
+  
+  parentesco_emergencia: z.string()
+    .max(50, 'Parentesco deve ter no máximo 50 caracteres')
+    .optional(),
+  
+  telefone_emergencia: z.string()
+    .regex(phoneRegex, 'Telefone deve estar no formato (XX) XXXXX-XXXX')
+    .optional(),
+  
+  observacoes_emergencia: z.string()
+    .max(1000, 'Observações de emergência devem ter no máximo 1000 caracteres')
+    .optional(),
+  
+  tipo_sanguineo: z.string()
+    .max(10, 'Tipo sanguíneo deve ter no máximo 10 caracteres')
+    .optional(),
+  
+  alergias_conhecidas: z.array(z.string()).optional(),
+  
+  medicamentos_uso: z.array(z.string()).optional(),
+  
+  historico_medico_detalhado: z.string()
+    .max(5000, 'Histórico médico deve ter no máximo 5000 caracteres')
+    .optional(),
+  
+  observacoes_gerais: z.string()
+    .max(1000, 'Observações gerais devem ter no máximo 1000 caracteres')
+    .optional(),
+  
+  convenio_medico: z.string()
+    .max(100, 'Convênio médico deve ter no máximo 100 caracteres')
+    .optional(),
+  
+  numero_carteirinha: z.string()
+    .max(50, 'Número da carteirinha deve ter no máximo 50 caracteres')
     .optional(),
   
   clinica_id: z.string().uuid('ID da clínica inválido')
@@ -62,21 +139,26 @@ export const patientUpdateSchema = patientCreateSchema.partial().extend({
   id: z.string().uuid('ID do paciente inválido')
 })
 
-// Schema para Consultas
+// Schema para Consultas - CORRIGIDO para coincidir com banco.sql
 export const consultaCreateSchema = z.object({
   paciente_id: z.string().uuid('ID do paciente inválido'),
   medico_id: z.string().uuid('ID do médico inválido'),
   clinica_id: z.string().uuid('ID da clínica inválido'),
   
+  titulo: z.string()
+    .min(3, 'Título deve ter pelo menos 3 caracteres')
+    .max(100, 'Título deve ter no máximo 100 caracteres'),
+  
+  descricao: z.string()
+    .max(500, 'Descrição deve ter no máximo 500 caracteres')
+    .optional(),
+  
   data_consulta: z.string().datetime('Data da consulta inválida'),
   
-  tipo: z.enum(['primeira_consulta', 'retorno', 'emergencia', 'teleconsulta'], {
-    errorMap: () => ({ message: 'Tipo de consulta inválido' })
-  }),
-  
-  status: z.enum(['agendada', 'confirmada', 'em_andamento', 'concluida', 'cancelada'], {
+  // Status corrigido conforme banco.sql
+  status: z.enum(['agendada', 'confirmada', 'realizada', 'cancelada', 'faltou'], {
     errorMap: () => ({ message: 'Status da consulta inválido' })
-  }),
+  }).default('agendada'),
   
   observacoes: z.string()
     .max(1000, 'Observações devem ter no máximo 1000 caracteres')
@@ -84,10 +166,7 @@ export const consultaCreateSchema = z.object({
   
   google_calendar_event_id: z.string().optional(),
   
-  valor: z.number()
-    .positive('Valor deve ser positivo')
-    .max(99999.99, 'Valor deve ser menor que R$ 99.999,99')
-    .optional(),
+  lembrete_enviado: z.boolean().default(false),
   
   duracao_minutos: z.number()
     .int('Duração deve ser um número inteiro')
@@ -106,6 +185,10 @@ export const clinicaCreateSchema = z.object({
     .min(2, 'Nome deve ter pelo menos 2 caracteres')
     .max(100, 'Nome deve ter no máximo 100 caracteres'),
   
+  descricao: z.string()
+    .max(500, 'Descrição deve ter no máximo 500 caracteres')
+    .optional(),
+  
   endereco: z.string()
     .max(255, 'Endereço deve ter no máximo 255 caracteres')
     .optional(),
@@ -120,30 +203,22 @@ export const clinicaCreateSchema = z.object({
     .toLowerCase()
     .optional(),
   
-  cnpj: z.string()
-    .regex(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, 'CNPJ deve estar no formato XX.XXX.XXX/XXXX-XX')
+  site: z.string()
+    .url('URL do site inválida')
     .optional(),
   
-  cep: z.string()
-    .regex(cepRegex, 'CEP deve estar no formato XXXXX-XXX')
+  logo_url: z.string()
+    .url('URL do logo inválida')
     .optional(),
   
-  cidade: z.string()
-    .max(100, 'Cidade deve ter no máximo 100 caracteres')
-    .optional(),
-  
-  estado: z.string()
-    .length(2, 'Estado deve ter 2 caracteres')
-    .optional(),
-  
-  ativa: z.boolean().default(true)
+  configuracoes: z.record(z.any()).default({})
 })
 
 export const clinicaUpdateSchema = clinicaCreateSchema.partial().extend({
   id: z.string().uuid('ID da clínica inválido')
 })
 
-// Schema para Perfis (Usuários)
+// Schema para Perfis (Usuários) - CORRIGIDO para coincidir com banco.sql
 export const perfilCreateSchema = z.object({
   nome_completo: z.string()
     .min(2, 'Nome deve ter pelo menos 2 caracteres')
@@ -155,23 +230,20 @@ export const perfilCreateSchema = z.object({
     .max(255, 'Email deve ter no máximo 255 caracteres')
     .toLowerCase(),
   
-  cargo: z.enum(['super_admin', 'admin', 'medico', 'enfermeiro', 'recepcionista', 'assistente'], {
+  // Cargos corrigidos conforme banco.sql
+  cargo: z.enum(['admin', 'medico', 'assistente', 'recepcionista'], {
     errorMap: () => ({ message: 'Cargo inválido' })
   }),
   
-  clinica_id: z.string().uuid('ID da clínica inválido'),
+  clinica_id: z.string().uuid('ID da clínica inválido').optional(),
   
   telefone: z.string()
     .regex(phoneRegex, 'Telefone deve estar no formato (XX) XXXXX-XXXX')
     .optional(),
   
-  crm: z.string()
-    .max(20, 'CRM deve ter no máximo 20 caracteres')
-    .optional(),
-  
-
-  
-  ativo: z.boolean().default(true)
+  foto_url: z.string()
+    .url('URL da foto inválida')
+    .optional()
 })
 
 export const perfilUpdateSchema = perfilCreateSchema.partial().extend({
@@ -183,7 +255,8 @@ export const conversaCreateSchema = z.object({
   paciente_id: z.string().uuid('ID do paciente inválido'),
   clinica_id: z.string().uuid('ID da clínica inválido'),
   
-  plataforma: z.enum(['whatsapp', 'sms', 'email', 'chat_interno'], {
+  // Plataformas corrigidas conforme banco.sql
+  plataforma: z.enum(['whatsapp', 'instagram'], {
     errorMap: () => ({ message: 'Plataforma de conversa inválida' })
   }),
   
@@ -193,28 +266,22 @@ export const conversaCreateSchema = z.object({
   
   atribuida_para: z.string().uuid('ID do profissional inválido').optional(),
   
-  status: z.enum(['ativa', 'pausada', 'finalizada'], {
+  // Status corrigido conforme banco.sql
+  status: z.enum(['ativa', 'fechada', 'escalada'], {
     errorMap: () => ({ message: 'Status da conversa inválido' })
-  }).default('ativa'),
-  
-  assunto: z.string()
-    .max(200, 'Assunto deve ter no máximo 200 caracteres')
-    .optional(),
-  
-  ia_ativa: z.boolean().default(true),
-  
-  escalada_para_humano: z.boolean().default(false)
+  }).default('ativa')
 })
 
 export const conversaUpdateSchema = conversaCreateSchema.partial().extend({
   id: z.string().uuid('ID da conversa inválido')
 })
 
-// Schema para Mensagens
+// Schema para Mensagens - CORRIGIDO para coincidir com banco.sql
 export const mensagemCreateSchema = z.object({
   conversa_id: z.string().uuid('ID da conversa inválido'),
   
-  tipo_remetente: z.enum(['paciente', 'medico', 'ia', 'sistema'], {
+  // Tipos de remetente corrigidos conforme banco.sql
+  tipo_remetente: z.enum(['paciente', 'ia', 'humano', 'sistema'], {
     errorMap: () => ({ message: 'Tipo de remetente inválido' })
   }),
   
@@ -224,13 +291,21 @@ export const mensagemCreateSchema = z.object({
     .min(1, 'Conteúdo da mensagem é obrigatório')
     .max(4000, 'Mensagem deve ter no máximo 4000 caracteres'),
   
-  tipo_conteudo: z.enum(['texto', 'imagem', 'documento', 'audio', 'video'], {
-    errorMap: () => ({ message: 'Tipo de conteúdo inválido' })
+  // Tipos de mensagem corrigidos conforme banco.sql
+  tipo_mensagem: z.enum(['texto', 'imagem', 'audio', 'documento', 'localizacao'], {
+    errorMap: () => ({ message: 'Tipo de mensagem inválido' })
   }).default('texto'),
   
-  lida: z.boolean().default(false),
+  metadados: z.record(z.any()).default({}),
   
-  metadata: z.record(z.any()).optional()
+  id_mensagem_plataforma: z.string().optional(),
+  
+  gerada_por_ia: z.boolean().default(false),
+  
+  confianca_ia: z.number()
+    .min(0, 'Confiança deve ser maior ou igual a 0')
+    .max(1, 'Confiança deve ser menor ou igual a 1')
+    .optional()
 })
 
 export const mensagemUpdateSchema = mensagemCreateSchema.partial().extend({

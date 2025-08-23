@@ -1,3 +1,4 @@
+
 import { NextRequest, NextResponse } from 'next/server'
 import { withMedicalAuth, canAccessClinica } from '@/lib/auth/permissions'
 import { consultaCreateSchema, queryParamsSchema } from '@/lib/validations/schemas'
@@ -44,21 +45,22 @@ export async function GET(request: NextRequest) {
     
     const supabase = createRouteHandlerSupabaseClient()
     
-    // Construir query base
+    // Construir query base - CAMPOS CORRIGIDOS conforme banco.sql
     let query = supabase
       .from('consultas')
       .select(`
         id,
+        titulo,
+        descricao,
         paciente_id,
         medico_id,
         clinica_id,
         data_consulta,
-        tipo,
+        duracao_minutos,
         status,
         observacoes,
         google_calendar_event_id,
-        valor,
-        duracao_minutos,
+        lembrete_enviado,
         criado_em,
         atualizado_em,
         pacientes(id, nome_completo, email, telefone_celular),
@@ -110,7 +112,7 @@ export async function GET(request: NextRequest) {
     
     // Aplicar busca se especificada
     if (search) {
-      query = query.or(`pacientes.nome_completo.ilike.%${search}%,observacoes.ilike.%${search}%`)
+      query = query.or(`titulo.ilike.%${search}%,pacientes.nome_completo.ilike.%${search}%,observacoes.ilike.%${search}%`)
     }
     
     // Aplicar ordenação
@@ -127,7 +129,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { 
           error: 'Database error',
-          message: 'Erro ao buscar consultas.'
+          message: 'Erro ao buscar consultas.',
+          details: error.message
         },
         { status: 500 }
       )
@@ -220,7 +223,7 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Verificar se o médico existe e pertence à clínica
+    // Verificar se o perfil (médico) existe e pertence à clínica
     const { data: medico, error: medicoError } = await supabase
       .from('perfis')
       .select('id, clinica_id, nome_completo, cargo')
@@ -266,7 +269,7 @@ export async function POST(request: NextRequest) {
       .from('consultas')
       .select('id, data_consulta, duracao_minutos')
       .eq('medico_id', consultaData.medico_id)
-      .in('status', ['agendada', 'confirmada', 'em_andamento'])
+      .in('status', ['agendada', 'confirmada'])
       .gte('data_consulta', inicioConsulta.toISOString())
       .lte('data_consulta', fimConsulta.toISOString())
     
@@ -291,22 +294,23 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Criar consulta
+    // Criar consulta - USANDO CAMPOS CORRETOS
     const { data: newConsulta, error: createError } = await supabase
       .from('consultas')
       .insert([consultaData])
       .select(`
         id,
+        titulo,
+        descricao,
         paciente_id,
         medico_id,
         clinica_id,
         data_consulta,
-        tipo,
+        duracao_minutos,
         status,
         observacoes,
         google_calendar_event_id,
-        valor,
-        duracao_minutos,
+        lembrete_enviado,
         criado_em,
         atualizado_em,
         pacientes(id, nome_completo, email, telefone_celular),
@@ -319,7 +323,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { 
           error: 'Database error',
-          message: 'Erro ao criar consulta.'
+          message: 'Erro ao criar consulta.',
+          details: createError.message
         },
         { status: 500 }
       )

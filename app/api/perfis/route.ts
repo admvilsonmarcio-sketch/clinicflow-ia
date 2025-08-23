@@ -1,10 +1,11 @@
+
 import { NextRequest, NextResponse } from 'next/server'
 import { withMedicalAuth, canAccessClinica } from '@/lib/auth/permissions'
 import { perfilCreateSchema, queryParamsSchema } from '@/lib/validations/schemas'
 import { createRouteHandlerSupabaseClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 
-// GET /api/perfis - Listar perfis/usuários
+// GET /api/perfis - Listar perfis (profissionais)
 export async function GET(request: NextRequest) {
   const authResult = await withMedicalAuth(request, ['perfis:read'])
   if (authResult.error) return authResult.error
@@ -35,29 +36,27 @@ export async function GET(request: NextRequest) {
     const { page, limit, search, sort, order, clinica_id } = queryValidation.data
     const offset = (page - 1) * limit
     
-    // Parâmetros adicionais específicos para perfis
+    // Parâmetro para filtrar tipo de cargo
     const cargo = searchParams.get('cargo')
-    const ativo = searchParams.get('ativo')
     
     const supabase = createRouteHandlerSupabaseClient()
     
-    // Construir query base
+    // Construir query base - CAMPOS CORRETOS conforme banco.sql
     let query = supabase
       .from('perfis')
       .select(`
         id,
         nome_completo,
         email,
-        telefone_celular,
         cargo,
         clinica_id,
-        ativo,
+        telefone,
+        foto_url,
         criado_em,
-        atualizado_em,
-        clinicas!inner(id, nome)
+        atualizado_em
       `, { count: 'exact' })
     
-    // Filtrar por clínica
+    // Filtrar por clínica se especificado
     const targetClinicaId = clinica_id || user.clinica_id
     
     // Verificar se o usuário pode acessar a clínica solicitada
@@ -71,20 +70,18 @@ export async function GET(request: NextRequest) {
       )
     }
     
-    // Super admins podem ver perfis de todas as clínicas
-    if (user.role !== 'super_admin') {
-      query = query.eq('clinica_id', targetClinicaId)
-    } else if (targetClinicaId) {
+    if (targetClinicaId) {
       query = query.eq('clinica_id', targetClinicaId)
     }
     
-    // Aplicar filtros específicos
+    // Filtrar por cargo se especificado (para buscar apenas médicos, por exemplo)
     if (cargo) {
-      query = query.eq('cargo', cargo)
-    }
-    
-    if (ativo !== null) {
-      query = query.eq('ativo', ativo === 'true')
+      if (cargo === 'medicos') {
+        // Buscar médicos e admins que podem realizar consultas
+        query = query.in('cargo', ['medico', 'admin'])
+      } else {
+        query = query.eq('cargo', cargo)
+      }
     }
     
     // Aplicar busca se especificada
@@ -106,7 +103,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { 
           error: 'Database error',
-          message: 'Erro ao buscar perfis.'
+          message: 'Erro ao buscar perfis.',
+          details: error.message
         },
         { status: 500 }
       )
@@ -134,7 +132,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/perfis - Criar novo perfil/usuário
+// POST /api/perfis - Criar novo perfil
 export async function POST(request: NextRequest) {
   const authResult = await withMedicalAuth(request, ['perfis:write'])
   if (authResult.error) return authResult.error
@@ -160,7 +158,7 @@ export async function POST(request: NextRequest) {
     const perfilData = validation.data
     
     // Verificar se o usuário pode criar perfis para a clínica especificada
-    if (!canAccessClinica(user, perfilData.clinica_id)) {
+    if (perfilData.clinica_id && !canAccessClinica(user, perfilData.clinica_id)) {
       return NextResponse.json(
         { 
           error: 'Forbidden',
@@ -170,82 +168,20 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Apenas admins e super_admins podem criar outros admins
-    if (perfilData.cargo === 'admin' && user.role !== 'admin' && user.role !== 'super_admin') {
-      return NextResponse.json(
-        { 
-          error: 'Forbidden',
-          message: 'Você não tem permissão para criar administradores.'
-        },
-        { status: 403 }
-      )
-    }
-    
-    // Apenas super_admins podem criar outros super_admins
-    if (perfilData.cargo === 'super_admin' && user.role !== 'super_admin') {
-      return NextResponse.json(
-        { 
-          error: 'Forbidden',
-          message: 'Apenas super administradores podem criar outros super administradores.'
-        },
-        { status: 403 }
-      )
-    }
-    
     const supabase = createRouteHandlerSupabaseClient()
     
-    // Verificar se já existe usuário com o mesmo e-mail
-    const { data: existingUser, error: emailCheckError } = await supabase
+    // Verificar se já existe perfil com o mesmo email na clínica
+    const { data: existingPerfil } = await supabase
       .from('perfis')
-      .select('id, email')
+      .select('id')
       .eq('email', perfilData.email)
       .single()
     
-    if (emailCheckError && emailCheckError.code !== 'PGRST116') {
-      console.error('Erro ao verificar e-mail existente:', emailCheckError)
-      return NextResponse.json(
-        { 
-          error: 'Database error',
-          message: 'Erro ao verificar dados do usuário.'
-        },
-        { status: 500 }
-      )
-    }
-    
-    if (existingUser) {
+    if (existingPerfil) {
       return NextResponse.json(
         { 
           error: 'Conflict',
-          message: 'Já existe um usuário cadastrado com este e-mail.'
-        },
-        { status: 409 }
-      )
-    }
-    
-    // CRM removido - campo não existe na tabela perfis
-    
-    // Verificar se a clínica existe
-    const { data: clinica, error: clinicaError } = await supabase
-      .from('clinicas')
-      .select('id, nome, ativa')
-      .eq('id', perfilData.clinica_id)
-      .single()
-    
-    if (clinicaError || !clinica) {
-      return NextResponse.json(
-        { 
-          error: 'Not found',
-          message: 'Clínica não encontrada.'
-        },
-        { status: 404 }
-      )
-    }
-    
-    if (!clinica.ativa) {
-      return NextResponse.json(
-        { 
-          error: 'Conflict',
-          message: 'Não é possível criar usuários em clínicas inativas.'
+          message: 'Já existe um perfil com este email.'
         },
         { status: 409 }
       )
@@ -259,13 +195,12 @@ export async function POST(request: NextRequest) {
         id,
         nome_completo,
         email,
-        telefone_celular,
         cargo,
         clinica_id,
-        ativo,
+        telefone,
+        foto_url,
         criado_em,
-        atualizado_em,
-        clinicas!inner(id, nome)
+        atualizado_em
       `)
       .single()
     
@@ -274,7 +209,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { 
           error: 'Database error',
-          message: 'Erro ao criar perfil.'
+          message: 'Erro ao criar perfil.',
+          details: createError.message
         },
         { status: 500 }
       )

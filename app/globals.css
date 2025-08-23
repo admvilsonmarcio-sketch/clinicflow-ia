@@ -2,6 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
+/* FullCalendar custom styles */
+.fc-theme-standard .fc-scrollgrid {
+  border-color: hsl(var(--border));
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border-color: hsl(var(--border));
+}
+
+.fc .fc-button-primary {
+  background-color: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.fc .fc-button-primary:hover {
+  background-color: hsl(var(--primary) / 0.9);
+  border-color: hsl(var(--primary) / 0.9);
+}
+
+.fc .fc-button-primary:disabled {
+  background-color: hsl(var(--muted));
+  border-color: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+}
+
+.fc-event {
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.fc-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.fc-event .fc-event-title {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.fc-daygrid-event-dot {
+  display: none;
+}
+
+.fc .fc-col-header-cell {
+  background-color: hsl(var(--muted) / 0.5);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  font-size: 0.75rem;
+}
+
+.fc .fc-day-today {
+  background-color: hsl(var(--accent) / 0.3) !important;
+}
+
+.fc-timegrid-slot {
+  height: 3rem;
+}
+
+.fc-timegrid-slot-label {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.fc .fc-scrollgrid-sync-table {
+  width: 100% !important;
+}
+
+.fc-toolbar {
+  padding: 0.5rem 0;
+}
+
+.fc-toolbar-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .fc-event .fc-event-title {
+    font-size: 0.75rem;
+  }
+  
+  .fc-toolbar-title {
+    font-size: 1rem;
+  }
+  
+  .fc-timegrid-slot {
+    height: 2.5rem;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

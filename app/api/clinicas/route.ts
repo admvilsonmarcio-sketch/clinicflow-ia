@@ -1,3 +1,4 @@
+
 import { NextRequest, NextResponse } from 'next/server'
 import { withMedicalAuth } from '@/lib/auth/permissions'
 import { clinicaCreateSchema, queryParamsSchema } from '@/lib/validations/schemas'
@@ -8,8 +9,6 @@ import { z } from 'zod'
 export async function GET(request: NextRequest) {
   const authResult = await withMedicalAuth(request, ['clinicas:read'])
   if (authResult.error) return authResult.error
-  
-  const { user } = authResult
   
   try {
     const { searchParams } = new URL(request.url)
@@ -42,30 +41,24 @@ export async function GET(request: NextRequest) {
       .select(`
         id,
         nome,
-        cnpj,
+        descricao,
         endereco,
-        telefone_celular,
+        telefone,
         email,
         site,
-        especialidades,
-        horario_funcionamento,
-        ativa,
+        logo_url,
+        configuracoes,
         criado_em,
         atualizado_em
       `, { count: 'exact' })
     
-    // Super admins podem ver todas as clínicas, outros usuários só a sua própria
-    if (user.role !== 'super_admin') {
-      query = query.eq('id', user.clinica_id)
-    }
-    
     // Aplicar busca se especificada
     if (search) {
-      query = query.or(`nome.ilike.%${search}%,cnpj.ilike.%${search}%,endereco.ilike.%${search}%`)
+      query = query.or(`nome.ilike.%${search}%,endereco.ilike.%${search}%`)
     }
     
     // Aplicar ordenação
-    const sortField = sort || 'nome'
+    const sortField = sort || 'criado_em'
     query = query.order(sortField, { ascending: order === 'asc' })
     
     // Aplicar paginação
@@ -106,23 +99,10 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/clinicas - Criar nova clínica (apenas super_admin)
+// POST /api/clinicas - Criar nova clínica
 export async function POST(request: NextRequest) {
   const authResult = await withMedicalAuth(request, ['clinicas:write'])
   if (authResult.error) return authResult.error
-  
-  const { user } = authResult
-  
-  // Apenas super admins podem criar clínicas
-  if (user.role !== 'super_admin') {
-    return NextResponse.json(
-      { 
-        error: 'Forbidden',
-        message: 'Apenas super administradores podem criar clínicas.'
-      },
-      { status: 403 }
-    )
-  }
   
   try {
     const body = await request.json()
@@ -143,15 +123,15 @@ export async function POST(request: NextRequest) {
     const clinicaData = validation.data
     const supabase = createRouteHandlerSupabaseClient()
     
-    // Verificar se já existe clínica com o mesmo CNPJ
+    // Verificar se já existe clínica com o mesmo nome
     const { data: existingClinica, error: checkError } = await supabase
       .from('clinicas')
-      .select('id, cnpj')
-      .eq('cnpj', clinicaData.cnpj)
+      .select('id')
+      .eq('nome', clinicaData.nome)
       .single()
     
     if (checkError && checkError.code !== 'PGRST116') { // PGRST116 = no rows returned
-      console.error('Erro ao verificar CNPJ existente:', checkError)
+      console.error('Erro ao verificar nome existente:', checkError)
       return NextResponse.json(
         { 
           error: 'Database error',
@@ -165,40 +145,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { 
           error: 'Conflict',
-          message: 'Já existe uma clínica cadastrada com este CNPJ.'
+          message: 'Já existe uma clínica com este nome.'
         },
         { status: 409 }
       )
-    }
-    
-    // Verificar se já existe clínica com o mesmo e-mail
-    if (clinicaData.email) {
-      const { data: existingEmail, error: emailCheckError } = await supabase
-        .from('clinicas')
-        .select('id, email')
-        .eq('email', clinicaData.email)
-        .single()
-      
-      if (emailCheckError && emailCheckError.code !== 'PGRST116') {
-        console.error('Erro ao verificar e-mail existente:', emailCheckError)
-        return NextResponse.json(
-          { 
-            error: 'Database error',
-            message: 'Erro ao verificar dados da clínica.'
-          },
-          { status: 500 }
-        )
-      }
-      
-      if (existingEmail) {
-        return NextResponse.json(
-          { 
-            error: 'Conflict',
-            message: 'Já existe uma clínica cadastrada com este e-mail.'
-          },
-          { status: 409 }
-        )
-      }
     }
     
     // Criar clínica
@@ -208,14 +158,13 @@ export async function POST(request: NextRequest) {
       .select(`
         id,
         nome,
-        cnpj,
+        descricao,
         endereco,
-        telefone_celular,
+        telefone,
         email,
         site,
-        especialidades,
-        horario_funcionamento,
-        ativa,
+        logo_url,
+        configuracoes,
         criado_em,
         atualizado_em
       `)

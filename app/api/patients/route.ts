@@ -1,3 +1,4 @@
+
 import { NextRequest, NextResponse } from 'next/server'
 import { withMedicalAuth, canAccessClinica } from '@/lib/auth/permissions'
 import { patientCreateSchema, queryParamsSchema } from '@/lib/validations/schemas'
@@ -37,21 +38,43 @@ export async function GET(request: NextRequest) {
     
     const supabase = createRouteHandlerSupabaseClient()
     
-    // Construir query base
+    // Construir query base - CAMPOS CORRIGIDOS conforme banco.sql
     let query = supabase
       .from('pacientes')
       .select(`
         id,
         nome_completo,
         email,
-        telefone_celular,
-        cpf,
         data_nascimento,
-        endereco,
+        genero,
+        telefone_celular,
+        telefone_fixo,
+        cpf,
+        rg,
+        orgao_emissor,
+        uf_rg,
+        estado_civil,
+        profissao,
         cep,
+        logradouro,
+        numero,
+        complemento,
+        bairro,
         cidade,
-        estado,
-        observacoes,
+        uf,
+        nome_emergencia,
+        parentesco_emergencia,
+        telefone_emergencia,
+        observacoes_emergencia,
+        tipo_sanguineo,
+        alergias_conhecidas,
+        medicamentos_uso,
+        historico_medico_detalhado,
+        observacoes_gerais,
+        convenio_medico,
+        numero_carteirinha,
+        status,
+        status_ativo,
         clinica_id,
         criado_em,
         atualizado_em,
@@ -93,7 +116,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { 
           error: 'Database error',
-          message: 'Erro ao buscar pacientes.'
+          message: 'Erro ao buscar pacientes.',
+          details: error.message
         },
         { status: 500 }
       )
@@ -197,7 +221,7 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    // Criar paciente
+    // Criar paciente - USANDO CAMPOS CORRETOS
     const { data: newPatient, error: createError } = await supabase
       .from('pacientes')
       .insert([patientData])
@@ -205,14 +229,36 @@ export async function POST(request: NextRequest) {
         id,
         nome_completo,
         email,
-        telefone_celular,
-        cpf,
         data_nascimento,
-        endereco,
+        genero,
+        telefone_celular,
+        telefone_fixo,
+        cpf,
+        rg,
+        orgao_emissor,
+        uf_rg,
+        estado_civil,
+        profissao,
         cep,
+        logradouro,
+        numero,
+        complemento,
+        bairro,
         cidade,
-        estado,
-        observacoes,
+        uf,
+        nome_emergencia,
+        parentesco_emergencia,
+        telefone_emergencia,
+        observacoes_emergencia,
+        tipo_sanguineo,
+        alergias_conhecidas,
+        medicamentos_uso,
+        historico_medico_detalhado,
+        observacoes_gerais,
+        convenio_medico,
+        numero_carteirinha,
+        status,
+        status_ativo,
         clinica_id,
         criado_em,
         atualizado_em
@@ -224,7 +270,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { 
           error: 'Database error',
-          message: 'Erro ao criar paciente.'
+          message: 'Erro ao criar paciente.',
+          details: createError.message
         },
         { status: 500 }
       )

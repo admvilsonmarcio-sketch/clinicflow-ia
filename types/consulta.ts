@@ -1,4 +1,5 @@
-// Tipos compartilhados para consultas
+
+// Tipos compartilhados para consultas - CORRIGIDOS para coincidir com banco.sql
 
 export interface Paciente {
   id: string
@@ -10,8 +11,11 @@ export interface Paciente {
 export interface Medico {
   id: string
   nome_completo: string
-
-  cargo?: string
+  email?: string
+  cargo: string
+  clinica_id?: string
+  telefone?: string
+  foto_url?: string
 }
 
 export interface Clinica {
@@ -19,10 +23,10 @@ export interface Clinica {
   nome: string
 }
 
-// Status possíveis para consultas
+// Status possíveis para consultas - CORRIGIDO conforme banco.sql
 export type StatusConsulta = 'agendada' | 'confirmada' | 'realizada' | 'cancelada' | 'faltou'
 
-// Interface base para consulta
+// Interface base para consulta - CORRIGIDA conforme banco.sql
 export interface ConsultaBase {
   id: string
   titulo: string
@@ -31,6 +35,8 @@ export interface ConsultaBase {
   duracao_minutos: number
   status: StatusConsulta
   observacoes?: string
+  google_calendar_event_id?: string
+  lembrete_enviado: boolean
   paciente_id: string
   medico_id: string
   clinica_id?: string
@@ -83,6 +89,8 @@ export interface CreateConsultaData {
   duracao_minutos: number
   status: StatusConsulta
   observacoes?: string
+  google_calendar_event_id?: string
+  lembrete_enviado?: boolean
   clinica_id?: string
 }
 
@@ -102,7 +110,7 @@ export interface ConflitosHorario {
 // Tipo união para conflitos
 export type ConflitosUnion = ConsultaExistente | ConflitosHorario
 
-// Cores para status
+// Cores para status - CORRIGIDAS
 export const statusColors: Record<StatusConsulta, string> = {
   agendada: 'bg-blue-100 text-blue-800',
   confirmada: 'bg-green-100 text-green-800',
@@ -111,7 +119,7 @@ export const statusColors: Record<StatusConsulta, string> = {
   faltou: 'bg-orange-100 text-orange-800',
 }
 
-// Labels para status
+// Labels para status - CORRIGIDAS
 export const statusLabels: Record<StatusConsulta, string> = {
   agendada: 'Agendada',
   confirmada: 'Confirmada',
