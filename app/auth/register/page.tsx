@@ -32,7 +32,7 @@ export default async function RegisterPage() {
           {/* Logo */}
           <div className="text-center">
             <img 
-              src="/logo.svg" 
+              src="/clinicflow-logo-primary.png" 
               alt="MediFlow" 
               className="mx-auto mb-4 h-12 w-auto sm:mb-6 sm:h-16"
             />

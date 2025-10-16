@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  clinicflow-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: clinicflow-frontend
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      N8N_WEBHOOK_URL: ${N8N_WEBHOOK_URL}
+      # Certifique-se de que NEXT_PUBLIC_API_URL aponte para o backend
+      NEXT_PUBLIC_API_URL: http://clinicflow-api:3031/api
+    ports:
+      - "3000:3000"
+    networks:
+      - clinicflow-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  clinicflow-api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: clinicflow-api
+    restart: unless-stopped
+    working_dir: /app
+    environment:
+      NODE_ENV: production
+      PORT: "3031"
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "3031:3031"
+    networks:
+      - clinicflow-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3031/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  clinicflow-network:
+    driver: bridge
+

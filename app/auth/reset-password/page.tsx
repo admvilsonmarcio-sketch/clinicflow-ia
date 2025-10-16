@@ -22,7 +22,7 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
       <div className="flex min-h-screen items-center justify-center bg-white px-4 sm:px-6 md:px-8">
         <div className="w-full max-w-md space-y-6 text-center">
           <img 
-            src="/logo.svg" 
+            src="/clinicflow-logo-primary.png" 
             alt="MediFlow" 
             className="mx-auto mb-4 h-12 w-auto sm:mb-6 sm:h-16"
           />
@@ -57,7 +57,7 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
       <div className="flex min-h-screen items-center justify-center bg-white px-4 sm:px-6 md:px-8">
         <div className="w-full max-w-md space-y-6 text-center">
           <img 
-            src="/logo.svg" 
+            src="/clinicflow-logo-primary.png" 
             alt="MediFlow" 
             className="mx-auto mb-4 h-12 w-auto sm:mb-6 sm:h-16"
           />
@@ -97,7 +97,7 @@ export default async function ResetPasswordPage({ searchParams }: ResetPasswordP
           {/* Logo */}
           <div className="text-center">
             <img 
-              src="/logo.svg" 
+              src="/clinicflow-logo-primary.png" 
               alt="MediFlow" 
               className="mx-auto mb-4 h-12 w-auto sm:mb-6 sm:h-16"
             />

@@ -12,7 +12,7 @@ Disallow: /auth/
 # Allow public pages
 Allow: /
 Allow: /favicon.svg
-Allow: /logo.svg
+Allow: /clinicflow-logo-primary.png
 Allow: /og-image.svg
 
 # Crawl delay

@@ -10,7 +10,7 @@ export default function HomePage() {
         <div className="container mx-auto flex items-center justify-between gap-3 px-4 py-3 md:gap-6">
           {/* Marca usando logo SVG dedicado */}
           <Link href="/" className="flex items-center gap-3" aria-label="Página inicial MediFlow">
-            <img src="/logo.svg" alt="MediFlow" className="h-8 w-auto md:h-9" />
+            <img src="/clinicflow-logo-primary.png" alt="MediFlow" className="h-8 w-auto md:h-9" />
           </Link>
 
           {/* Navegação desktop */}
@@ -272,7 +272,7 @@ export default function HomePage() {
             <div className="flex items-center gap-3">
               {/* Marca no rodapé usando logo SVG */}
               <Link href="/" className="flex items-center gap-3" aria-label="Página inicial MediFlow">
-                <img src="/logo.svg" alt="MediFlow" className="h-7 w-auto md:h-8" />
+                <img src="/clinicflow-logo-primary.png" alt="MediFlow" className="h-7 w-auto md:h-8" />
               </Link>
               <span className="text-sm text-slate-400">
                 © {new Date().getFullYear()} MediFlow. Todos os direitos reservados.

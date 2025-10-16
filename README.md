@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="./public/logo.svg" alt="MediFlow Logo" width="200" height="80" />
+  <img src="./public/clinicflow-logo-primary.png" alt="ClinicFlow Logo" width="200" height="80" />
   
-  <h1>MediFlow</h1>
+  <h1>ClinicFlow</h1>
   <p><strong>Sistema de Gestão Médica Inteligente</strong></p>
   <p>Atendimento automatizado • IA contextual • Agendamentos integrados • Compliance LGPD</p>
 
@@ -32,7 +32,7 @@
 
 ## 🎯 Sobre o Projeto
 
-O **MediFlow** é uma plataforma completa de gestão médica que combina automação inteligente, compliance rigoroso e experiência de usuário excepcional. Desenvolvido especificamente para profissionais de saúde brasileiros, oferece todas as ferramentas necessárias para modernizar e otimizar o atendimento médico.
+O **ClinicFlow** é uma plataforma completa de gestão médica que combina automação inteligente, compliance rigoroso e experiência de usuário excepcional. Desenvolvido especificamente para profissionais de saúde brasileiros, oferece todas as ferramentas necessárias para modernizar e otimizar o atendimento médico.
 
 ### 🏆 Diferenciais
 

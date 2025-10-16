@@ -11,6 +11,7 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   swcMinify: true,
+  output: 'standalone',
 
   env: {
     // Valores padrão para build quando secrets não estão disponíveis

@@ -39,7 +39,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 
-interface MediflowFullCalendarProps {
+interface ClinicFlowFullCalendarProps {
   consultas: Consulta[]
   loading?: boolean
   onConsultaClick?: (consulta: Consulta) => void
@@ -68,7 +68,7 @@ const statusBgColors = {
   faltou: '#FFFBEB',       // amber-50
 }
 
-export function MediflowFullCalendar({
+export function ClinicFlowFullCalendar({
   consultas = [],
   loading = false,
   onConsultaClick,
@@ -78,7 +78,7 @@ export function MediflowFullCalendar({
   className,
   viewType = 'dayGridMonth',
   onViewChange
-}: MediflowFullCalendarProps) {
+}: ClinicFlowFullCalendarProps) {
   const [currentView, setCurrentView] = useState(viewType)
   
   // Converter consultas para eventos do FullCalendar
@@ -375,4 +375,4 @@ export function MediflowFullCalendar({
   )
 }
 
-export default MediflowFullCalendar
+export default ClinicFlowFullCalendar

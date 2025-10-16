@@ -59,7 +59,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <head>
         <link rel="preload" href="/login-illustration.svg" as="image" type="image/svg+xml" />
-        <link rel="preload" href="/logo.svg" as="image" type="image/svg+xml" />
+        <link rel="preload" href="/clinicflow-logo-primary.png" as="image" type="image/svg+xml" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

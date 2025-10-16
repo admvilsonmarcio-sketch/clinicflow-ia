@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import MediflowFullCalendar from '@/components/calendar/full-calendar'
+import ClinicFlowFullCalendar from '@/components/calendar/full-calendar'
 import ConsultaDetailsModal from '@/components/calendar/consulta-details-modal'
 import QuickCreateModal from '@/components/calendar/quick-create-modal'
 import { ConsultaForm } from '@/components/forms/consulta-form'
@@ -367,7 +367,7 @@ export default function AgendamentosPage() {
       </Card>
 
       {/* FullCalendar */}
-      <MediflowFullCalendar
+      <ClinicFlowFullCalendar
         consultas={filteredConsultas}
         loading={loading}
         onConsultaClick={handleConsultaClick}
