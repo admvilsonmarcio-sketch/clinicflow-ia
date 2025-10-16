@@ -1,82 +1,51 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  images: {
-    domains: ['localhost', 'supabase.co'],
-    formats: ['image/webp', 'image/avif'],
-    minimumCacheTTL: 60,
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  },
-  compress: true,
-  poweredByHeader: false,
-  reactStrictMode: true,
-  swcMinify: true,
-  output: 'standalone',
+# Dockerfile otimizado para Next.js 14 com standalone output
+FROM node:18-alpine AS base
 
-  env: {
-    // Valores padrão para build quando secrets não estão disponíveis
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsYWNlaG9sZGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDUxOTI4MDAsImV4cCI6MTk2MDc2ODgwMH0.placeholder'
-  },
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
-              "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: https:",
-              "font-src 'self'",
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://viacep.com.br https://*.viacep.com.br",
-              "frame-src 'self'",
-            ].join('; '),
-          },
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
-          }
-        ],
-      },
-      {
-        source: '/(.*)\\.(ico|png|jpg|jpeg|gif|webp|svg)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
-      },
-      {
-        source: '/(.*)\\.(js|css)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
-      }
-    ]
-  },
-}
+# Instalar dependências necessárias
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
 
-export default nextConfig;
+# Copiar arquivos de dependências
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+# Builder - compilar a aplicação
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Desabilitar telemetria durante o build
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# Build da aplicação
+RUN npm run build
+
+# Runner - imagem final de produção
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# Criar usuário não-root para segurança
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Copiar arquivos necessários do builder
+COPY --from=builder /app/public ./public
+
+# Copiar standalone output otimizado
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
+
+# Comando para iniciar a aplicação
+CMD ["node", "server.js"]
